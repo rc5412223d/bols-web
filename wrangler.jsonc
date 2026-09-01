@@ -1,9 +1,7 @@
 {
-  "$schema": "https://developers.cloudflare.com/workers/wrangler/config-schema.json",
-
   "name": "bols-auth",
   "main": "worker.js",
-  "compatibility_date": "2026-09-01",
+  "compatibility_date": "2026-09-02",
 
   "durable_objects": {
     "bindings": [
@@ -17,9 +15,7 @@
   "migrations": [
     {
       "tag": "v1",
-      "new_sqlite_classes": [
-        "ChatRoom"
-      ]
+      "new_sqlite_classes": ["ChatRoom"]
     }
   ]
 }
