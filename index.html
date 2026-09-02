@@ -4,117 +4,2036 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Minecraft 無垠伺服器</title>
-<style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,"Noto Sans TC",sans-serif}
-body{color:#fff;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.8)),url("minecraft_bg.png") center/cover fixed no-repeat;min-height:100vh}
-.nav{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;gap:10px;padding:10px 22px;background:rgba(5,10,9,.86);border-bottom:1px solid rgba(156,255,56,.3);backdrop-filter:blur(12px);z-index:20}
-.brand{margin-right:auto;color:#9cff38;font-size:22px;font-weight:900;text-shadow:2px 3px 8px #000}
-.nav button{border:1px solid #ffffff30;background:#ffffff12;color:#fff;border-radius:11px;padding:10px 15px;font-weight:800;cursor:pointer}
-.nav button:hover{background:#9cff3820}.login{border-color:#9cff38!important;color:#9cff38!important}
-.container{width:min(1100px,100%);margin:auto;padding:125px 18px 42px}
-.page{display:none}.page.active{display:block}.home{text-align:center}
-.badge{display:inline-block;padding:10px 25px;border:2px solid #96ff46cc;border-radius:12px;background:#0f190cd1;box-shadow:0 0 24px #64ff323f;font-weight:900;font-size:clamp(18px,4vw,27px);margin-bottom:18px}
-h1{margin:0;font-size:clamp(42px,9vw,88px);line-height:.95;color:#9cff38;text-shadow:0 5px 0 #244d0c,0 9px 18px #000;font-weight:900;letter-spacing:2px}
-.subtitle{margin:16px 0 32px;font-size:clamp(16px,3vw,22px);font-weight:700;text-shadow:2px 3px 5px #000}
-.card{margin:16px 0;padding:23px 28px;text-align:left;background:#050c0ae0;border:2px solid #82e63a;border-radius:16px;box-shadow:0 8px 30px #0008,inset 0 0 25px #64ff3d10;backdrop-filter:blur(4px)}
-.blue{border-color:#35aaff}.purple{border-color:#c56cff}.label{font-size:18px;font-weight:900;margin-bottom:7px}.value{font-size:clamp(18px,3.5vw,27px);font-weight:800;word-break:break-all}
-.green{color:#9cff38}.blue-text{color:#5fc2ff}.purple-text{color:#d08aff}a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}
-.discord{display:inline-block;margin-top:18px;padding:14px 28px;border-radius:12px;background:#5865f2;color:#fff;font-size:18px;font-weight:900;box-shadow:0 6px 18px #0006;border:0;cursor:pointer}
-.page-title{font-size:40px;color:#9cff38;text-shadow:2px 4px 8px #000;text-align:center}
-.locked{max-width:760px;margin:auto;padding:45px 25px;background:#050c0ae8;border:2px solid #82e63a;border-radius:16px;text-align:center}.locked .icon{font-size:55px}.locked p{font-size:18px;line-height:1.7}
-.login-modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:20px;z-index:30}.login-modal.show{display:flex}
-.login-card{width:min(420px,100%);padding:30px;border-radius:18px;background:#0a110ff7;border:2px solid #9cff38;box-shadow:0 20px 70px #000b;text-align:center}
-.google{width:100%;padding:14px;border:1px solid #aaa;border-radius:10px;background:#fff;color:#222;font-size:16px;font-weight:900;cursor:pointer}
-.close{margin-top:15px;background:none;border:0;color:#aaa;cursor:pointer}.note{font-size:13px;opacity:.65;line-height:1.6;margin-top:14px}
-footer{text-align:center;margin-top:30px;opacity:.75}
 
-/* 聊天介面 */
-.chat-wrap{display:grid;grid-template-columns:230px 1fr;min-height:610px;overflow:hidden;border:2px solid #82e63a;border-radius:18px;background:rgba(5,12,10,.94);box-shadow:0 15px 45px #0009}
-.channels{background:rgba(10,18,14,.98);padding:18px 12px;border-right:1px solid #ffffff18}.channels h3{margin:0 8px 15px;color:#9cff38}.channel{width:100%;padding:12px 14px;margin:5px 0;border:0;border-radius:10px;background:transparent;color:#bbb;text-align:left;font-size:16px;cursor:pointer}.channel:hover,.channel.active{background:#9cff3820;color:#fff}.channel.active{border-left:3px solid #9cff38}
-.chat-main{display:flex;flex-direction:column;min-width:0}.chat-head{padding:18px 22px;border-bottom:1px solid #ffffff18}.chat-head strong{font-size:20px}.chat-head span{display:block;color:#999;font-size:13px;margin-top:4px}
-.messages{flex:1;padding:25px;min-height:350px}.welcome{text-align:center;color:#888;padding:80px 10px}.message{display:flex;gap:12px;margin-bottom:18px}.avatar{width:40px;height:40px;flex:none;border-radius:50%;background:#243323;display:grid;place-items:center}.msg-name{font-weight:900;color:#9cff38}.msg-time{font-size:12px;color:#777;margin-left:8px}.msg-text{margin-top:4px;color:#ddd;white-space:pre-wrap}
-.chat-input{display:flex;gap:10px;padding:15px;border-top:1px solid #ffffff18}.chat-input input{flex:1;min-width:0;padding:14px;border-radius:10px;border:1px solid #ffffff22;background:#ffffff09;color:#fff;outline:none}.chat-input input:focus{border-color:#82e63a}.send{padding:0 20px;border:0;border-radius:10px;background:#82e63a;font-weight:900;cursor:pointer}
-.voice-box{max-width:760px;margin:auto;padding:45px 25px;background:#050c0ae8;border:2px solid #c56cff;border-radius:16px;text-align:center}.voice-box .icon{font-size:55px}
-@media(max-width:700px){.nav{height:64px;padding:8px 10px;gap:5px}.brand{font-size:16px}.nav button{padding:8px 9px;font-size:12px}.container{padding-top:105px}.chat-wrap{grid-template-columns:145px;grid-template-rows:auto 1fr}.channels{border-right:0;border-bottom:1px solid #ffffff18}.channel{display:inline-block;width:auto;margin:2px}.channels h3{margin-bottom:8px}.messages{padding:18px}.chat-input{padding:10px}.send{padding:0 14px}}
-@media(max-width:480px){.brand{display:none}.nav button{flex:1}.card{padding:18px}.chat-wrap{grid-template-columns:1fr}.channels{white-space:nowrap;overflow-x:auto}.channel{font-size:13px}.chat-input input{width:0}.page-title{font-size:32px}}
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Arial,"Noto Sans TC",sans-serif
+}
+
+body{
+  color:#fff;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.8)),
+    url("minecraft_bg.png") center/cover fixed no-repeat;
+  min-height:100vh
+}
+
+/* 導覽列 */
+
+.nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:72px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 22px;
+  background:rgba(5,10,9,.86);
+  border-bottom:1px solid rgba(156,255,56,.3);
+  backdrop-filter:blur(12px);
+  z-index:20
+}
+
+.brand{
+  margin-right:auto;
+  color:#9cff38;
+  font-size:22px;
+  font-weight:900;
+  text-shadow:2px 3px 8px #000
+}
+
+.nav button{
+  border:1px solid #ffffff30;
+  background:#ffffff12;
+  color:#fff;
+  border-radius:11px;
+  padding:10px 15px;
+  font-weight:800;
+  cursor:pointer
+}
+
+.nav button:hover{
+  background:#9cff3820
+}
+
+.login{
+  border-color:#9cff38!important;
+  color:#9cff38!important
+}
+
+.user-status{
+  display:none;
+  align-items:center;
+  gap:6px;
+  max-width:170px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  color:#9cff38;
+  font-size:13px;
+  font-weight:900
+}
+
+.user-status.show{
+  display:flex
+}
+
+/* 基本頁面 */
+
+.container{
+  width:min(1100px,100%);
+  margin:auto;
+  padding:125px 18px 42px
+}
+
+.page{
+  display:none
+}
+
+.page.active{
+  display:block
+}
+
+.home{
+  text-align:center
+}
+
+.badge{
+  display:inline-block;
+  padding:10px 25px;
+  border:2px solid #96ff46cc;
+  border-radius:12px;
+  background:#0f190cd1;
+  box-shadow:0 0 24px #64ff323f;
+  font-weight:900;
+  font-size:clamp(18px,4vw,27px);
+  margin-bottom:18px
+}
+
+h1{
+  margin:0;
+  font-size:clamp(42px,9vw,88px);
+  line-height:.95;
+  color:#9cff38;
+  text-shadow:
+    0 5px 0 #244d0c,
+    0 9px 18px #000;
+  font-weight:900;
+  letter-spacing:2px
+}
+
+.subtitle{
+  margin:16px 0 32px;
+  font-size:clamp(16px,3vw,22px);
+  font-weight:700;
+  text-shadow:2px 3px 5px #000
+}
+
+.card{
+  margin:16px 0;
+  padding:23px 28px;
+  text-align:left;
+  background:#050c0ae0;
+  border:2px solid #82e63a;
+  border-radius:16px;
+  box-shadow:
+    0 8px 30px #0008,
+    inset 0 0 25px #64ff3d10;
+  backdrop-filter:blur(4px)
+}
+
+.blue{
+  border-color:#35aaff
+}
+
+.purple{
+  border-color:#c56cff
+}
+
+.label{
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:7px
+}
+
+.value{
+  font-size:clamp(18px,3.5vw,27px);
+  font-weight:800;
+  word-break:break-all
+}
+
+.green{
+  color:#9cff38
+}
+
+.blue-text{
+  color:#5fc2ff
+}
+
+.purple-text{
+  color:#d08aff
+}
+
+a{
+  color:inherit;
+  text-decoration:none
+}
+
+a:hover{
+  text-decoration:underline
+}
+
+.discord{
+  display:inline-block;
+  margin-top:18px;
+  padding:14px 28px;
+  border-radius:12px;
+  background:#5865f2;
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
+  box-shadow:0 6px 18px #0006;
+  border:0;
+  cursor:pointer
+}
+
+.page-title{
+  font-size:40px;
+  color:#9cff38;
+  text-shadow:2px 4px 8px #000;
+  text-align:center
+}
+
+footer{
+  text-align:center;
+  margin-top:30px;
+  opacity:.75
+}
+
+/* 登入 */
+
+.login-modal{
+  position:fixed;
+  inset:0;
+  background:#000b;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:30
+}
+
+.login-modal.show{
+  display:flex
+}
+
+.login-card{
+  width:min(420px,100%);
+  padding:30px;
+  border-radius:18px;
+  background:#0a110ff7;
+  border:2px solid #9cff38;
+  box-shadow:0 20px 70px #000b;
+  text-align:center
+}
+
+.google{
+  width:100%;
+  padding:14px;
+  border:1px solid #aaa;
+  border-radius:10px;
+  background:#fff;
+  color:#222;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer
+}
+
+.close{
+  margin-top:15px;
+  background:none;
+  border:0;
+  color:#aaa;
+  cursor:pointer
+}
+
+.note{
+  font-size:13px;
+  opacity:.65;
+  line-height:1.6;
+  margin-top:14px
+}
+
+/* 聊天 */
+
+.chat-wrap{
+  display:grid;
+  grid-template-columns:230px 1fr;
+  min-height:610px;
+  overflow:hidden;
+  border:2px solid #82e63a;
+  border-radius:18px;
+  background:rgba(5,12,10,.94);
+  box-shadow:0 15px 45px #0009
+}
+
+.channels{
+  background:rgba(10,18,14,.98);
+  padding:18px 12px;
+  border-right:1px solid #ffffff18
+}
+
+.channels h3{
+  margin:0 8px 15px;
+  color:#9cff38
+}
+
+.channel{
+  width:100%;
+  padding:12px 14px;
+  margin:5px 0;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:#bbb;
+  text-align:left;
+  font-size:16px;
+  cursor:pointer
+}
+
+.channel:hover,
+.channel.active{
+  background:#9cff3820;
+  color:#fff
+}
+
+.channel.active{
+  border-left:3px solid #9cff38
+}
+
+.chat-main{
+  display:flex;
+  flex-direction:column;
+  min-width:0
+}
+
+.chat-head{
+  padding:18px 22px;
+  border-bottom:1px solid #ffffff18
+}
+
+.chat-head strong{
+  font-size:20px
+}
+
+.chat-head span{
+  display:block;
+  color:#999;
+  font-size:13px;
+  margin-top:4px
+}
+
+.messages{
+  flex:1;
+  padding:25px;
+  min-height:350px;
+  overflow-y:auto
+}
+
+.welcome{
+  text-align:center;
+  color:#888;
+  padding:80px 10px
+}
+
+.message{
+  display:flex;
+  gap:12px;
+  margin-bottom:18px
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  flex:none;
+  border-radius:50%;
+  background:#243323;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  font-weight:900;
+  color:#9cff38
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.msg-name{
+  font-weight:900;
+  color:#9cff38
+}
+
+.msg-time{
+  font-size:12px;
+  color:#777;
+  margin-left:8px
+}
+
+.msg-text{
+  margin-top:4px;
+  color:#ddd;
+  white-space:pre-wrap;
+  word-break:break-word
+}
+
+/* 輸入 */
+
+.chat-input{
+  display:flex;
+  gap:10px;
+  padding:15px;
+  border-top:1px solid #ffffff18
+}
+
+.chat-input input{
+  flex:1;
+  min-width:0;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid #ffffff22;
+  background:#ffffff09;
+  color:#fff;
+  outline:none
+}
+
+.chat-input input:focus{
+  border-color:#82e63a
+}
+
+.send{
+  padding:0 20px;
+  border:0;
+  border-radius:10px;
+  background:#82e63a;
+  font-weight:900;
+  cursor:pointer
+}
+
+.send:disabled{
+  opacity:.4;
+  cursor:not-allowed
+}
+
+/* 檔案分享 */
+
+.file-bar{
+  display:flex;
+  gap:8px;
+  padding:12px 15px;
+  border-top:1px solid #ffffff12;
+  background:#ffffff05
+}
+
+.file-label{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:9px 13px;
+  border-radius:9px;
+  border:1px solid #9cff38;
+  color:#9cff38;
+  cursor:pointer;
+  font-weight:800;
+  font-size:14px
+}
+
+.file-label:hover{
+  background:#9cff3820
+}
+
+.file-label.disabled{
+  opacity:.4;
+  cursor:not-allowed
+}
+
+.file-name{
+  flex:1;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  color:#999;
+  font-size:13px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis
+}
+
+.file-send{
+  padding:8px 13px;
+  border:0;
+  border-radius:9px;
+  background:#5865f2;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer
+}
+
+.file-send:disabled{
+  opacity:.4;
+  cursor:not-allowed
+}
+
+/* 語音 */
+
+.voice-box{
+  max-width:760px;
+  margin:auto;
+  padding:45px 25px;
+  background:#050c0ae8;
+  border:2px solid #c56cff;
+  border-radius:16px;
+  text-align:center
+}
+
+.voice-box .icon{
+  font-size:55px
+}
+
+/* 手機 */
+
+@media(max-width:700px){
+
+  .nav{
+    height:64px;
+    padding:8px 10px;
+    gap:5px
+  }
+
+  .brand{
+    font-size:16px
+  }
+
+  .nav button{
+    padding:8px 9px;
+    font-size:12px
+  }
+
+  .container{
+    padding-top:105px
+  }
+
+  .chat-wrap{
+    grid-template-columns:145px;
+    grid-template-rows:auto 1fr
+  }
+
+  .channels{
+    border-right:0;
+    border-bottom:1px solid #ffffff18
+  }
+
+  .channel{
+    display:inline-block;
+    width:auto;
+    margin:2px
+  }
+
+  .channels h3{
+    margin-bottom:8px
+  }
+
+  .messages{
+    padding:18px
+  }
+
+  .chat-input{
+    padding:10px
+  }
+
+  .send{
+    padding:0 14px
+  }
+}
+
+@media(max-width:480px){
+
+  .brand{
+    display:none
+  }
+
+  .nav button{
+    flex:1
+  }
+
+  .card{
+    padding:18px
+  }
+
+  .chat-wrap{
+    grid-template-columns:1fr
+  }
+
+  .channels{
+    white-space:nowrap;
+    overflow-x:auto
+  }
+
+  .channel{
+    font-size:13px
+  }
+
+  .chat-input input{
+    width:0
+  }
+
+  .page-title{
+    font-size:32px
+  }
+
+  .file-bar{
+    flex-wrap:wrap
+  }
+
+  .file-name{
+    width:100%;
+    flex-basis:100%
+  }
+}
 </style>
 </head>
+
 <body>
+
+<!-- =========================
+     導覽列
+========================= -->
+
 <nav class="nav">
-  <div class="brand">🌿 無垠伺服器</div>
-  <button onclick="page('home')">🏠 首頁</button>
-  <button onclick="page('chat')">💬 聊天</button>
-  <button onclick="page('voice')">🎙️ 語音</button>
-  <button class="login" onclick="login()">🔐 登入</button>
+
+  <div class="brand">
+    🌿 無垠伺服器
+  </div>
+
+  <button onclick="page('home')">
+    🏠 首頁
+  </button>
+
+  <button onclick="page('chat')">
+    💬 聊天
+  </button>
+
+  <button onclick="page('voice')">
+    🎙️ 語音
+  </button>
+
+  <div id="userStatus" class="user-status"></div>
+
+  <button
+    id="loginButton"
+    class="login"
+    onclick="login()"
+  >
+    🔐 登入
+  </button>
+
 </nav>
 
+
 <main class="container">
+
+<!-- =========================
+     首頁
+========================= -->
+
 <section id="home" class="page active home">
-  <div class="badge">🌿 歡迎來到</div>
-  <h1>MINECRAFT<br>無垠伺服器</h1>
-  <div class="subtitle">一起在無垠的世界中，創造屬於我們的故事！</div>
-  <div class="card"><div class="label">🖥️ 伺服器主機</div><div class="value">伺服器選用 <span class="green">Cheapserver</span> 便宜伺服的高階主機</div></div>
-  <div class="card blue"><div class="label blue-text">🗺️ BlueMap 網址</div><div class="value"><a class="blue-text" href="http://tw-6.cs-nodes.net:30723" target="_blank">http://tw-6.cs-nodes.net:30723</a></div></div>
-  <div class="card"><div class="label green">⛏️ Minecraft IP</div><div class="value">bols.mysmp.cc</div></div>
-  <div class="card purple"><div class="label purple-text">💬 Discord 社群</div><div class="value"><a class="purple-text" href="https://discord.gg/ucMJ35Qk55" target="_blank">discord.gg/ucMJ35Qk55</a></div><a class="discord" href="https://discord.gg/ucMJ35Qk55" target="_blank">加入我們的 Discord</a></div>
-  <footer>◆ 無垠伺服器 ◆ 歡迎你的加入 ◆</footer>
+
+  <div class="badge">
+    🌿 歡迎來到
+  </div>
+
+  <h1>
+    MINECRAFT<br>
+    無垠伺服器
+  </h1>
+
+  <div class="subtitle">
+    一起在無垠的世界中，創造屬於我們的故事！
+  </div>
+
+
+  <!-- 伺服器主機 -->
+
+  <div class="card">
+
+    <div class="label">
+      🖥️ 伺服器主機
+    </div>
+
+    <div class="value">
+      伺服器選用
+      <span class="green">
+        Cheapserver
+      </span>
+      便宜伺服的高階主機
+    </div>
+
+  </div>
+
+
+  <!-- BlueMap -->
+
+  <div class="card blue">
+
+    <div class="label blue-text">
+      🗺️ BlueMap 網址
+    </div>
+
+    <div class="value">
+
+      <a
+        class="blue-text"
+        href="http://tw-6.cs-nodes.net:30723"
+        target="_blank"
+      >
+        http://tw-6.cs-nodes.net:30723
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- Minecraft IP -->
+
+  <div class="card">
+
+    <div class="label green">
+      ⛏️ Minecraft IP
+    </div>
+
+    <div class="value">
+      bols.mysmp.cc
+    </div>
+
+  </div>
+
+
+  <!-- Discord -->
+
+  <div class="card purple">
+
+    <div class="label purple-text">
+      💬 Discord 社群
+    </div>
+
+    <div class="value">
+
+      <a
+        class="purple-text"
+        href="https://discord.gg/ucMJ35Qk55"
+        target="_blank"
+      >
+        discord.gg/ucMJ35Qk55
+      </a>
+
+    </div>
+
+    <a
+      class="discord"
+      href="https://discord.gg/ucMJ35Qk55"
+      target="_blank"
+    >
+      加入我們的 Discord
+    </a>
+
+  </div>
+
+
+  <footer>
+    ◆ 無垠伺服器 ◆ 歡迎你的加入 ◆
+  </footer>
+
 </section>
+
+
+<!-- =========================
+     聊天
+========================= -->
 
 <section id="chat" class="page">
-  <h2 class="page-title">💬 無垠聊天</h2>
+
+  <h2 class="page-title">
+    💬 無垠聊天
+  </h2>
+
+
   <div class="chat-wrap">
+
+    <!-- 頻道 -->
+
     <aside class="channels">
-      <h3>文字頻道</h3>
-      <button class="channel active" onclick="selectChannel(this,'一般')"># 一般</button>
-      <button class="channel" onclick="selectChannel(this,'Minecraft')"># Minecraft</button>
-      <button class="channel" onclick="selectChannel(this,'公告')"># 公告</button>
+
+      <h3>
+        文字頻道
+      </h3>
+
+
+      <button
+        class="channel active"
+        onclick="selectChannel(this,'server')"
+      >
+        💬 伺服器聊天
+      </button>
+
+
+      <button
+        class="channel"
+        onclick="selectChannel(this,'litematica')"
+      >
+        🧱 Litematica
+      </button>
+
+
+      <button
+        class="channel"
+        onclick="selectChannel(this,'announcement')"
+      >
+        📢 公告
+      </button>
+
     </aside>
+
+
+    <!-- 聊天區 -->
+
     <div class="chat-main">
-      <div class="chat-head"><strong id="channelTitle"># 一般</strong><span>無垠伺服器文字頻道</span></div>
-      <div class="messages" id="messages">
-        <div class="welcome">🔐<br><br><strong>聊天功能目前需要登入</strong><br>登入 Google 帳號後即可使用。</div>
+
+      <div class="chat-head">
+
+        <strong id="channelTitle">
+          # 伺服器聊天
+        </strong>
+
+        <span id="channelDescription">
+          無垠伺服器主要聊天頻道
+        </span>
+
       </div>
+
+
+      <div
+        class="messages"
+        id="messages"
+      >
+
+        <div class="welcome">
+
+          🔐
+
+          <br><br>
+
+          <strong>
+            聊天功能目前需要登入
+          </strong>
+
+          <br>
+
+          登入 Google 帳號後即可使用。
+
+        </div>
+
+      </div>
+
+
+      <!-- 每個頻道都有檔案分享 -->
+
+      <div class="file-bar">
+
+        <label
+          id="fileLabel"
+          class="file-label disabled"
+        >
+
+          📎 選擇檔案
+
+          <input
+            id="fileInput"
+            type="file"
+            hidden
+            disabled
+            onchange="fileSelected()"
+          >
+
+        </label>
+
+
+        <div
+          id="fileName"
+          class="file-name"
+        >
+          登入後可以分享檔案
+        </div>
+
+
+        <button
+          id="fileSend"
+          class="file-send"
+          onclick="uploadFile()"
+          disabled
+        >
+          分享
+        </button>
+
+      </div>
+
+
+      <!-- 訊息輸入 -->
+
       <div class="chat-input">
-        <input id="chatInput" type="text" placeholder="登入後即可輸入訊息……" disabled>
-        <button class="send" onclick="requireLogin()">發送</button>
+
+        <input
+          id="chatInput"
+          type="text"
+          placeholder="登入後即可輸入訊息……"
+          disabled
+          maxlength="1000"
+          onkeydown="if(event.key==='Enter')sendMessage()"
+        >
+
+        <button
+          id="sendButton"
+          class="send"
+          onclick="sendMessage()"
+          disabled
+        >
+          發送
+        </button>
+
       </div>
+
     </div>
+
   </div>
+
 </section>
+
+
+<!-- =========================
+     語音
+========================= -->
 
 <section id="voice" class="page">
-  <h2 class="page-title">🎙️ 無垠語音</h2>
-  <div class="voice-box"><div class="icon">🔐</div><h2>請先登入</h2><p>登入 Google 帳號後才能加入唯一的語音頻道「大廳」。</p><button class="discord" onclick="login()">使用 Google / Gmail 登入</button></div>
+
+  <h2 class="page-title">
+    🎙️ 無垠語音
+  </h2>
+
+
+  <div
+    id="voiceBox"
+    class="voice-box"
+  >
+
+    <div class="icon">
+      🔐
+    </div>
+
+    <h2>
+      請先登入
+    </h2>
+
+    <p>
+      登入 Google 帳號後才能加入唯一的語音頻道「大廳」。
+    </p>
+
+    <button
+      class="discord"
+      onclick="login()"
+    >
+      使用 Google / Gmail 登入
+    </button>
+
+  </div>
+
 </section>
+
 </main>
 
-<div id="modal" class="login-modal" onclick="if(event.target===this)closeLogin()">
+
+<!-- =========================
+     登入視窗
+========================= -->
+
+<div
+  id="modal"
+  class="login-modal"
+  onclick="if(event.target===this)closeLogin()"
+>
+
   <div class="login-card">
-    <h2>🔐 登入無垠</h2><p>登入後即可使用聊天與語音功能</p>
-    <button class="google" onclick="googleLogin()">🌐 使用 Google / Gmail 登入</button>
-    <div class="note">Google 登入目前由 Cloudflare Worker 處理；OAuth 完成後會回到無垠伺服器。</div>
-    <button class="close" onclick="closeLogin()">關閉</button>
+
+    <h2>
+      🔐 登入無垠
+    </h2>
+
+    <p>
+      登入後即可使用聊天、檔案分享與語音功能
+    </p>
+
+    <button
+      class="google"
+      onclick="googleLogin()"
+    >
+      🌐 使用 Google / Gmail 登入
+    </button>
+
+    <div class="note">
+      Google 登入由 Cloudflare Worker 處理。
+    </div>
+
+    <button
+      class="close"
+      onclick="closeLogin()"
+    >
+      關閉
+    </button>
+
   </div>
+
 </div>
 
+
 <script>
-const WORKER_URL="https://bols-auth.chenneww6666.workers.dev";
+
+/* =========================
+   Worker
+========================= */
+
+const WORKER_URL =
+  "https://bols-auth.chenneww6666.workers.dev";
+
+
+/* =========================
+   頻道
+========================= */
+
+const CHANNELS = {
+
+  server:{
+    name:"伺服器聊天",
+    description:"無垠伺服器主要聊天頻道"
+  },
+
+  litematica:{
+    name:"Litematica",
+    description:"Litematica 建築藍圖與相關討論"
+  },
+
+  announcement:{
+    name:"公告",
+    description:"無垠伺服器重要公告"
+  }
+
+};
+
+
+let currentChannel = "server";
+let currentUser = null;
+let socket = null;
+let selectedFile = null;
+
+
+/* =========================
+   頁面切換
+========================= */
 
 function page(id){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  scrollTo({top:0,behavior:'smooth'});
+
+  document
+    .querySelectorAll(".page")
+    .forEach(x =>
+      x.classList.remove("active")
+    );
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
-function login(){document.getElementById('modal').classList.add('show')}
-function closeLogin(){document.getElementById('modal').classList.remove('show')}
-function googleLogin(){location.href=WORKER_URL+"/login"}
-function requireLogin(){login()}
-function selectChannel(button,name){
-  document.querySelectorAll('.channel').forEach(x=>x.classList.remove('active'));
-  button.classList.add('active');
-  document.getElementById('channelTitle').textContent="# "+name;
-  document.getElementById('messages').innerHTML='<div class="welcome">🔐<br><br><strong>聊天功能目前需要登入</strong><br>登入後即可使用此頻道。</div>';
+
+
+/* =========================
+   登入
+========================= */
+
+function login(){
+
+  if(currentUser){
+    return;
+  }
+
+  document
+    .getElementById("modal")
+    .classList.add("show");
+
 }
+
+
+function closeLogin(){
+
+  document
+    .getElementById("modal")
+    .classList.remove("show");
+
+}
+
+
+function googleLogin(){
+
+  location.href =
+    WORKER_URL + "/login";
+
+}
+
+
+/* =========================
+   檢查登入
+========================= */
+
+async function checkLogin(){
+
+  try{
+
+    const response =
+      await fetch(
+        WORKER_URL + "/me",
+        {
+          credentials:"include"
+        }
+      );
+
+    const data =
+      await response.json();
+
+
+    if(data.loggedIn){
+
+      currentUser =
+        data.user;
+
+      updateLoggedInUI();
+
+    }else{
+
+      currentUser = null;
+
+      updateLoggedOutUI();
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "登入狀態檢查失敗:",
+      error
+    );
+
+    updateLoggedOutUI();
+
+  }
+
+}
+
+
+/* =========================
+   登入後
+========================= */
+
+function updateLoggedInUI(){
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const userStatus =
+    document.getElementById("userStatus");
+
+
+  loginButton.textContent =
+    "🚪 登出";
+
+  loginButton.onclick =
+    logout;
+
+
+  userStatus.textContent =
+    "👤 " +
+    (currentUser.name || "玩家");
+
+  userStatus.classList.add("show");
+
+
+  document
+    .getElementById("chatInput")
+    .disabled = false;
+
+  document
+    .getElementById("sendButton")
+    .disabled = false;
+
+
+  document
+    .getElementById("chatInput")
+    .placeholder =
+    "輸入訊息……";
+
+
+  document
+    .getElementById("fileInput")
+    .disabled = false;
+
+  document
+    .getElementById("fileSend")
+    .disabled = false;
+
+  document
+    .getElementById("fileLabel")
+    .classList.remove("disabled");
+
+
+  updateVoiceUI();
+
+
+  loadChannel(currentChannel);
+
+}
+
+
+/* =========================
+   登出後
+========================= */
+
+function updateLoggedOutUI(){
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const userStatus =
+    document.getElementById("userStatus");
+
+
+  loginButton.textContent =
+    "🔐 登入";
+
+  loginButton.onclick =
+    login;
+
+
+  userStatus.textContent = "";
+
+  userStatus.classList.remove("show");
+
+
+  document
+    .getElementById("chatInput")
+    .disabled = true;
+
+  document
+    .getElementById("sendButton")
+    .disabled = true;
+
+
+  document
+    .getElementById("chatInput")
+    .placeholder =
+    "登入後即可輸入訊息……";
+
+
+  document
+    .getElementById("fileInput")
+    .disabled = true;
+
+  document
+    .getElementById("fileSend")
+    .disabled = true;
+
+  document
+    .getElementById("fileLabel")
+    .classList.add("disabled");
+
+
+  updateVoiceUI();
+
+
+  closeSocket();
+
+
+  document
+    .getElementById("messages")
+    .innerHTML = `
+      <div class="welcome">
+        🔐
+        <br><br>
+        <strong>聊天功能目前需要登入</strong>
+        <br>
+        登入 Google 帳號後即可使用。
+      </div>
+    `;
+
+}
+
+
+/* =========================
+   登出
+========================= */
+
+function logout(){
+
+  location.href =
+    WORKER_URL + "/logout";
+
+}
+
+
+/* =========================
+   語音
+========================= */
+
+function updateVoiceUI(){
+
+  const box =
+    document.getElementById("voiceBox");
+
+
+  if(!currentUser){
+
+    box.innerHTML = `
+      <div class="icon">🔐</div>
+
+      <h2>請先登入</h2>
+
+      <p>
+        登入 Google 帳號後才能加入唯一的語音頻道「大廳」。
+      </p>
+
+      <button
+        class="discord"
+        onclick="login()"
+      >
+        使用 Google / Gmail 登入
+      </button>
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+    <div class="icon">🎙️</div>
+
+    <h2>大廳</h2>
+
+    <p>
+      歡迎 ${escapeHtml(currentUser.name || "玩家")}！
+    </p>
+
+    <button
+      class="discord"
+      onclick="alert('語音功能下一步接 WebRTC。')"
+    >
+      🎙️ 加入大廳
+    </button>
+  `;
+
+}
+
+
+/* =========================
+   切換頻道
+========================= */
+
+function selectChannel(button,channel){
+
+  document
+    .querySelectorAll(".channel")
+    .forEach(x =>
+      x.classList.remove("active")
+    );
+
+  button.classList.add("active");
+
+
+  currentChannel =
+    channel;
+
+
+  document
+    .getElementById("channelTitle")
+    .textContent =
+    "# " +
+    CHANNELS[channel].name;
+
+
+  document
+    .getElementById("channelDescription")
+    .textContent =
+    CHANNELS[channel].description;
+
+
+  if(currentUser){
+
+    loadChannel(channel);
+
+  }else{
+
+    document
+      .getElementById("messages")
+      .innerHTML = `
+        <div class="welcome">
+          🔐
+          <br><br>
+          <strong>聊天功能目前需要登入</strong>
+          <br>
+          登入後即可使用此頻道。
+        </div>
+      `;
+
+  }
+
+}
+
+
+/* =========================
+   載入頻道
+========================= */
+
+async function loadChannel(channel){
+
+  closeSocket();
+
+
+  if(!currentUser){
+    return;
+  }
+
+
+  const messages =
+    document.getElementById("messages");
+
+
+  messages.innerHTML = `
+    <div class="welcome">
+      ⏳
+      <br><br>
+      正在載入聊天紀錄……
+    </div>
+  `;
+
+
+  try{
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/api/chat?channel=" +
+        encodeURIComponent(channel),
+        {
+          credentials:"include"
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error || "載入失敗"
+      );
+
+    }
+
+
+    renderMessages(
+      data.messages || []
+    );
+
+
+    connectSocket(channel);
+
+
+  }catch(error){
+
+    console.error(error);
+
+    messages.innerHTML = `
+      <div class="welcome">
+        ❌
+        <br><br>
+        無法載入聊天。
+        <br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =========================
+   顯示訊息
+========================= */
+
+function renderMessages(messages){
+
+  const box =
+    document.getElementById("messages");
+
+
+  if(!messages.length){
+
+    box.innerHTML = `
+      <div class="welcome">
+        💬
+        <br><br>
+        目前還沒有訊息。
+        <br>
+        成為第一個發言的人吧！
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  messages.forEach(
+    message =>
+      addMessage(message)
+  );
+
+
+  box.scrollTop =
+    box.scrollHeight;
+
+}
+
+
+/* =========================
+   新訊息
+========================= */
+
+function addMessage(message){
+
+  const box =
+    document.getElementById("messages");
+
+
+  const welcome =
+    box.querySelector(".welcome");
+
+
+  if(welcome){
+    welcome.remove();
+  }
+
+
+  const row =
+    document.createElement("div");
+
+  row.className =
+    "message";
+
+
+  const avatar =
+    document.createElement("div");
+
+  avatar.className =
+    "avatar";
+
+
+  if(message.user?.picture){
+
+    const img =
+      document.createElement("img");
+
+    img.src =
+      message.user.picture;
+
+    img.alt = "";
+
+    avatar.appendChild(img);
+
+  }else{
+
+    avatar.textContent =
+      (message.user?.name || "玩")
+        .slice(0,1);
+
+  }
+
+
+  const content =
+    document.createElement("div");
+
+
+  const top =
+    document.createElement("div");
+
+
+  const name =
+    document.createElement("span");
+
+  name.className =
+    "msg-name";
+
+  name.textContent =
+    message.user?.name || "玩家";
+
+
+  const time =
+    document.createElement("span");
+
+  time.className =
+    "msg-time";
+
+  time.textContent =
+    formatTime(message.time);
+
+
+  top.appendChild(name);
+  top.appendChild(time);
+
+
+  const text =
+    document.createElement("div");
+
+  text.className =
+    "msg-text";
+
+  text.textContent =
+    message.text || "";
+
+
+  content.appendChild(top);
+  content.appendChild(text);
+
+
+  row.appendChild(avatar);
+  row.appendChild(content);
+
+
+  box.appendChild(row);
+
+
+  box.scrollTop =
+    box.scrollHeight;
+
+}
+
+
+/* =========================
+   時間
+========================= */
+
+function formatTime(value){
+
+  if(!value){
+    return "";
+  }
+
+  try{
+
+    return new Date(value)
+      .toLocaleString(
+        "zh-TW",
+        {
+          month:"2-digit",
+          day:"2-digit",
+          hour:"2-digit",
+          minute:"2-digit"
+        }
+      );
+
+  }catch{
+
+    return "";
+
+  }
+
+}
+
+
+/* =========================
+   WebSocket
+========================= */
+
+function connectSocket(channel){
+
+  closeSocket();
+
+
+  if(!currentUser){
+    return;
+  }
+
+
+  const wsUrl =
+    "wss://" +
+    WORKER_URL.replace(/^https?:\/\//,"") +
+    "/api/chat/ws?channel=" +
+    encodeURIComponent(channel);
+
+
+  try{
+
+    socket =
+      new WebSocket(wsUrl);
+
+
+    socket.onopen =
+      () => {
+
+        console.log(
+          "WebSocket 已連線:",
+          channel
+        );
+
+      };
+
+
+    socket.onmessage =
+      event => {
+
+        try{
+
+          const data =
+            JSON.parse(event.data);
+
+
+          if(
+            data.type === "message" &&
+            data.message
+          ){
+
+            if(
+              data.message.channel ===
+              currentChannel
+            ){
+
+              addMessage(
+                data.message
+              );
+
+            }
+
+          }
+
+        }catch(error){
+
+          console.error(
+            "WebSocket 訊息錯誤:",
+            error
+          );
+
+        }
+
+      };
+
+
+    socket.onerror =
+      error => {
+
+        console.error(
+          "WebSocket 錯誤:",
+          error
+        );
+
+      };
+
+
+    socket.onclose =
+      () => {
+
+        console.log(
+          "WebSocket 已關閉"
+        );
+
+      };
+
+  }catch(error){
+
+    console.error(
+      "WebSocket 建立失敗:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================
+   關閉 WebSocket
+========================= */
+
+function closeSocket(){
+
+  if(socket){
+
+    try{
+      socket.close();
+    }catch{}
+
+    socket = null;
+
+  }
+
+}
+
+
+/* =========================
+   發送訊息
+========================= */
+
+async function sendMessage(){
+
+  if(!currentUser){
+
+    login();
+
+    return;
+
+  }
+
+
+  const input =
+    document.getElementById("chatInput");
+
+
+  const text =
+    input.value.trim();
+
+
+  if(!text){
+    return;
+  }
+
+
+  input.value = "";
+
+
+  try{
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/api/chat?channel=" +
+        encodeURIComponent(currentChannel),
+        {
+          method:"POST",
+          credentials:"include",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+          body:JSON.stringify({
+            message:text
+          })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error || "發送失敗"
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "訊息發送失敗：" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================
+   檔案選擇
+========================= */
+
+function fileSelected(){
+
+  const input =
+    document.getElementById("fileInput");
+
+  const name =
+    document.getElementById("fileName");
+
+
+  selectedFile =
+    input.files[0] || null;
+
+
+  if(selectedFile){
+
+    name.textContent =
+      selectedFile.name;
+
+  }else{
+
+    name.textContent =
+      "尚未選擇檔案";
+
+  }
+
+}
+
+
+/* =========================
+   檔案上傳
+========================= */
+
+async function uploadFile(){
+
+  if(!currentUser){
+
+    login();
+
+    return;
+
+  }
+
+
+  if(!selectedFile){
+
+    alert("請先選擇檔案。");
+
+    return;
+
+  }
+
+
+  const formData =
+    new FormData();
+
+  formData.append(
+    "file",
+    selectedFile
+  );
+
+
+  try{
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/api/upload?channel=" +
+        encodeURIComponent(currentChannel),
+        {
+          method:"POST",
+          credentials:"include",
+          body:formData
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      alert(
+        data.message ||
+        data.error ||
+        "檔案上傳功能尚未啟用。"
+      );
+
+      return;
+
+    }
+
+
+    alert("檔案分享成功！");
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "檔案上傳失敗：" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================
+   HTML 安全處理
+========================= */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   啟動
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    checkLogin();
+
+  }
+);
+
 </script>
+
 </body>
 </html>
