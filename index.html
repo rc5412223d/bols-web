@@ -19,10 +19,12 @@
     body {
       margin: 0;
       min-height: 100%;
+
       font-family:
         Arial,
         "Microsoft JhengHei",
         sans-serif;
+
       background:
         linear-gradient(
           rgba(10, 15, 20, 0.75),
@@ -30,6 +32,7 @@
         ),
         url("minecraft_bg.png")
         center / cover fixed;
+
       color: #fff;
     }
 
@@ -338,6 +341,7 @@
         rgba(0, 0, 0, 0.3);
 
       padding: 15px;
+
       border-right:
         1px solid
         rgba(255, 255, 255, 0.08);
@@ -376,6 +380,8 @@
       flex-direction: column;
       min-width: 0;
     }
+
+    /* 聊天室標題 */
 
     .chat-header {
       min-height: 54px;
@@ -428,6 +434,8 @@
       color: #888;
     }
 
+    /* 訊息區 */
+
     .messages {
       flex: 1;
 
@@ -447,9 +455,12 @@
 
     .message {
       display: flex;
+
       gap: 9px;
 
-      margin-bottom: 9px;
+      margin-bottom: 8px;
+
+      align-items: flex-start;
     }
 
     .message-avatar {
@@ -471,8 +482,11 @@
 
     .message-top {
       display: flex;
+
       gap: 8px;
+
       align-items: baseline;
+
       flex-wrap: wrap;
     }
 
@@ -485,14 +499,109 @@
       font-size: 11px;
     }
 
+    /*
+      讓訊息緊貼名字，
+      不再隔很大的空間。
+    */
+
     .message-text {
-      margin-top: 4px;
+      margin-top: 0;
 
       color: #ddd;
 
       white-space: pre-wrap;
+
       overflow-wrap: anywhere;
+
+      line-height: 1.45;
     }
+
+    /* ===============================
+       Attachment
+    =============================== */
+
+    .attachment-card {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      width: fit-content;
+
+      max-width:
+        min(520px, 100%);
+
+      margin-top: 2px;
+
+      padding: 9px 12px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.1);
+
+      border-radius: 9px;
+
+      background:
+        rgba(255, 255, 255, 0.05);
+    }
+
+    .attachment-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .attachment-info {
+      min-width: 0;
+    }
+
+    .attachment-name {
+      display: block;
+
+      color: #fff;
+
+      font-weight: 700;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
+    }
+
+    .attachment-size {
+      display: block;
+
+      margin-top: 2px;
+
+      color: #888;
+
+      font-size: 11px;
+    }
+
+    .attachment-download {
+      flex-shrink: 0;
+
+      padding: 6px 9px;
+
+      border-radius: 6px;
+
+      background: #3ba55c;
+
+      color: #fff;
+
+      text-decoration: none;
+
+      font-size: 12px;
+    }
+
+    .attachment-download:hover {
+      filter: brightness(1.08);
+    }
+
+    /* ===============================
+       Chat Input
+    =============================== */
 
     .chat-input-area {
       border-top:
@@ -504,17 +613,21 @@
 
     .file-bar {
       display: flex;
+
       gap: 8px;
+
       align-items: center;
 
       margin-bottom: 9px;
 
       color: #999;
+
       font-size: 12px;
     }
 
     .file-btn {
       background: #252525;
+
       color: #ccc;
 
       border:
@@ -522,6 +635,7 @@
         #444;
 
       padding: 7px 10px;
+
       border-radius: 7px;
     }
 
@@ -531,12 +645,15 @@
 
     .file-name {
       overflow: hidden;
+
       text-overflow: ellipsis;
+
       white-space: nowrap;
     }
 
     .chat-form {
       display: flex;
+
       gap: 9px;
     }
 
@@ -546,6 +663,7 @@
       min-width: 0;
 
       background: #222;
+
       color: white;
 
       border:
@@ -555,6 +673,7 @@
       border-radius: 8px;
 
       padding: 12px;
+
       outline: none;
     }
 
@@ -564,9 +683,11 @@
 
     .send-btn {
       background: #4caf50;
+
       color: white;
 
       border: 0;
+
       border-radius: 8px;
 
       padding: 0 20px;
@@ -584,6 +705,7 @@
 
     .voice-card {
       max-width: 800px;
+
       margin: 40px auto;
 
       text-align: center;
@@ -602,6 +724,7 @@
 
     .voice-icon {
       font-size: 65px;
+
       margin-bottom: 20px;
     }
 
@@ -611,6 +734,7 @@
 
     .voice-card p {
       color: #aaa;
+
       line-height: 1.7;
     }
 
@@ -632,12 +756,15 @@
 
     .login-overlay {
       position: fixed;
+
       inset: 0;
 
       z-index: 2000;
 
       display: none;
+
       align-items: center;
+
       justify-content: center;
 
       padding: 20px;
@@ -678,6 +805,7 @@
 
     .login-modal p {
       color: #aaa;
+
       line-height: 1.6;
     }
 
@@ -687,6 +815,7 @@
       border: 0;
 
       background: white;
+
       color: #222;
 
       padding: 13px;
@@ -706,6 +835,7 @@
       margin-top: 10px;
 
       background: transparent;
+
       color: #888;
 
       border: 0;
@@ -719,6 +849,7 @@
       position: fixed;
 
       right: 20px;
+
       bottom: 20px;
 
       z-index: 3000;
@@ -755,7 +886,9 @@
     @media (max-width: 760px) {
       .nav {
         min-height: auto;
+
         padding: 12px 0;
+
         align-items: flex-start;
       }
 
@@ -765,25 +898,31 @@
 
       .nav-btn {
         padding: 8px 9px;
+
         font-size: 13px;
       }
 
       .logo {
         font-size: 16px;
+
         padding-top: 8px;
       }
 
       .chat-layout {
         grid-template-columns: 1fr;
+
+        height: 600px;
       }
 
       .channels {
         display: flex;
+
         gap: 5px;
 
         overflow-x: auto;
 
         border-right: 0;
+
         border-bottom:
           1px solid
           rgba(255, 255, 255, 0.08);
@@ -797,12 +936,29 @@
 
       .channel-btn {
         width: auto;
+
         white-space: nowrap;
+
         margin: 0;
       }
 
       .messages {
         max-height: none;
+
+        padding:
+          10px 12px;
+      }
+
+      .message {
+        gap: 8px;
+
+        margin-bottom: 7px;
+      }
+
+      .message-avatar {
+        width: 32px;
+
+        height: 32px;
       }
 
       .chat-form {
@@ -819,6 +975,10 @@
 
       main {
         padding-top: 20px;
+      }
+
+      .attachment-card {
+        max-width: 100%;
       }
     }
   </style>
@@ -872,6 +1032,7 @@
           class="user-box"
           style="display:none"
         >
+
           <img
             id="userAvatar"
             class="avatar"
@@ -889,6 +1050,7 @@
           >
             登出
           </button>
+
         </div>
 
       </div>
@@ -911,6 +1073,7 @@
     >
 
       <div class="hero">
+
         <h1>
           Minecraft 無垠伺服器
         </h1>
@@ -918,11 +1081,13 @@
         <p>
           歡迎來到我們的 Minecraft 世界
         </p>
+
       </div>
 
       <div class="cards">
 
         <div class="card green">
+
           <div class="label">
             🖥️ 伺服器狀態
           </div>
@@ -933,14 +1098,17 @@
           >
             在線
           </div>
+
         </div>
 
         <div class="card blue">
+
           <div class="label blue-text">
             🗺️ BlueMap 網址
           </div>
 
           <div class="value">
+
             <a
               class="blue-text"
               href="http://tw-6.cs-nodes.net:30723"
@@ -949,25 +1117,31 @@
             >
               http://tw-6.cs-nodes.net:30723
             </a>
+
           </div>
+
         </div>
 
         <div class="card purple">
+
           <div class="label">
             🎮 Minecraft IP
           </div>
 
           <div class="value">
-            bols.mysmp.cc
+            mc.bols.dpdns.org
           </div>
+
         </div>
 
         <div class="card orange">
+
           <div class="label">
             💬 Discord
           </div>
 
           <div class="value">
+
             <a
               class="orange-text"
               href="https://discord.gg/ucMJ35Qk55"
@@ -976,7 +1150,9 @@
             >
               加入 Discord
             </a>
+
           </div>
+
         </div>
 
       </div>
@@ -988,6 +1164,7 @@
           text-align:center;
         "
       >
+
         <div class="label">
           🔐 登入後即可使用聊天功能
         </div>
@@ -998,6 +1175,7 @@
         >
           目前尚未登入
         </div>
+
       </div>
 
     </section>
@@ -1020,6 +1198,7 @@
           margin:50px auto;
         "
       >
+
         <h2>
           🔒 請先登入
         </h2>
@@ -1035,6 +1214,7 @@
         >
           使用 Google 登入
         </button>
+
       </div>
 
       <div
@@ -1110,9 +1290,11 @@
             id="messages"
             class="messages"
           >
+
             <div class="empty-chat">
               載入訊息中...
             </div>
+
           </div>
 
           <div class="chat-input-area">
@@ -1271,6 +1453,7 @@
     const SITE_URL =
       "https://bols.dpdns.org";
 
+
     /* =====================================================
        State
     ===================================================== */
@@ -1282,6 +1465,7 @@
     let socket = null;
 
     let socketChannel = null;
+
 
     /* =====================================================
        DOM
@@ -1392,6 +1576,7 @@
         "notice"
       );
 
+
     /* =====================================================
        Helpers
     ===================================================== */
@@ -1399,7 +1584,9 @@
     function showNotice(text) {
       notice.textContent = text;
 
-      notice.classList.add("show");
+      notice.classList.add(
+        "show"
+      );
 
       setTimeout(() => {
         notice.classList.remove(
@@ -1408,16 +1595,19 @@
       }, 3500);
     }
 
+
     function escapeHtml(text) {
       const div =
         document.createElement(
           "div"
         );
 
-      div.textContent = text;
+      div.textContent =
+        String(text ?? "");
 
       return div.innerHTML;
     }
+
 
     function formatTime(timestamp) {
       try {
@@ -1437,12 +1627,49 @@
       }
     }
 
+
+    function formatFileSize(size) {
+      const bytes =
+        Number(size || 0);
+
+      if (!Number.isFinite(bytes) || bytes <= 0) {
+        return "未知大小";
+      }
+
+      if (
+        bytes >=
+        1024 * 1024
+      ) {
+        return (
+          (bytes / 1024 / 1024)
+            .toFixed(2) +
+          " MB"
+        );
+      }
+
+      if (
+        bytes >=
+        1024
+      ) {
+        return (
+          (bytes / 1024)
+            .toFixed(1) +
+          " KB"
+        );
+      }
+
+      return `${bytes} B`;
+    }
+
+
     /* =====================================================
        Page navigation
     ===================================================== */
 
     document
-      .querySelectorAll(".nav-btn[data-page]")
+      .querySelectorAll(
+        ".nav-btn[data-page]"
+      )
       .forEach((button) => {
 
         button.addEventListener(
@@ -1452,18 +1679,25 @@
             const page =
               button.dataset.page;
 
+
             document
-              .querySelectorAll(".page")
+              .querySelectorAll(
+                ".page"
+              )
               .forEach((item) => {
+
                 item.classList.remove(
                   "active"
                 );
+
               });
+
 
             const target =
               document.getElementById(
                 `page-${page}`
               );
+
 
             if (target) {
               target.classList.add(
@@ -1471,31 +1705,40 @@
               );
             }
 
+
             document
               .querySelectorAll(
                 ".nav-btn[data-page]"
               )
               .forEach((item) => {
+
                 item.classList.remove(
                   "active"
                 );
+
               });
+
 
             button.classList.add(
               "active"
             );
 
+
             if (page === "chat") {
               updateChatAccess();
             }
+
 
             window.scrollTo({
               top: 0,
               behavior: "smooth",
             });
+
           }
         );
+
       });
+
 
     /* =====================================================
        Login
@@ -1507,25 +1750,21 @@
       );
     }
 
+
     function closeLoginModal() {
       loginOverlay.classList.remove(
         "show"
       );
     }
 
-    function startGoogleLogin() {
-      /*
-        不用 fetch。
-        直接導向 Worker /login。
 
-        Worker → Google
-        Google → Worker /auth/callback
-        Worker → bols.dpdns.org/?login=success
-      */
+    function startGoogleLogin() {
 
       window.location.href =
         `${WORKER_URL}/login`;
+
     }
+
 
     loginNav.addEventListener(
       "click",
@@ -1536,41 +1775,50 @@
         }
 
         openLogin();
+
       }
     );
+
 
     googleLoginBtn.addEventListener(
       "click",
       startGoogleLogin
     );
 
+
     chatLoginBtn.addEventListener(
       "click",
       startGoogleLogin
     );
+
 
     closeLogin.addEventListener(
       "click",
       closeLoginModal
     );
 
+
     loginOverlay.addEventListener(
       "click",
       (event) => {
+
         if (
           event.target ===
           loginOverlay
         ) {
           closeLoginModal();
         }
+
       }
     );
+
 
     /* =====================================================
        Check /me
     ===================================================== */
 
     async function checkLogin() {
+
       try {
 
         const response =
@@ -1579,11 +1827,13 @@
             {
               method: "GET",
 
-              credentials: "include",
+              credentials:
+                "include",
 
               cache: "no-store",
             }
           );
+
 
         if (!response.ok) {
           throw new Error(
@@ -1591,19 +1841,26 @@
           );
         }
 
+
         const data =
           await response.json();
+
 
         if (
           data.loggedIn &&
           data.user
         ) {
+
           setLoggedIn(
             data.user
           );
+
         } else {
+
           setLoggedOut();
+
         }
+
 
       } catch (error) {
 
@@ -1613,35 +1870,49 @@
         );
 
         setLoggedOut();
+
       }
+
     }
+
 
     /* =====================================================
        Logged in UI
     ===================================================== */
 
     function setLoggedIn(user) {
-      currentUser = user;
+
+      currentUser =
+        user;
+
 
       loginNav.style.display =
         "none";
 
+
       userBox.style.display =
         "flex";
+
 
       userName.textContent =
         user.name ||
         user.email ||
         "Minecraft 玩家";
 
+
       if (user.picture) {
+
         userAvatar.src =
           user.picture;
+
       } else {
+
         userAvatar.removeAttribute(
           "src"
         );
+
       }
+
 
       homeLoginText.textContent =
         `已登入：${
@@ -1649,58 +1920,71 @@
           user.email
         }`;
 
+
       homeLoginText.classList.add(
         "green-text"
       );
 
+
       updateChatAccess();
 
-      /*
-        如果網址有 login=success
-        顯示登入成功通知
-      */
 
       const params =
         new URLSearchParams(
           window.location.search
         );
 
+
       if (
         params.get("login") ===
         "success"
       ) {
+
         showNotice(
           "✅ Google 登入成功！"
         );
+
 
         history.replaceState(
           {},
           "",
           SITE_URL + "/"
         );
+
       }
+
     }
 
+
     function setLoggedOut() {
+
       currentUser = null;
+
 
       loginNav.style.display =
         "block";
 
+
       userBox.style.display =
         "none";
 
+
       homeLoginText.textContent =
         "目前尚未登入";
+
 
       homeLoginText.classList.remove(
         "green-text"
       );
 
+
       updateChatAccess();
 
+
       closeSocket();
+
     }
+
 
     /* =====================================================
        Logout
@@ -1711,6 +1995,7 @@
       async () => {
 
         try {
+
           await fetch(
             `${WORKER_URL}/logout`,
             {
@@ -1718,36 +2003,45 @@
                 "include",
             }
           );
+
         } catch (error) {
-          console.error(error);
+
+          console.error(
+            error
+          );
+
         }
 
+
         setLoggedOut();
+
 
         showNotice(
           "已登出"
         );
 
-        /*
-          重新確認 Cookie 是否真的被清除
-        */
 
         await checkLogin();
+
       }
     );
+
 
     /* =====================================================
        Chat access
     ===================================================== */
 
     function updateChatAccess() {
+
       if (currentUser) {
 
         chatLoginRequired.style.display =
           "none";
 
+
         chatLayout.style.display =
           "grid";
+
 
         loadChat();
 
@@ -1756,10 +2050,14 @@
         chatLoginRequired.style.display =
           "block";
 
+
         chatLayout.style.display =
           "none";
+
       }
+
     }
+
 
     /* =====================================================
        Chat close button
@@ -1768,16 +2066,22 @@
     closeChat.addEventListener(
       "click",
       () => {
-        chatLayout.style.display = "none";
+
+        chatLayout.style.display =
+          "none";
+
         closeSocket();
+
       }
     );
+
 
     /* =====================================================
        Channel
     ===================================================== */
 
     const channelNames = {
+
       server:
         "💬 伺服器聊天",
 
@@ -1786,7 +2090,9 @@
 
       announcement:
         "📢 公告",
+
     };
+
 
     document
       .querySelectorAll(
@@ -1803,42 +2109,54 @@
                 ".channel-btn"
               )
               .forEach((item) => {
+
                 item.classList.remove(
                   "active"
                 );
+
               });
+
 
             button.classList.add(
               "active"
             );
 
+
             currentChannel =
               button.dataset.channel;
+
 
             chatTitle.textContent =
               channelNames[
                 currentChannel
               ];
 
+
             loadChat();
+
           }
         );
+
       });
+
 
     /* =====================================================
        Load Chat
     ===================================================== */
 
     async function loadChat() {
+
       if (!currentUser) {
         return;
       }
+
 
       messages.innerHTML = `
         <div class="empty-chat">
           載入訊息中...
         </div>
       `;
+
 
       try {
 
@@ -1855,10 +2173,12 @@
             }
           );
 
+
         if (
           response.status ===
           401
         ) {
+
           setLoggedOut();
 
           showNotice(
@@ -1868,24 +2188,34 @@
           return;
         }
 
+
         if (!response.ok) {
+
           throw new Error(
             "Chat load failed"
           );
+
         }
+
 
         const data =
           await response.json();
+
 
         renderMessages(
           data.messages || []
         );
 
+
         connectSocket();
+
 
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
+
 
         messages.innerHTML = `
           <div class="empty-chat">
@@ -1893,21 +2223,26 @@
           </div>
         `;
 
+
         chatStatus.textContent =
           "連線失敗";
+
       }
+
     }
 
+
     /* =====================================================
-       Render
+       Render messages
     ===================================================== */
 
-    function renderMessages(
-      list
-    ) {
+    function renderMessages(list) {
+
       messages.innerHTML = "";
 
+
       if (!list.length) {
+
         messages.innerHTML = `
           <div class="empty-chat">
             目前還沒有訊息。
@@ -1917,28 +2252,34 @@
         return;
       }
 
+
       list.forEach(
         renderMessage
       );
 
+
       messages.scrollTop =
         messages.scrollHeight;
+
     }
 
-    function renderMessage(
-      message
-    ) {
+
+    function renderMessage(message) {
+
       const item =
         document.createElement(
           "div"
         );
 
+
       item.className =
         "message";
+
 
       const picture =
         message.user?.picture ||
         "";
+
 
       const avatarHtml =
         picture
@@ -1957,25 +2298,88 @@
             ></div>
           `;
 
+
+      const attachment =
+        message.attachment &&
+        typeof message.attachment ===
+          "object"
+          ? message.attachment
+          : null;
+
+
+      let attachmentHtml =
+        "";
+
+
+      if (
+        attachment &&
+        attachment.url
+      ) {
+
+        attachmentHtml = `
+          <div class="attachment-card">
+
+            <div class="attachment-icon">
+              📎
+            </div>
+
+            <div class="attachment-info">
+
+              <span
+                class="attachment-name"
+                title="${escapeHtml(
+                  attachment.name ||
+                  "檔案"
+                )}"
+              >
+                ${escapeHtml(
+                  attachment.name ||
+                  "檔案"
+                )}
+              </span>
+
+              <span class="attachment-size">
+                ${formatFileSize(
+                  attachment.size
+                )}
+              </span>
+
+            </div>
+
+            <a
+              class="attachment-download"
+              href="${escapeHtml(
+                attachment.url
+              )}"
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+            >
+              開啟
+            </a>
+
+          </div>
+        `;
+
+      }
+
+
       item.innerHTML = `
+
         ${avatarHtml}
 
         <div class="message-body">
 
           <div class="message-top">
 
-            <span
-              class="message-name"
-            >
+            <span class="message-name">
               ${escapeHtml(
                 message.user?.name ||
                 "Minecraft 玩家"
               )}
             </span>
 
-            <span
-              class="message-time"
-            >
+            <span class="message-time">
               ${formatTime(
                 message.createdAt
               )}
@@ -1983,30 +2387,42 @@
 
           </div>
 
-          <div
-            class="message-text"
-          >
-            ${escapeHtml(
-              message.text || ""
-            )}
-          </div>
+          ${
+            message.text
+              ? `
+                <div class="message-text">
+                  ${escapeHtml(
+                    message.text
+                  )}
+                </div>
+              `
+              : ""
+          }
+
+          ${attachmentHtml}
 
         </div>
+
       `;
+
 
       messages.appendChild(
         item
       );
+
     }
+
 
     /* =====================================================
        WebSocket
     ===================================================== */
 
     function connectSocket() {
+
       if (!currentUser) {
         return;
       }
+
 
       if (
         socket &&
@@ -2015,16 +2431,21 @@
         socketChannel ===
           currentChannel
       ) {
+
         return;
+
       }
 
+
       closeSocket();
+
 
       const workerHost =
         WORKER_URL.replace(
           /^https?:\/\//,
           ""
         );
+
 
       const wsUrl =
         `wss://${workerHost}` +
@@ -2033,18 +2454,22 @@
           currentChannel
         );
 
+
       console.log(
         "Connecting WebSocket:",
         wsUrl
       );
 
+
       socketChannel =
         currentChannel;
+
 
       socket =
         new WebSocket(
           wsUrl
         );
+
 
       socket.addEventListener(
         "open",
@@ -2053,14 +2478,9 @@
           chatStatus.textContent =
             "🟢 已連線";
 
-          /*
-            把登入者資料給 Worker。
-
-            Cookie 也會隨 WebSocket
-            request 自動送出。
-          */
 
           try {
+
             socket.send(
               JSON.stringify({
                 type:
@@ -2070,9 +2490,12 @@
                   currentUser,
               })
             );
+
           } catch {}
+
         }
       );
+
 
       socket.addEventListener(
         "message",
@@ -2085,52 +2508,72 @@
                 event.data
               );
 
+
             if (
-              message &&
-              message.text
+              !message
             ) {
-
-              /*
-                避免切換頻道後收到
-                舊頻道的訊息
-              */
-
-              if (
-                message.channel !==
-                currentChannel
-              ) {
-                return;
-              }
-
-              /*
-                如果目前畫面只有
-                「沒有訊息」，清掉它。
-              */
-
-              const empty =
-                messages.querySelector(
-                  ".empty-chat"
-                );
-
-              if (empty) {
-                empty.remove();
-              }
-
-              renderMessage(
-                message
-              );
-
-              messages.scrollTop =
-                messages.scrollHeight;
+              return;
             }
 
+
+            /*
+              防止切換頻道後，
+              收到其他頻道的訊息。
+            */
+
+            if (
+              message.channel &&
+              message.channel !==
+                currentChannel
+            ) {
+              return;
+            }
+
+
+            /*
+              文字訊息或檔案訊息
+              都要顯示。
+            */
+
+            if (
+              !message.text &&
+              !message.attachment
+            ) {
+              return;
+            }
+
+
+            const empty =
+              messages.querySelector(
+                ".empty-chat"
+              );
+
+
+            if (empty) {
+              empty.remove();
+            }
+
+
+            renderMessage(
+              message
+            );
+
+
+            messages.scrollTop =
+              messages.scrollHeight;
+
+
           } catch (error) {
+
             console.error(
               error
             );
+
           }
+
         }
       );
+
 
       socket.addEventListener(
         "close",
@@ -2142,6 +2585,7 @@
         }
       );
 
+
       socket.addEventListener(
         "error",
         () => {
@@ -2151,9 +2595,12 @@
 
         }
       );
+
     }
 
+
     function closeSocket() {
+
       if (socket) {
 
         try {
@@ -2161,10 +2608,14 @@
         } catch {}
 
         socket = null;
+
       }
 
+
       socketChannel = null;
+
     }
+
 
     /* =====================================================
        Send message
@@ -2176,19 +2627,31 @@
 
         event.preventDefault();
 
+
         if (!currentUser) {
+
           openLogin();
+
           return;
+
         }
+
 
         const text =
           messageInput.value.trim();
+
 
         if (!text) {
           return;
         }
 
-        messageInput.value = "";
+
+        /*
+          ★ 注意：
+          這裡不能一開始就清空輸入框。
+          要確定成功送出後才清。
+        */
+
 
         /*
           優先使用 WebSocket。
@@ -2202,23 +2665,45 @@
             currentChannel
         ) {
 
-          socket.send(
-            JSON.stringify({
-              type:
-                "message",
+          try {
 
-              text,
+            socket.send(
+              JSON.stringify({
+                type:
+                  "message",
 
-              user:
-                currentUser,
-            })
-          );
+                text,
 
-          return;
+                user:
+                  currentUser,
+              })
+            );
+
+
+            /*
+              WebSocket 成功送出後
+              才清空輸入框。
+            */
+
+            messageInput.value =
+              "";
+
+            return;
+
+          } catch (error) {
+
+            console.error(
+              "WebSocket send failed:",
+              error
+            );
+
+          }
+
         }
 
+
         /*
-          WebSocket 不可用時
+          WebSocket 不可用時，
           使用 REST fallback。
         */
 
@@ -2248,22 +2733,37 @@
               }
             );
 
+
           if (
             response.status ===
             401
           ) {
+
             setLoggedOut();
 
             openLogin();
 
             return;
+
           }
 
+
           if (!response.ok) {
+
             throw new Error(
               "send failed"
             );
+
           }
+
+
+          /*
+            REST 成功後才清空。
+          */
+
+          messageInput.value =
+            "";
+
 
         } catch (error) {
 
@@ -2271,24 +2771,28 @@
             error
           );
 
+
           showNotice(
-            "訊息發送失敗"
+            "訊息發送失敗，請稍後再試。"
           );
+
         }
+
       }
     );
 
+
     /* =====================================================
-       File UI
-       R2 尚未啟用，所以目前只是 UI。
+       File Upload
     ===================================================== */
 
     fileInput.addEventListener(
       "change",
-      () => {
+      async () => {
 
         const file =
           fileInput.files?.[0];
+
 
         if (!file) {
 
@@ -2296,21 +2800,207 @@
             "每個頻道都可以分享檔案";
 
           return;
+
         }
 
-        fileName.textContent =
-          `已選擇：${file.name}`;
 
         /*
-          現階段 R2 還沒開。
-          所以不直接假裝上傳成功。
+          Worker 目前設定單檔最大 25 MB。
         */
 
-        showNotice(
-          "檔案分享介面已準備好，但 Cloudflare R2 尚未啟用。"
-        );
+        if (
+          file.size >
+          25 * 1024 * 1024
+        ) {
+
+          fileName.textContent =
+            "檔案太大";
+
+          showNotice(
+            "檔案太大，單檔上限為 25 MB。"
+          );
+
+          fileInput.value =
+            "";
+
+          return;
+
+        }
+
+
+        if (!currentUser) {
+
+          fileInput.value =
+            "";
+
+          openLogin();
+
+          return;
+
+        }
+
+
+        fileName.textContent =
+          `上傳中：${file.name}`;
+
+
+        try {
+
+          const formData =
+            new FormData();
+
+
+          formData.append(
+            "file",
+            file
+          );
+
+
+          const response =
+            await fetch(
+              `${WORKER_URL}/api/upload?channel=${encodeURIComponent(
+                currentChannel
+              )}`,
+              {
+                method:
+                  "POST",
+
+                credentials:
+                  "include",
+
+                body:
+                  formData,
+              }
+            );
+
+
+          let data = null;
+
+
+          try {
+
+            data =
+              await response.json();
+
+          } catch {}
+
+
+          if (
+            response.status ===
+            401
+          ) {
+
+            setLoggedOut();
+
+            openLogin();
+
+            return;
+
+          }
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              data?.error ||
+              "檔案上傳失敗"
+            );
+
+          }
+
+
+          /*
+            Worker 會：
+
+            1. 上傳檔案
+            2. 建立 attachment message
+            3. 廣播給 WebSocket
+
+            如果 WebSocket 正常，
+            就等 WebSocket 廣播，
+            避免同一個檔案出現兩次。
+
+            如果 WebSocket 當下沒連線，
+            就直接把 Worker 回傳的 message
+            顯示在畫面上。
+          */
+
+          if (
+            data?.message &&
+            !(
+              socket &&
+              socket.readyState ===
+                WebSocket.OPEN &&
+              socketChannel ===
+                currentChannel
+            )
+          ) {
+
+            const empty =
+              messages.querySelector(
+                ".empty-chat"
+              );
+
+
+            if (empty) {
+              empty.remove();
+            }
+
+
+            renderMessage(
+              data.message
+            );
+
+
+            messages.scrollTop =
+              messages.scrollHeight;
+
+          }
+
+
+          fileName.textContent =
+            `已上傳：${file.name}`;
+
+
+          showNotice(
+            `✅ ${file.name} 上傳成功`
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "File upload failed:",
+            error
+          );
+
+
+          fileName.textContent =
+            "檔案上傳失敗";
+
+
+          showNotice(
+            error instanceof Error
+              ? error.message
+              : "檔案上傳失敗"
+          );
+
+
+        } finally {
+
+          /*
+            清除 input，
+            讓同一個檔案可以再次選取。
+          */
+
+          fileInput.value =
+            "";
+
+        }
+
       }
     );
+
 
     /* =====================================================
        Initial
@@ -2318,15 +3008,11 @@
 
     async function init() {
 
-      /*
-        如果 Google 登入回來，
-        先清理網址參數。
-      */
-
       const params =
         new URLSearchParams(
           window.location.search
         );
+
 
       if (
         params.get("logout") ===
@@ -2339,24 +3025,21 @@
           SITE_URL + "/"
         );
 
+
         showNotice(
           "已登出"
         );
+
       }
 
-      /*
-        ★ 最重要：
-        credentials: include
-
-        會讓瀏覽器把
-        .bols.dpdns.org 的 Cookie
-        帶給 auth.bols.dpdns.org。
-      */
 
       await checkLogin();
+
     }
 
+
     init();
+
   </script>
 
 </body>
