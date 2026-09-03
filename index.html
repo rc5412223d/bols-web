@@ -11,6 +11,206 @@
   <title>Minecraft 無垠伺服器</title>
 
   <style>
+    /* ==========================================
+   ★ 聊天室版面修正
+   輸入框固定在聊天室最底部
+========================================== */
+
+.chat-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+
+  /* 不再固定 600px */
+  height: calc(100vh - 130px);
+  min-height: 420px;
+
+  /* 不讓聊天室超出瀏覽器 */
+  max-height: calc(100vh - 130px);
+
+  background: rgba(15, 15, 15, 0.92);
+
+  border-radius: 15px;
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  min-height: 0;
+
+  height: 100%;
+}
+
+/* 中間訊息區自己滾動 */
+.messages {
+  flex: 1 1 auto;
+
+  min-height: 0;
+  height: 0;
+
+  padding: 12px 18px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 最下面輸入區永遠保留 */
+.chat-input-area {
+  flex: 0 0 auto;
+
+  min-height: 91px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  padding: 13px;
+
+  background: rgba(15, 15, 15, 0.98);
+}
+
+/* 檔案列不要被壓縮 */
+.file-bar {
+  flex: 0 0 auto;
+
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  min-height: 28px;
+  margin-bottom: 9px;
+
+  color: #999;
+  font-size: 12px;
+}
+
+/* 輸入列 */
+.chat-form {
+  display: flex;
+
+  gap: 9px;
+
+  width: 100%;
+}
+
+.chat-form input {
+  flex: 1 1 auto;
+
+  min-width: 0;
+  width: 0;
+
+  background: #222;
+  color: white;
+
+  border: 1px solid #444;
+  border-radius: 8px;
+
+  padding: 12px;
+
+  outline: none;
+}
+
+.send-btn {
+  flex: 0 0 auto;
+
+  min-width: 72px;
+
+  background: #4caf50;
+  color: white;
+
+  border: 0;
+  border-radius: 8px;
+
+  padding: 0 20px;
+
+  font-weight: bold;
+}
+
+/* ==========================================
+   螢幕高度比較矮時
+========================================== */
+
+@media (max-height: 700px) and (min-width: 761px) {
+
+  main {
+    padding-top: 18px;
+    padding-bottom: 25px;
+  }
+
+  .chat-layout {
+    height: calc(100vh - 105px);
+    max-height: calc(100vh - 105px);
+    min-height: 380px;
+  }
+
+  .chat-header {
+    min-height: 48px;
+  }
+
+  .messages {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .chat-input-area {
+    padding: 9px 11px;
+    min-height: 80px;
+  }
+
+  .file-bar {
+    margin-bottom: 6px;
+  }
+
+  .chat-form input {
+    padding: 10px;
+  }
+}
+
+/* ==========================================
+   手機版
+========================================== */
+
+@media (max-width: 760px) {
+
+  .chat-layout {
+    grid-template-columns: 1fr;
+
+    height: calc(100vh - 150px);
+    min-height: 420px;
+    max-height: calc(100vh - 150px);
+  }
+
+  .chat-panel {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .messages {
+    height: 0;
+    min-height: 0;
+  }
+
+  .chat-input-area {
+    min-height: 126px;
+    padding: 10px;
+  }
+
+  .chat-form {
+    flex-direction: column;
+  }
+
+  .chat-form input {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .send-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+}
     * {
       box-sizing: border-box;
     }
