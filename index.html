@@ -3573,18 +3573,18 @@
 
 
         sendVoiceSignal({
-          type:
-            "voice-answer",
+  type:
+    "voice-answer",
 
-          targetPeerId:
-            String(fromPeerId),
+  targetPeerId:
+    String(fromPeerId),
 
-          toPeerId:
-            String(fromPeerId),
+  toPeerId:
+    String(fromPeerId),
 
-          answer:
-            pc.localDescription
-        });
+  sdp:
+    pc.localDescription
+});
 
 
         return;
