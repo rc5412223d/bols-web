@@ -956,20 +956,19 @@
 
     #voiceAudioContainer {
       position: fixed;
-      left: 8px;
-      bottom: 8px;
-      width: 2px;
-      height: 2px;
+
+      width: 1px;
+      height: 1px;
+
+      left: -10000px;
+      top: -10000px;
+
       overflow: hidden;
-      opacity: 0.01;
-      pointer-events: none;
-      z-index: 2;
     }
 
     audio.remote-audio {
-      width: 2px;
-      height: 2px;
-      display: block;
+      width: 1px;
+      height: 1px;
     }
 
     /* =========================================================
@@ -1617,9 +1616,6 @@
 
     const voicePeers = new Map();
 
-    // ICE candidate 可能比 offer/answer 早到，先暫存避免遺失。
-    const voiceIceQueues = new Map();
-
     const voiceUsers = new Map();
 
     const remoteAudios = new Map();
@@ -1781,23 +1777,13 @@
           "no-referrer";
 
         img.onerror = () => {
-          const fallback =
-            (currentUser?.name || currentUser?.email || "玩家")
-              .trim()
-              .charAt(0)
-              .toUpperCase() || "🎮";
-          element.textContent = fallback;
+          element.textContent = "?";
         };
 
         element.appendChild(img);
 
       } else {
-        const fallback =
-          (currentUser?.name || currentUser?.email || "玩家")
-            .trim()
-            .charAt(0)
-            .toUpperCase() || "🎮";
-        element.textContent = fallback;
+        element.textContent = "?";
       }
     }
 
@@ -3248,8 +3234,6 @@
           voiceJoined =
             true;
 
-          soundVoiceBtn.disabled = false;
-
           voiceStatus.textContent =
             "已連線，等待其他玩家...";
 
@@ -3551,8 +3535,6 @@
           )
         );
 
-        await flushVoiceIceCandidates(String(fromPeerId), pc);
-
 
         /*
           確保本地麥克風軌道存在。
@@ -3573,18 +3555,18 @@
 
 
         sendVoiceSignal({
-  type:
-    "voice-answer",
+          type:
+            "voice-answer",
 
-  targetPeerId:
-    String(fromPeerId),
+          targetPeerId:
+            String(fromPeerId),
 
-  toPeerId:
-    String(fromPeerId),
+          toPeerId:
+            String(fromPeerId),
 
-  sdp:
-    pc.localDescription
-});
+          sdp:
+            pc.localDescription
+        });
 
 
         return;
@@ -3680,16 +3662,10 @@
 
         try {
 
-          if (!pc.remoteDescription) {
-            if (!voiceIceQueues.has(String(fromPeerId))) {
-              voiceIceQueues.set(String(fromPeerId), []);
-            }
-            voiceIceQueues.get(String(fromPeerId)).push(candidate);
-            return;
-          }
-
           await pc.addIceCandidate(
-            new RTCIceCandidate(candidate)
+            new RTCIceCandidate(
+              candidate
+            )
           );
 
         } catch (error) {
@@ -3733,23 +3709,6 @@
         return;
       }
 
-    }
-
-
-    async function flushVoiceIceCandidates(peerId, pc) {
-      const id = String(peerId);
-      const queue = voiceIceQueues.get(id) || [];
-      if (!queue.length || !pc.remoteDescription) return;
-
-      voiceIceQueues.delete(id);
-
-      for (const candidate of queue) {
-        try {
-          await pc.addIceCandidate(new RTCIceCandidate(candidate));
-        } catch (error) {
-          console.warn("Queued ICE candidate error:", error);
-        }
-      }
     }
 
 
@@ -4018,18 +3977,20 @@
 
 
         sendVoiceSignal({
-  type:
-    "voice-offer",
 
-  targetPeerId:
-    id,
+          type:
+            "voice-offer",
 
-  toPeerId:
-    id,
+          targetPeerId:
+            id,
 
-  sdp:
-    pc.localDescription
-});
+          toPeerId:
+            id,
+
+          sdp:
+            pc.localDescription
+
+        });
 
       } catch (error) {
 
@@ -4153,14 +4114,9 @@
       audio.srcObject =
         stream;
 
-      audio.autoplay = true;
-      audio.playsInline = true;
-      audio.muted = false;
-      audio.volume = 1;
-
 
       /*
-        先直接播放；若瀏覽器阻擋 autoplay，按「🔊 啟用聲音」即可。
+        先直接播放。
       */
 
       const playPromise =
@@ -4506,10 +4462,6 @@
 
 
       voiceUsers.delete(
-        id
-      );
-
-      voiceIceQueues.delete(
         id
       );
 
