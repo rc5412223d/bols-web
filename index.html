@@ -3537,7 +3537,8 @@
 
         const offer =
           data.offer ||
-          data.sdp;
+          data.sdp ||
+          data.payload;
 
         if (
           !fromPeerId ||
@@ -3641,7 +3642,8 @@
 
         const answer =
           data.answer ||
-          data.sdp;
+          data.sdp ||
+          data.payload;
 
         if (
           !fromPeerId ||
@@ -3708,7 +3710,8 @@
 
         const candidate =
           data.candidate ||
-          data.ice;
+          data.ice ||
+          data.payload;
 
         if (
           !fromPeerId ||
