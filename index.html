@@ -956,19 +956,20 @@
 
     #voiceAudioContainer {
       position: fixed;
-
-      width: 1px;
-      height: 1px;
-
-      left: -10000px;
-      top: -10000px;
-
+      left: 8px;
+      bottom: 8px;
+      width: 2px;
+      height: 2px;
       overflow: hidden;
+      opacity: 0.01;
+      pointer-events: none;
+      z-index: 2;
     }
 
     audio.remote-audio {
-      width: 1px;
-      height: 1px;
+      width: 2px;
+      height: 2px;
+      display: block;
     }
 
     /* =========================================================
@@ -1616,6 +1617,12 @@
 
     const voicePeers = new Map();
 
+    // ICE candidate 可能比 offer/answer 早到，先暫存避免遺失。
+    const voiceIceQueues = new Map();
+
+    // 防止同一個玩家同時重複建立 Offer
+    const voiceOfferLocks = new Set();
+
     const voiceUsers = new Map();
 
     const remoteAudios = new Map();
@@ -1777,13 +1784,23 @@
           "no-referrer";
 
         img.onerror = () => {
-          element.textContent = "?";
+          const fallback =
+            (currentUser?.name || currentUser?.email || "玩家")
+              .trim()
+              .charAt(0)
+              .toUpperCase() || "🎮";
+          element.textContent = fallback;
         };
 
         element.appendChild(img);
 
       } else {
-        element.textContent = "?";
+        const fallback =
+          (currentUser?.name || currentUser?.email || "玩家")
+            .trim()
+            .charAt(0)
+            .toUpperCase() || "🎮";
+        element.textContent = fallback;
       }
     }
 
@@ -3234,6 +3251,13 @@
           voiceJoined =
             true;
 
+          soundVoiceBtn.disabled = false;
+
+          console.log("VOICE: websocket opened", {
+            wsUrl,
+            readyState: voiceSocket.readyState
+          });
+
           voiceStatus.textContent =
             "已連線，等待其他玩家...";
 
@@ -3426,15 +3450,20 @@
               continue;
             }
 
+            const selfId = String(voicePeerId || "");
+            const remoteId = String(peerId);
+
+            console.log("VOICE: state participant", {
+              selfId,
+              remoteId,
+              shouldOffer: selfId < remoteId
+            });
+
             if (
-              String(voicePeerId) <
-              String(peerId)
+              selfId &&
+              selfId < remoteId
             ) {
-
-              await createVoiceOffer(
-                String(peerId)
-              );
-
+              await createVoiceOffer(remoteId);
             }
 
           }
@@ -3476,15 +3505,20 @@
         renderVoiceParticipants();
 
 
+        const selfId = String(voicePeerId || "");
+        const remoteId = String(peerId);
+
+        console.log("VOICE: join received", {
+          selfId,
+          remoteId,
+          shouldOffer: !!selfId && selfId < remoteId
+        });
+
         if (
-          String(voicePeerId) <
-          String(peerId)
+          selfId &&
+          selfId < remoteId
         ) {
-
-          await createVoiceOffer(
-            String(peerId)
-          );
-
+          await createVoiceOffer(remoteId);
         }
 
         return;
@@ -3509,8 +3543,14 @@
           !fromPeerId ||
           !offer
         ) {
+          console.warn("VOICE: invalid offer received", data);
           return;
         }
+
+        console.log("VOICE: offer received", {
+          fromPeerId: String(fromPeerId),
+          sdpLength: offer?.sdp?.length || 0
+        });
 
 
         voiceUsers.set(
@@ -3530,10 +3570,18 @@
 
 
         await pc.setRemoteDescription(
-          new RTCSessionDescription(
-            offer
-          )
+          new RTCSessionDescription({
+            type: offer.type,
+            sdp: offer.sdp
+          })
         );
+
+        console.log("VOICE: remote offer installed", {
+          fromPeerId: String(fromPeerId),
+          signalingState: pc.signalingState
+        });
+
+        await flushVoiceIceCandidates(String(fromPeerId), pc);
 
 
         /*
@@ -3554,18 +3602,26 @@
         );
 
 
-        sendVoiceSignal({
-          type:
-            "voice-answer",
+        const localAnswer = pc.localDescription;
 
-          targetPeerId:
-            String(fromPeerId),
+        if (!localAnswer || !localAnswer.sdp) {
+          throw new Error("answer 的 localDescription 沒有 SDP");
+        }
 
-          toPeerId:
-            String(fromPeerId),
+        const answerSent = sendVoiceSignal({
+          type: "voice-answer",
+          targetPeerId: String(fromPeerId),
+          toPeerId: String(fromPeerId),
+          sdp: {
+            type: localAnswer.type,
+            sdp: localAnswer.sdp
+          }
+        });
 
-          sdp:
-            pc.localDescription
+        console.log("VOICE: answer sent", {
+          targetPeerId: String(fromPeerId),
+          sent: answerSent,
+          sdpLength: localAnswer.sdp.length
         });
 
 
@@ -3591,8 +3647,14 @@
           !fromPeerId ||
           !answer
         ) {
+          console.warn("VOICE: invalid answer received", data);
           return;
         }
+
+        console.log("VOICE: answer received", {
+          fromPeerId: String(fromPeerId),
+          sdpLength: answer?.sdp?.length || 0
+        });
 
 
         const pc =
@@ -3617,10 +3679,16 @@
         ) {
 
           await pc.setRemoteDescription(
-            new RTCSessionDescription(
-              answer
-            )
+            new RTCSessionDescription({
+              type: answer.type,
+              sdp: answer.sdp
+            })
           );
+
+          console.log("VOICE: remote answer installed", {
+            fromPeerId: String(fromPeerId),
+            signalingState: pc.signalingState
+          });
 
         }
 
@@ -3662,10 +3730,16 @@
 
         try {
 
+          if (!pc.remoteDescription) {
+            if (!voiceIceQueues.has(String(fromPeerId))) {
+              voiceIceQueues.set(String(fromPeerId), []);
+            }
+            voiceIceQueues.get(String(fromPeerId)).push(candidate);
+            return;
+          }
+
           await pc.addIceCandidate(
-            new RTCIceCandidate(
-              candidate
-            )
+            new RTCIceCandidate(candidate)
           );
 
         } catch (error) {
@@ -3709,6 +3783,23 @@
         return;
       }
 
+    }
+
+
+    async function flushVoiceIceCandidates(peerId, pc) {
+      const id = String(peerId);
+      const queue = voiceIceQueues.get(id) || [];
+      if (!queue.length || !pc.remoteDescription) return;
+
+      voiceIceQueues.delete(id);
+
+      for (const candidate of queue) {
+        try {
+          await pc.addIceCandidate(new RTCIceCandidate(candidate));
+        } catch (error) {
+          console.warn("Queued ICE candidate error:", error);
+        }
+      }
     }
 
 
@@ -3927,78 +4018,88 @@
       peerId
     ) {
 
-      const id =
-        String(peerId);
+      const id = String(peerId);
 
-
-      if (
-        id ===
-        String(voicePeerId)
-      ) {
-        return;
+      if (!id || id === String(voicePeerId)) {
+        return false;
       }
 
+      if (
+        voiceOfferLocks.has(id)
+      ) {
+        console.log("VOICE: offer already in progress", id);
+        return false;
+      }
 
-      const pc =
-        getOrCreatePeerConnection(
-          id
-        );
+      voiceOfferLocks.add(id);
 
+      console.log("VOICE: creating offer", {
+        selfPeerId: voicePeerId,
+        targetPeerId: id
+      });
 
       try {
 
-        /*
-          避免已經在建立 Offer
-        */
+        const pc =
+          getOrCreatePeerConnection(id);
 
-        if (
-          pc.signalingState !==
-          "stable"
-        ) {
-          return;
+        if (pc.signalingState !== "stable") {
+          console.log(
+            "VOICE: cannot create offer, signaling state =",
+            pc.signalingState
+          );
+          return false;
         }
 
-
-        addLocalTracks(
-          pc
-        );
-
+        addLocalTracks(pc);
 
         const offer =
           await pc.createOffer({
-            offerToReceiveAudio:
-              true
+            offerToReceiveAudio: true
           });
 
-
-        await pc.setLocalDescription(
-          offer
-        );
-
-
-        sendVoiceSignal({
-
-          type:
-            "voice-offer",
-
-          targetPeerId:
-            id,
-
-          toPeerId:
-            id,
-
-          sdp:
-            pc.localDescription
-
+        console.log("VOICE: offer created", {
+          targetPeerId: id,
+          sdpLength: offer?.sdp?.length || 0
         });
+
+        await pc.setLocalDescription(offer);
+
+        const local = pc.localDescription;
+
+        if (!local || !local.sdp) {
+          throw new Error("localDescription 沒有 SDP");
+        }
+
+        const sent = sendVoiceSignal({
+          type: "voice-offer",
+          targetPeerId: id,
+          toPeerId: id,
+          sdp: {
+            type: local.type,
+            sdp: local.sdp
+          }
+        });
+
+        console.log("VOICE: offer sent", {
+          targetPeerId: id,
+          sent,
+          sdpLength: local.sdp.length
+        });
+
+        return sent;
 
       } catch (error) {
 
         console.error(
-          "Create voice offer error:",
+          "VOICE: create/send offer failed:",
           error
         );
 
+        return false;
+
+      } finally {
+        voiceOfferLocks.delete(id);
       }
 
     }
@@ -4028,6 +4129,14 @@
 
 
       try {
+
+        console.log("VOICE SIGNAL SEND:", {
+          type: data?.type,
+          targetPeerId: data?.targetPeerId,
+          hasSdp: !!data?.sdp,
+          sdpLength: data?.sdp?.sdp?.length || 0,
+          hasCandidate: !!data?.candidate
+        });
 
         voiceSocket.send(
           JSON.stringify(
@@ -4114,9 +4223,14 @@
       audio.srcObject =
         stream;
 
+      audio.autoplay = true;
+      audio.playsInline = true;
+      audio.muted = false;
+      audio.volume = 1;
+
 
       /*
-        先直接播放。
+        先直接播放；若瀏覽器阻擋 autoplay，按「🔊 啟用聲音」即可。
       */
 
       const playPromise =
@@ -4462,6 +4576,10 @@
 
 
       voiceUsers.delete(
+        id
+      );
+
+      voiceIceQueues.delete(
         id
       );
 
