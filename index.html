@@ -4018,20 +4018,18 @@
 
 
         sendVoiceSignal({
+  type:
+    "voice-offer",
 
-          type:
-            "voice-offer",
+  targetPeerId:
+    id,
 
-          targetPeerId:
-            id,
+  toPeerId:
+    id,
 
-          toPeerId:
-            id,
-
-          offer:
-            pc.localDescription
-
-        });
+  sdp:
+    pc.localDescription
+});
 
       } catch (error) {
 
