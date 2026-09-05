@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
   >
+
   <title>Minecraft 無垠伺服器</title>
 
   <style>
@@ -16,6 +17,7 @@
     html,
     body {
       margin: 0;
+      padding: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
@@ -24,16 +26,41 @@
         BlinkMacSystemFont,
         "Segoe UI",
         "Microsoft JhengHei",
-        Arial,
+        "Noto Sans TC",
         sans-serif;
-      color: #eee;
-      background: #081008;
+      background: #071008;
+      color: #e9f5eb;
     }
 
     body {
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
       background:
-        linear-gradient(rgba(5, 10, 6, .78), rgba(5, 10, 6, .88)),
-        url("minecraft_bg.png") center / cover fixed no-repeat;
+        linear-gradient(
+          rgba(5, 12, 7, 0.72),
+          rgba(5, 12, 7, 0.82)
+        ),
+        url("minecraft_bg.png") center / cover no-repeat;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(
+          circle at 50% 20%,
+          rgba(70, 180, 80, 0.08),
+          transparent 40%
+        );
+      pointer-events: none;
     }
 
     button,
@@ -47,7 +74,7 @@
     }
 
     a {
-      color: #6cc7ff;
+      color: #64cfff;
       text-decoration: none;
     }
 
@@ -55,27 +82,26 @@
       text-decoration: underline;
     }
 
-    /* =========================
-       Header
-    ========================= */
+    /* =========================================================
+       HEADER
+    ========================================================= */
 
-    header {
+    .topbar {
       position: fixed;
-      z-index: 1000;
-      top: 0;
       left: 0;
       right: 0;
-
+      top: 0;
       height: 70px;
+      z-index: 1000;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      padding: 0 28px;
+      padding: 0 50px;
 
-      background: rgba(7, 13, 9, .94);
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(8, 15, 10, 0.94);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       backdrop-filter: blur(12px);
     }
 
@@ -95,89 +121,71 @@
       align-items: center;
       justify-content: center;
 
-      background: #43b84b;
-      box-shadow: 0 4px 14px rgba(0,0,0,.35);
-
+      background: #42ad4d;
+      color: white;
       font-size: 24px;
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,0.25);
     }
 
     .brand-title {
-      font-size: 23px;
+      font-size: 21px;
       font-weight: 800;
       white-space: nowrap;
-      text-shadow: 0 2px 3px rgba(0,0,0,.6);
     }
 
-    nav {
+    .nav {
       display: flex;
       align-items: center;
-      gap: 7px;
-      height: 100%;
+      gap: 8px;
     }
 
-    nav button,
-    nav a {
+    .nav-btn {
       border: 0;
       background: transparent;
-      color: #eee;
+      color: #d8ded9;
 
-      height: 42px;
-      padding: 0 16px;
+      padding: 11px 16px;
       border-radius: 9px;
 
+      transition:
+        background 0.18s,
+        color 0.18s,
+        transform 0.18s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.08);
+      color: white;
+    }
+
+    .nav-btn.active {
+      background: rgba(45, 145, 61, 0.36);
+      color: #82e68c;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.97);
+    }
+
+    .user-area {
       display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    nav button:hover,
-    nav a:hover {
-      background: rgba(255,255,255,.08);
-      text-decoration: none;
-    }
-
-    nav .active {
-      background: #1e5526;
-      color: #fff;
-    }
-
-    .user-box {
-      display: none;
       align-items: center;
       gap: 9px;
-      margin-left: 3px;
+      margin-left: 5px;
     }
 
-    .user-box.show {
-      display: flex;
-    }
-
-    .avatar {
+    .user-avatar {
       width: 34px;
       height: 34px;
       border-radius: 50%;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      overflow: hidden;
-      flex: 0 0 auto;
-
-      background: #444;
-      color: white;
-      font-weight: 800;
-      border: 1px solid rgba(255,255,255,.18);
-    }
-
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      display: block;
       object-fit: cover;
+
+      border: 1px solid rgba(255,255,255,0.25);
+      background: #444;
+      flex-shrink: 0;
     }
 
     .user-name {
@@ -185,46 +193,65 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+
+      color: #dce9df;
       font-size: 14px;
     }
 
-    #logoutBtn {
+    .logout-btn {
       position: relative;
       z-index: 1100;
 
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.06);
-      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: #e5e5e5;
 
-      height: 36px;
-      padding: 0 12px;
+      padding: 9px 13px;
       border-radius: 8px;
 
       pointer-events: auto;
     }
 
-    #logoutBtn:hover {
-      background: rgba(255,255,255,.13);
+    .logout-btn:hover {
+      background: rgba(200,70,70,0.22);
+      border-color: rgba(255,100,100,0.35);
     }
 
-    /* =========================
-       Main
-    ========================= */
+    .login-btn {
+      border: 0;
+      background: #42ad4d;
+      color: white;
 
-    main {
+      padding: 10px 15px;
+      border-radius: 8px;
+
+      font-weight: 700;
+    }
+
+    .login-btn:hover {
+      background: #51bf5d;
+    }
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    .main {
       position: fixed;
       top: 70px;
+      left: 0;
       right: 0;
       bottom: 0;
-      left: 0;
 
       overflow: hidden;
     }
 
     .page {
       display: none;
+
       width: 100%;
       height: 100%;
+
       overflow: hidden;
     }
 
@@ -232,232 +259,316 @@
       display: block;
     }
 
-    /* =========================
-       Home
-    ========================= */
+    /* =========================================================
+       HOME
+    ========================================================= */
 
-    #page-home {
+    .home-page {
       overflow-y: auto;
-      padding: 35px;
+      overflow-x: hidden;
+      padding: 55px 8% 70px;
     }
 
     .hero {
-      width: min(1100px, 100%);
-      margin: 20px auto 30px;
+      max-width: 1100px;
+      margin: 0 auto 35px;
 
-      padding: 48px 40px;
+      padding: 48px 45px;
 
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px;
 
-      background: rgba(8, 15, 10, .82);
-      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      background: rgba(7, 15, 9, 0.72);
+      backdrop-filter: blur(9px);
 
-      text-align: center;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.3);
     }
 
     .hero h1 {
-      margin: 0 0 12px;
-      font-size: clamp(30px, 5vw, 54px);
-      font-weight: 900;
+      margin: 0 0 14px;
+
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.1;
+
+      color: #e9ffe9;
     }
 
     .hero p {
       margin: 0;
-      color: #aaa;
-      font-size: 16px;
+
+      color: #aebcaf;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      margin-bottom: 20px;
+
+      padding: 7px 12px;
+
+      border-radius: 999px;
+
+      background: rgba(50,170,70,0.16);
+      color: #74e985;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #52d866;
+      box-shadow: 0 0 12px rgba(82,216,102,0.8);
     }
 
     .home-grid {
-      width: min(1100px, 100%);
-      margin: 0 auto 40px;
+      max-width: 1100px;
+      margin: 0 auto;
 
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
       gap: 18px;
     }
 
     .info-card {
-      padding: 25px;
+      min-height: 170px;
 
-      border-radius: 17px;
-      border: 1px solid rgba(255,255,255,.09);
+      padding: 24px;
 
-      background: rgba(8, 15, 10, .84);
-      box-shadow: 0 12px 35px rgba(0,0,0,.24);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+
+      background: rgba(8,16,10,0.76);
+      backdrop-filter: blur(9px);
+
+      box-shadow:
+        0 12px 35px rgba(0,0,0,0.20);
     }
 
-    .info-card h3 {
-      margin: 0 0 15px;
-      font-size: 19px;
+    .info-icon {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .info-title {
+      color: #b7c6ba;
+      font-size: 14px;
+      margin-bottom: 8px;
     }
 
     .info-value {
-      color: #aaa;
-      word-break: break-word;
-      line-height: 1.7;
-    }
-
-    .online {
-      color: #54d66b;
-      font-weight: 800;
+      font-size: 18px;
+      font-weight: 700;
+      word-break: break-all;
     }
 
     .copy-value {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
+      cursor: pointer;
     }
 
-    .copy-btn {
-      border: 0;
-      background: #277735;
-      color: white;
-      border-radius: 7px;
-      padding: 7px 10px;
+    .copy-value:hover {
+      color: #74d7ff;
     }
 
-    /* =========================
-       Chat
-    ========================= */
-
-    #page-chat {
-      padding: 12px 50px 18px;
-      overflow: hidden;
-    }
-
-    .chat-shell {
-      width: min(1250px, 100%);
-      height: 100%;
-      margin: 0 auto;
-
-      display: flex;
-      flex-direction: column;
-
-      min-height: 0;
-
-      background: rgba(8, 14, 10, .91);
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 17px;
-
-      overflow: hidden;
-      box-shadow: 0 15px 50px rgba(0,0,0,.38);
-    }
+    /* =========================================================
+       LOGIN NOTICE
+    ========================================================= */
 
     .login-required {
-      flex: 1;
-      min-height: 0;
+      height: 100%;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
+      padding: 25px;
+    }
+
+    .login-box {
+      width: min(480px, 100%);
+
+      padding: 45px 30px;
+
       text-align: center;
-      padding: 30px;
+
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+
+      background: rgba(7,15,9,0.82);
+      backdrop-filter: blur(12px);
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.35);
     }
 
-    .login-required-box {
-      max-width: 450px;
+    .login-box-icon {
+      font-size: 50px;
+      margin-bottom: 12px;
     }
 
-    .login-required-box h2 {
+    .login-box h2 {
       margin: 0 0 10px;
     }
 
-    .login-required-box p {
-      color: #999;
+    .login-box p {
+      color: #aab8ac;
       line-height: 1.7;
+      margin-bottom: 25px;
     }
 
-    .google-login {
-      border: 0;
-      border-radius: 9px;
+    /* =========================================================
+       CHAT PAGE
+    ========================================================= */
 
-      background: #fff;
-      color: #222;
-
-      padding: 11px 18px;
-      font-weight: 700;
+    .chat-page {
+      padding: 18px;
     }
 
-    .chat-app {
-      flex: 1;
+    .chat-shell {
+      width: min(1250px, 100%);
+      height: 100%;
+
+      margin: 0 auto;
+
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+
       min-height: 0;
 
-      display: flex;
-      flex-direction: column;
+      border-radius: 15px;
+      overflow: hidden;
+
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(6,13,8,0.88);
+
+      box-shadow:
+        0 20px 70px rgba(0,0,0,0.35);
     }
 
-    .chat-toolbar {
-      flex: 0 0 auto;
+    .channel-sidebar {
+      min-width: 0;
+      min-height: 0;
 
-      min-height: 58px;
-      padding: 9px 13px;
+      padding: 16px 10px;
 
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      background: rgba(5,11,7,0.88);
+      border-right: 1px solid rgba(255,255,255,0.07);
 
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.025);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
 
-      overflow-x: auto;
-      scrollbar-width: thin;
+    .sidebar-title {
+      padding: 8px 10px 13px;
+
+      color: #8e9b91;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
     }
 
     .channel-btn {
-      flex: 0 0 auto;
+      width: 100%;
+
+      display: flex;
+      align-items: center;
 
       border: 0;
+      background: transparent;
+
+      color: #aeb9b0;
+
+      padding: 11px 12px;
+      margin-bottom: 4px;
+
       border-radius: 8px;
 
-      padding: 9px 13px;
+      text-align: left;
 
-      background: transparent;
-      color: #aaa;
-
-      font-weight: 700;
+      transition:
+        background 0.15s,
+        color 0.15s;
     }
 
     .channel-btn:hover {
-      background: rgba(255,255,255,.06);
-      color: #eee;
-    }
-
-    .channel-btn.active {
-      background: #245b2b;
+      background: rgba(255,255,255,0.06);
       color: white;
     }
 
-    .channel-title {
-      margin-left: auto;
-      padding-right: 8px;
-
-      color: #aaa;
-      font-size: 13px;
-      white-space: nowrap;
+    .channel-btn.active {
+      background: rgba(54,158,66,0.25);
+      color: #7ce889;
     }
 
-    /* 這裡是聊天室真正的內建上下滑區域 */
-    .messages {
-      flex: 1 1 auto;
+    .channel-icon {
+      width: 25px;
+      flex-shrink: 0;
+    }
+
+    .chat-main {
+      min-width: 0;
       min-height: 0;
+
+      display: grid;
+      grid-template-rows: 54px minmax(0, 1fr) 72px;
+
+      overflow: hidden;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+
+      padding: 0 18px;
+
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+
+      background: rgba(10,19,12,0.72);
+    }
+
+    .chat-header-title {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .chat-header-status {
+      margin-left: 12px;
+
+      color: #77857a;
+      font-size: 12px;
+    }
+
+    /*
+      重要：
+      這裡是聊天室真正的內部滾動區。
+      不使用整個瀏覽器的 scrollbar。
+    */
+
+    .messages {
+      min-height: 0;
+      min-width: 0;
 
       overflow-y: auto;
       overflow-x: hidden;
 
-      padding: 16px 17px 22px;
+      padding: 18px;
 
       overscroll-behavior: contain;
-      -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
-
-      scrollbar-color: rgba(255,255,255,.25) transparent;
+      scrollbar-color: #3c5141 transparent;
     }
 
     .messages::-webkit-scrollbar {
-      width: 9px;
+      width: 8px;
     }
 
     .messages::-webkit-scrollbar-track {
@@ -465,85 +576,72 @@
     }
 
     .messages::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,.23);
-      border-radius: 10px;
+      background: #3c5141;
+      border-radius: 8px;
     }
 
     .messages::-webkit-scrollbar-thumb:hover {
-      background: rgba(255,255,255,.35);
+      background: #4e6752;
     }
 
     .message {
       display: flex;
-      align-items: flex-start;
       gap: 11px;
 
-      padding: 9px 5px;
-      border-radius: 10px;
-    }
+      margin-bottom: 17px;
 
-    .message:hover {
-      background: rgba(255,255,255,.025);
+      min-width: 0;
     }
 
     .message-avatar {
       width: 38px;
       height: 38px;
-      border-radius: 50%;
 
       flex: 0 0 38px;
 
-      overflow: hidden;
+      border-radius: 50%;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: #414141;
-      color: #fff;
-
-      font-size: 15px;
-      font-weight: 800;
-
-      border: 1px solid rgba(255,255,255,.12);
-    }
-
-    .message-avatar img {
-      width: 100%;
-      height: 100%;
       object-fit: cover;
-      display: block;
+
+      background: #3f4440;
+
+      border: 1px solid rgba(255,255,255,0.12);
     }
 
     .message-content {
       min-width: 0;
-      flex: 1;
+      max-width: calc(100% - 50px);
     }
 
     .message-meta {
       display: flex;
       align-items: baseline;
+      flex-wrap: wrap;
       gap: 8px;
 
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
     .message-name {
-      color: #55d66b;
+      color: #71e27e;
+      font-size: 14px;
       font-weight: 800;
     }
 
     .message-time {
-      color: #777;
+      color: #707a72;
       font-size: 11px;
     }
 
     .message-text {
-      color: #eee;
-      line-height: 1.55;
+      color: #e2e9e3;
+
       white-space: pre-wrap;
-      overflow-wrap: anywhere;
       word-break: break-word;
+
+      line-height: 1.55;
+
+      font-size: 14px;
     }
 
     .attachment {
@@ -551,24 +649,25 @@
       align-items: center;
       gap: 7px;
 
-      max-width: min(100%, 500px);
+      max-width: min(600px, 100%);
 
-      margin-top: 7px;
-      padding: 9px 12px;
+      margin-top: 5px;
 
-      border-radius: 9px;
+      padding: 9px 11px;
 
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
+      border-radius: 8px;
 
-      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+
+      color: #74d7ff;
+
+      word-break: break-all;
     }
 
-    .attachment a {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .attachment:hover {
+      background: rgba(255,255,255,0.09);
+      text-decoration: none;
     }
 
     .empty-chat {
@@ -578,239 +677,242 @@
       align-items: center;
       justify-content: center;
 
-      color: #666;
+      color: #68756b;
       text-align: center;
     }
 
     .chat-input-area {
-      flex: 0 0 auto;
+      min-width: 0;
 
-      display: flex;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
       gap: 8px;
+
+      align-items: center;
 
       padding: 12px;
 
-      border-top: 1px solid rgba(255,255,255,.08);
-      background: rgba(5,10,7,.96);
+      border-top: 1px solid rgba(255,255,255,0.07);
+
+      background: rgba(5,11,7,0.95);
     }
 
-    .file-label {
-      flex: 0 0 auto;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      min-width: 76px;
+    .file-btn {
+      height: 46px;
 
       border: 0;
       border-radius: 8px;
 
-      background: #292d2a;
-      color: #eee;
+      background: rgba(255,255,255,0.09);
+      color: #d4dbd5;
 
-      padding: 0 12px;
-
-      cursor: pointer;
-      font-weight: 700;
+      padding: 0 14px;
     }
 
-    .file-label:hover {
-      background: #353936;
+    .file-btn:hover {
+      background: rgba(255,255,255,0.14);
+    }
+
+    .message-input {
+      width: 100%;
+      height: 46px;
+
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 8px;
+
+      outline: none;
+
+      padding: 0 13px;
+
+      background: rgba(255,255,255,0.04);
+      color: white;
+    }
+
+    .message-input:focus {
+      border-color: rgba(81,190,91,0.55);
+      background: rgba(255,255,255,0.055);
+    }
+
+    .message-input::placeholder {
+      color: #68736b;
+    }
+
+    .send-btn {
+      height: 46px;
+
+      border: 0;
+      border-radius: 8px;
+
+      background: #42ad4d;
+      color: white;
+
+      padding: 0 18px;
+
+      font-weight: 800;
+    }
+
+    .send-btn:hover {
+      background: #50be5a;
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     #fileInput {
       display: none;
     }
 
-    #messageInput {
-      flex: 1;
-      min-width: 0;
+    /* =========================================================
+       VOICE
+    ========================================================= */
 
-      height: 46px;
+    .voice-page {
+      padding: 25px;
 
-      border: 1px solid rgba(255,255,255,.13);
-      border-radius: 9px;
-
-      outline: none;
-
-      background: rgba(255,255,255,.025);
-      color: #fff;
-
-      padding: 0 13px;
-    }
-
-    #messageInput:focus {
-      border-color: rgba(76, 190, 91, .65);
-    }
-
-    #sendBtn {
-      flex: 0 0 auto;
-
-      min-width: 63px;
-
-      border: 0;
-      border-radius: 9px;
-
-      background: #3fb34d;
-      color: white;
-
-      font-weight: 800;
-      padding: 0 14px;
-    }
-
-    #sendBtn:hover {
-      background: #4bc75a;
-    }
-
-    #sendBtn:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-
-    .upload-status {
-      flex: 0 0 auto;
-
-      display: none;
-
-      padding: 6px 13px;
-
-      color: #aaa;
-      font-size: 12px;
-
-      border-top: 1px solid rgba(255,255,255,.05);
-      background: rgba(255,255,255,.015);
-    }
-
-    .upload-status.show {
-      display: block;
-    }
-
-    /* =========================
-       Voice
-    ========================= */
-
-    #page-voice {
-      padding: 12px 50px 18px;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .voice-shell {
       width: min(900px, 100%);
-      height: 100%;
       margin: 0 auto;
+
+      min-height: 100%;
 
       display: flex;
       flex-direction: column;
-
-      min-height: 0;
-
-      background: rgba(8,14,10,.91);
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 17px;
-
-      overflow: hidden;
-      box-shadow: 0 15px 50px rgba(0,0,0,.38);
     }
 
-    .voice-header {
-      flex: 0 0 auto;
+    .voice-card {
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
 
-      padding: 24px;
+      background: rgba(7,15,9,0.82);
+      backdrop-filter: blur(12px);
 
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding: 30px;
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.30);
     }
 
-    .voice-header h2 {
-      margin: 0 0 7px;
-    }
-
-    .voice-header p {
-      margin: 0;
-      color: #888;
-    }
-
-    .voice-body {
-      flex: 1;
-      min-height: 0;
-
-      overflow-y: auto;
-
-      padding: 25px;
-
-      scrollbar-width: thin;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .voice-room-card {
-      padding: 20px;
-
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 13px;
-
-      background: rgba(255,255,255,.025);
-    }
-
-    .voice-room-title {
+    .voice-title-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
 
-      font-size: 20px;
-      font-weight: 800;
+      gap: 15px;
+
+      margin-bottom: 25px;
+    }
+
+    .voice-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .voice-title-icon {
+      font-size: 32px;
+    }
+
+    .voice-title h2 {
+      margin: 0;
     }
 
     .voice-status {
-      margin-top: 8px;
-      color: #777;
+      padding: 7px 11px;
+
+      border-radius: 999px;
+
+      background: rgba(255,255,255,0.06);
+      color: #9aa69c;
+
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .voice-status.connected {
+      color: #75e783;
+      background: rgba(55,160,65,0.16);
+    }
+
+    .voice-room {
+      border-radius: 14px;
+
+      padding: 20px;
+
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+
+      margin-bottom: 18px;
+    }
+
+    .voice-room-name {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .voice-room-desc {
+      color: #78847a;
       font-size: 13px;
     }
 
-    .voice-actions {
+    .voice-controls {
       display: flex;
       flex-wrap: wrap;
-      gap: 9px;
+      gap: 10px;
 
-      margin-top: 18px;
+      margin-bottom: 22px;
     }
 
     .voice-btn {
       border: 0;
-      border-radius: 8px;
+      border-radius: 9px;
 
-      padding: 10px 15px;
+      padding: 11px 16px;
 
-      background: #2d7537;
-      color: white;
-
-      font-weight: 800;
+      background: rgba(255,255,255,0.08);
+      color: #e2e8e3;
     }
 
     .voice-btn:hover {
-      background: #398e44;
+      background: rgba(255,255,255,0.13);
     }
 
-    .voice-btn.secondary {
-      background: #303330;
+    .voice-btn.primary {
+      background: #42ad4d;
+      color: white;
+      font-weight: 800;
+    }
+
+    .voice-btn.primary:hover {
+      background: #50be5a;
     }
 
     .voice-btn.danger {
-      background: #7b3535;
+      background: rgba(190,60,60,0.18);
+      color: #ff9898;
     }
 
     .voice-btn:disabled {
-      opacity: .45;
+      opacity: 0.45;
       cursor: not-allowed;
     }
 
     .participants-title {
-      margin: 28px 0 10px;
-      color: #aaa;
-      font-size: 14px;
+      color: #95a097;
+      font-size: 12px;
       font-weight: 800;
+      letter-spacing: 0.8px;
+
+      margin-bottom: 10px;
     }
 
-    #participants {
+    .participants {
       display: flex;
       flex-direction: column;
       gap: 7px;
@@ -821,173 +923,278 @@
       align-items: center;
       gap: 10px;
 
-      padding: 9px 10px;
+      padding: 10px 12px;
 
       border-radius: 9px;
 
-      background: rgba(255,255,255,.035);
+      background: rgba(255,255,255,0.035);
     }
 
-    .participant .avatar {
+    .participant-avatar {
       width: 34px;
       height: 34px;
+
+      border-radius: 50%;
+      object-fit: cover;
+
+      background: #444;
+      border: 1px solid rgba(255,255,255,0.10);
     }
 
     .participant-name {
       min-width: 0;
+
       flex: 1;
 
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+
+      color: #e2e9e3;
+      font-size: 14px;
     }
 
-    .mic-indicator {
-      color: #54d66b;
-      font-size: 13px;
+    .participant-state {
+      color: #6fdb7b;
+      font-size: 12px;
     }
 
     .voice-help {
-      margin-top: 18px;
-      padding: 13px;
+      margin-top: 20px;
+
+      padding: 13px 15px;
 
       border-radius: 9px;
 
-      color: #888;
-      font-size: 12px;
-      line-height: 1.65;
+      background: rgba(255,190,60,0.07);
+      border: 1px solid rgba(255,190,60,0.12);
 
-      background: rgba(255,255,255,.025);
+      color: #aaa28a;
+
+      font-size: 12px;
+      line-height: 1.7;
     }
 
-    /* =========================
-       Notice
-    ========================= */
+    /*
+      遠端 audio 不需要顯示播放器。
+      但不能 display:none，否則部分瀏覽器可能不播放。
+    */
 
-    #notice {
+    #remoteAudioContainer {
       position: fixed;
-      z-index: 2000;
+      width: 1px;
+      height: 1px;
 
-      left: 50%;
-      bottom: 24px;
+      left: -100px;
+      top: -100px;
 
-      transform: translateX(-50%) translateY(20px);
+      overflow: hidden;
+      opacity: 0.01;
+      pointer-events: none;
+    }
 
-      max-width: min(90vw, 500px);
+    #remoteAudioContainer audio {
+      width: 1px;
+      height: 1px;
+    }
 
-      padding: 11px 16px;
+    /* =========================================================
+       NOTICE
+    ========================================================= */
 
-      border-radius: 9px;
+    .notice {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
 
-      background: rgba(20,25,21,.96);
-      border: 1px solid rgba(255,255,255,.12);
+      z-index: 3000;
 
-      color: #eee;
+      max-width: min(420px, calc(100vw - 40px));
 
+      padding: 13px 16px;
+
+      border-radius: 10px;
+
+      background: rgba(20,28,22,0.96);
+      border: 1px solid rgba(255,255,255,0.12);
+
+      color: #e7eee8;
+
+      box-shadow:
+        0 10px 35px rgba(0,0,0,0.35);
+
+      transform: translateY(20px);
       opacity: 0;
       pointer-events: none;
 
       transition:
-        opacity .2s ease,
-        transform .2s ease;
+        opacity 0.2s,
+        transform 0.2s;
     }
 
-    #notice.show {
+    .notice.show {
+      transform: translateY(0);
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
     }
 
-    /* =========================
-       Responsive
-    ========================= */
+    /* =========================================================
+       MOBILE
+    ========================================================= */
 
-    @media (max-width: 900px) {
-      header {
-        padding: 0 13px;
-      }
-
-      .brand-title {
-        font-size: 18px;
-      }
-
-      nav button,
-      nav a {
-        padding: 0 9px;
-      }
-
-      .user-name {
-        display: none;
-      }
-
-      #page-chat,
-      #page-voice {
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 10px;
-      }
-
-      .home-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 650px) {
-      header {
-        height: 62px;
-      }
-
-      main {
-        top: 62px;
-      }
-
-      .brand-icon {
-        width: 35px;
-        height: 35px;
-        font-size: 20px;
+    @media (max-width: 850px) {
+      .topbar {
+        padding: 0 14px;
       }
 
       .brand-title {
         font-size: 16px;
       }
 
-      nav {
-        gap: 2px;
+      .brand-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 21px;
       }
 
-      nav button,
-      nav a {
-        height: 38px;
-        padding: 0 7px;
+      .nav {
+        gap: 3px;
+      }
+
+      .nav-btn {
+        padding: 9px 10px;
         font-size: 13px;
       }
 
-      #loginNav {
+      .user-name {
         display: none;
+      }
+
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+      }
+
+      .logout-btn {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
+      .home-page {
+        padding: 25px 14px 50px;
       }
 
       .hero {
-        padding: 35px 20px;
+        padding: 30px 22px;
       }
 
-      #page-home {
-        padding: 18px 12px;
+      .home-grid {
+        grid-template-columns: 1fr;
       }
 
-      .chat-shell,
-      .voice-shell {
-        border-radius: 11px;
+      .chat-page {
+        padding: 8px;
       }
 
-      .channel-title {
+      .chat-shell {
+        grid-template-columns: 65px minmax(0, 1fr);
+        border-radius: 10px;
+      }
+
+      .channel-sidebar {
+        padding: 10px 5px;
+      }
+
+      .sidebar-title {
         display: none;
       }
 
-      .messages {
-        padding: 10px 9px 15px;
+      .channel-btn {
+        justify-content: center;
+        padding: 12px 4px;
       }
 
-      .message {
-        gap: 8px;
+      .channel-btn span:last-child {
+        display: none;
+      }
+
+      .channel-icon {
+        width: auto;
+        font-size: 20px;
+      }
+
+      .chat-main {
+        grid-template-rows: 48px minmax(0, 1fr) 66px;
+      }
+
+      .chat-header {
+        padding: 0 12px;
+      }
+
+      .messages {
+        padding: 13px 10px;
+      }
+
+      .chat-input-area {
+        grid-template-columns: auto minmax(0,1fr) auto;
+        padding: 8px;
+        gap: 5px;
+      }
+
+      .file-btn {
+        padding: 0 9px;
+        font-size: 12px;
+      }
+
+      .message-input {
+        height: 43px;
+        min-width: 0;
+      }
+
+      .send-btn {
+        height: 43px;
+        padding: 0 12px;
+      }
+
+      .voice-page {
+        padding: 12px;
+      }
+
+      .voice-card {
+        padding: 20px;
+      }
+
+      .voice-title-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .brand-title {
+        max-width: 155px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .nav-btn {
+        font-size: 0;
+      }
+
+      .nav-btn:first-child {
+        font-size: 13px;
+      }
+
+      .nav-btn:nth-child(2) {
+        font-size: 20px;
+      }
+
+      .nav-btn:nth-child(3) {
+        font-size: 20px;
+      }
+
+      .login-btn,
+      .logout-btn {
+        font-size: 12px;
       }
 
       .message-avatar {
@@ -996,45 +1203,8 @@
         flex-basis: 34px;
       }
 
-      .chat-input-area {
-        padding: 8px;
-      }
-
-      .file-label {
-        min-width: 53px;
-        padding: 0 8px;
-        font-size: 13px;
-      }
-
-      #sendBtn {
-        min-width: 55px;
-        padding: 0 9px;
-      }
-
-      .voice-body {
-        padding: 15px;
-      }
-    }
-
-    @media (max-width: 430px) {
-      .brand-title {
-        max-width: 125px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      nav button,
-      nav a {
-        font-size: 12px;
-        padding: 0 5px;
-      }
-
-      #logoutBtn {
-        padding: 0 8px;
-      }
-
-      .message-time {
-        font-size: 10px;
+      .message-content {
+        max-width: calc(100% - 45px);
       }
     }
   </style>
@@ -1042,163 +1212,207 @@
 
 <body>
 
-  <!-- =========================
-       Header
-  ========================= -->
+  <!-- =========================================================
+       HEADER
+  ========================================================== -->
 
-  <header>
+  <header class="topbar">
+
     <div class="brand">
       <div class="brand-icon">⛏️</div>
       <div class="brand-title">Minecraft 無垠伺服器</div>
     </div>
 
-    <nav>
-      <a
-        href="#"
-        id="homeNav"
-        class="active"
-        data-page="home"
+    <nav class="nav">
+
+      <button
+        type="button"
+        class="nav-btn active"
+        id="navHome"
       >
         首頁
-      </a>
+      </button>
 
-      <a
-        href="#"
-        id="chatNav"
-        data-page="chat"
+      <button
+        type="button"
+        class="nav-btn"
+        id="navChat"
       >
         💬 聊天
-      </a>
+      </button>
 
-      <a
-        href="#"
-        id="voiceNav"
-        data-page="voice"
+      <button
+        type="button"
+        class="nav-btn"
+        id="navVoice"
       >
         🎙️ 語音
-      </a>
+      </button>
 
-      <a
-        href="https://discord.gg/ucMJ35Qk55"
-        target="_blank"
-        rel="noopener"
-      >
-        Discord
-      </a>
-
-      <a
-        href="#"
-        id="loginNav"
-      >
-        登入
-      </a>
+      <div id="loginNav">
+        <button
+          type="button"
+          class="login-btn"
+          id="loginBtn"
+        >
+          登入
+        </button>
+      </div>
 
       <div
-        class="user-box"
         id="userBox"
+        class="user-area"
+        style="display:none;"
       >
-        <div
-          class="avatar"
-          id="headerAvatar"
+        <img
+          id="userAvatar"
+          class="user-avatar"
+          src=""
+          alt="頭像"
         >
-          ?
-        </div>
 
-        <div
+        <span
+          id="userName"
           class="user-name"
-          id="headerUserName"
         >
-          使用者
-        </div>
+          玩家
+        </span>
 
         <button
           type="button"
           id="logoutBtn"
+          class="logout-btn"
         >
           登出
         </button>
       </div>
+
     </nav>
+
   </header>
 
-  <!-- =========================
-       Main
-  ========================= -->
 
-  <main>
+  <!-- =========================================================
+       MAIN
+  ========================================================== -->
 
-    <!-- =====================
+  <main class="main">
+
+    <!-- =======================================================
          HOME
-    ====================== -->
+    ======================================================== -->
 
     <section
       id="page-home"
-      class="page active"
+      class="page active home-page"
     >
 
       <div class="hero">
-        <h1>Minecraft 無垠伺服器</h1>
+
+        <div class="status">
+          <span class="status-dot"></span>
+          伺服器在線
+        </div>
+
+        <h1>
+          Minecraft 無垠伺服器
+        </h1>
+
         <p>
-          歡迎來到我們的 Minecraft 世界
+          歡迎來到 Minecraft 無垠伺服器。
+          <br>
+          登入後可以使用聊天室與語音頻道。
         </p>
+
       </div>
+
 
       <div class="home-grid">
 
         <div class="info-card">
-          <h3>🟢 伺服器狀態</h3>
+          <div class="info-icon">🌐</div>
+          <div class="info-title">
+            Minecraft IP
+          </div>
 
-          <div class="info-value">
-            <span class="online">● 在線</span>
+          <div
+            class="info-value copy-value"
+            id="minecraftIp"
+            title="點擊複製"
+          >
+            mc.bols.dpdns.org
           </div>
         </div>
 
+
         <div class="info-card">
-          <h3>🌎 BlueMap</h3>
+          <div class="info-icon">🗺️</div>
+          <div class="info-title">
+            BlueMap
+          </div>
 
           <div class="info-value">
             <a
               href="http://tw-6.cs-nodes.net:30723"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
-              http://tw-6.cs-nodes.net:30723
+              開啟地圖
             </a>
           </div>
         </div>
 
+
         <div class="info-card">
-          <h3>⛏️ Minecraft IP</h3>
-
-          <div class="copy-value">
-            <span
-              class="info-value"
-              id="minecraftIp"
-            >
-              mc.bols.dpdns.org
-            </span>
-
-            <button
-              type="button"
-              class="copy-btn"
-              data-copy="mc.bols.dpdns.org"
-            >
-              複製
-            </button>
+          <div class="info-icon">💬</div>
+          <div class="info-title">
+            Discord
           </div>
-        </div>
-
-        <div class="info-card">
-          <h3>💬 Discord</h3>
 
           <div class="info-value">
             <a
               href="https://discord.gg/ucMJ35Qk55"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               加入 Discord
             </a>
+          </div>
+        </div>
+
+
+        <div class="info-card">
+          <div class="info-icon">🟢</div>
+          <div class="info-title">
+            伺服器狀態
+          </div>
+
+          <div class="info-value">
+            在線
+          </div>
+        </div>
+
+
+        <div class="info-card">
+          <div class="info-icon">💬</div>
+          <div class="info-title">
+            文字頻道
+          </div>
+
+          <div class="info-value">
+            3 個頻道
+          </div>
+        </div>
+
+
+        <div class="info-card">
+          <div class="info-icon">🔊</div>
+          <div class="info-title">
+            語音頻道
+          </div>
+
+          <div class="info-value">
+            大廳
           </div>
         </div>
 
@@ -1206,134 +1420,162 @@
 
     </section>
 
-    <!-- =====================
+
+    <!-- =======================================================
          CHAT
-    ====================== -->
+    ======================================================== -->
 
     <section
       id="page-chat"
-      class="page"
+      class="page chat-page"
     >
 
-      <div class="chat-shell">
+      <div
+        id="chatLoginRequired"
+        class="login-required"
+      >
 
-        <!-- 未登入 -->
-        <div
-          id="chatLoginRequired"
-          class="login-required"
-        >
-          <div class="login-required-box">
+        <div class="login-box">
 
-            <h2>🔒 請先登入</h2>
-
-            <p>
-              聊天功能需要登入 Google 帳號後才能使用。
-            </p>
-
-            <button
-              type="button"
-              class="google-login"
-              id="chatLoginBtn"
-            >
-              使用 Google 登入
-            </button>
-
+          <div class="login-box-icon">
+            🔐
           </div>
+
+          <h2>
+            請先登入
+          </h2>
+
+          <p>
+            登入 Google 帳號後才能使用聊天室。
+          </p>
+
+          <button
+            type="button"
+            class="login-btn"
+            id="chatLoginBtn"
+          >
+            使用 Google 登入
+          </button>
+
         </div>
 
-        <!-- 聊天 -->
-        <div
-          id="chatApp"
-          class="chat-app"
-          style="display:none;"
-        >
+      </div>
 
-          <div class="chat-toolbar">
 
-            <button
-              type="button"
-              class="channel-btn active"
-              data-channel="server"
-            >
-              💬 伺服器聊天
-            </button>
+      <div
+        id="chatShell"
+        class="chat-shell"
+        style="display:none;"
+      >
 
-            <button
-              type="button"
-              class="channel-btn"
-              data-channel="litematica"
-            >
-              🧱 Litematica
-            </button>
+        <!-- CHANNEL SIDEBAR -->
 
-            <button
-              type="button"
-              class="channel-btn"
-              data-channel="announcement"
-            >
-              📢 公告
-            </button>
+        <aside class="channel-sidebar">
+
+          <div class="sidebar-title">
+            文字頻道
+          </div>
+
+          <button
+            type="button"
+            class="channel-btn active"
+            data-channel="server"
+          >
+            <span class="channel-icon">💬</span>
+            <span>伺服器聊天</span>
+          </button>
+
+          <button
+            type="button"
+            class="channel-btn"
+            data-channel="litematica"
+          >
+            <span class="channel-icon">📐</span>
+            <span>Litematica</span>
+          </button>
+
+          <button
+            type="button"
+            class="channel-btn"
+            data-channel="announcement"
+          >
+            <span class="channel-icon">📢</span>
+            <span>公告</span>
+          </button>
+
+        </aside>
+
+
+        <!-- CHAT MAIN -->
+
+        <div class="chat-main">
+
+          <div class="chat-header">
 
             <div
-              class="channel-title"
-              id="channelTitle"
+              id="chatChannelTitle"
+              class="chat-header-title"
             >
-              伺服器聊天
+              # 伺服器聊天
+            </div>
+
+            <div
+              id="chatConnectionStatus"
+              class="chat-header-status"
+            >
+              連線中...
             </div>
 
           </div>
 
+
           <!--
-            重要：
-            只有這個區域 overflow-y:auto
-            因此聊天室自己上下滑，
-            不會讓整個瀏覽器頁面一起滑。
+            這裡是聊天室自己的 scrollbar
           -->
+
           <div
             id="messages"
             class="messages"
           >
             <div class="empty-chat">
-              載入聊天紀錄中……
+              載入聊天紀錄中...
             </div>
           </div>
 
-          <div
-            class="upload-status"
-            id="uploadStatus"
-          >
-            上傳中……
-          </div>
+
+          <!-- INPUT -->
 
           <form
-            class="chat-input-area"
             id="chatForm"
+            class="chat-input-area"
           >
-
-            <label
-              class="file-label"
-              for="fileInput"
-              title="上傳檔案"
-            >
-              📎 檔案
-            </label>
 
             <input
               type="file"
               id="fileInput"
             >
 
+            <button
+              type="button"
+              id="fileBtn"
+              class="file-btn"
+            >
+              📎 檔案
+            </button>
+
             <input
               type="text"
               id="messageInput"
-              placeholder="輸入訊息……"
+              class="message-input"
+              maxlength="2000"
               autocomplete="off"
-              maxlength="4000"
+              placeholder="輸入訊息......"
             >
 
             <button
               type="submit"
               id="sendBtn"
+              class="send-btn"
             >
               傳送
             </button>
@@ -1346,95 +1588,161 @@
 
     </section>
 
-    <!-- =====================
+
+    <!-- =======================================================
          VOICE
-    ====================== -->
+    ======================================================== -->
 
     <section
       id="page-voice"
-      class="page"
+      class="page voice-page"
     >
 
-      <div class="voice-shell">
+      <div
+        id="voiceLoginRequired"
+        class="login-required"
+      >
 
-        <div class="voice-header">
-          <h2>🎙️ 語音頻道</h2>
+        <div class="login-box">
+
+          <div class="login-box-icon">
+            🎙️
+          </div>
+
+          <h2>
+            請先登入
+          </h2>
 
           <p>
-            語音頻道：🔊 大廳
+            登入 Google 帳號後才能加入語音頻道。
           </p>
+
+          <button
+            type="button"
+            class="login-btn"
+            id="voiceLoginBtn"
+          >
+            使用 Google 登入
+          </button>
+
         </div>
 
-        <div class="voice-body">
+      </div>
 
-          <div class="voice-room-card">
 
-            <div class="voice-room-title">
-              🔊 大廳
+      <div
+        id="voiceShell"
+        class="voice-shell"
+        style="display:none;"
+      >
+
+        <div class="voice-card">
+
+          <div class="voice-title-row">
+
+            <div class="voice-title">
+
+              <div class="voice-title-icon">
+                🎙️
+              </div>
+
+              <div>
+                <h2>
+                  語音頻道
+                </h2>
+              </div>
+
             </div>
 
             <div
-              class="voice-status"
               id="voiceStatus"
+              class="voice-status"
+            >
+              尚未加入
+            </div>
+
+          </div>
+
+
+          <div class="voice-room">
+
+            <div class="voice-room-name">
+              🔊 大廳
+            </div>
+
+            <div class="voice-room-desc">
+              Minecraft 無垠伺服器語音頻道
+            </div>
+
+          </div>
+
+
+          <div class="voice-controls">
+
+            <button
+              type="button"
+              id="joinVoiceBtn"
+              class="voice-btn primary"
+            >
+              🎙️ 加入大廳
+            </button>
+
+            <button
+              type="button"
+              id="leaveVoiceBtn"
+              class="voice-btn danger"
+              disabled
+            >
+              🚪 離開語音
+            </button>
+
+            <button
+              type="button"
+              id="muteBtn"
+              class="voice-btn"
+              disabled
+            >
+              🎤 靜音
+            </button>
+
+            <button
+              type="button"
+              id="soundBtn"
+              class="voice-btn"
+              disabled
+            >
+              🔊 啟用聲音
+            </button>
+
+          </div>
+
+
+          <div class="participants-title">
+            語音成員
+          </div>
+
+          <div
+            id="participants"
+            class="participants"
+          >
+
+            <div
+              style="
+                color:#68756b;
+                font-size:13px;
+                padding:10px 0;
+              "
             >
               尚未加入語音
             </div>
 
-            <div class="voice-actions">
+          </div>
 
-              <button
-                type="button"
-                class="voice-btn"
-                id="joinVoiceBtn"
-              >
-                🎙️ 加入語音
-              </button>
 
-              <button
-                type="button"
-                class="voice-btn secondary"
-                id="enableSoundBtn"
-                disabled
-              >
-                🔊 啟用聲音
-              </button>
-
-              <button
-                type="button"
-                class="voice-btn secondary"
-                id="muteVoiceBtn"
-                disabled
-              >
-                🎤 靜音
-              </button>
-
-              <button
-                type="button"
-                class="voice-btn danger"
-                id="leaveVoiceBtn"
-                disabled
-              >
-                🚪 離開語音
-              </button>
-
-            </div>
-
-            <div class="participants-title">
-              語音中的玩家
-            </div>
-
-            <div id="participants">
-              <div style="color:#666;">
-                目前沒有人
-              </div>
-            </div>
-
-            <div class="voice-help">
-              第一次加入語音時，瀏覽器會要求麥克風權限。
-              <br>
-              如果已加入但聽不到其他人，請按「🔊 啟用聲音」。
-            </div>
-
+          <div class="voice-help">
+            如果加入語音後聽不到聲音，先按一次「🔊 啟用聲音」。
+            <br>
+            第一次使用麥克風時，瀏覽器會要求允許麥克風權限。
           </div>
 
         </div>
@@ -1445,16 +1753,22 @@
 
   </main>
 
-  <!-- =========================
-       Notice
-  ========================= -->
 
-  <div id="notice"></div>
+  <!-- =========================================================
+       REMOTE AUDIO
+  ========================================================== -->
 
-  <!--
-    WebRTC 遠端音訊會動態加入這裡
-  -->
-  <div id="remoteAudios"></div>
+  <div id="remoteAudioContainer"></div>
+
+
+  <!-- =========================================================
+       NOTICE
+  ========================================================== -->
+
+  <div
+    id="notice"
+    class="notice"
+  ></div>
 
 
   <script>
@@ -1462,51 +1776,61 @@
        基本設定
     ========================================================= */
 
-    const WORKER_URL = "https://auth.bols.dpdns.org";
-    const SITE_URL = "https://bols.dpdns.org";
+    const WORKER_URL =
+      "https://auth.bols.dpdns.org";
 
-    const CHANNEL_NAMES = {
-      server: "伺服器聊天",
-      litematica: "Litematica",
-      announcement: "公告"
-    };
+    const SITE_URL =
+      "https://bols.dpdns.org";
 
-    let currentUser = null;
-    let currentChannel = "server";
-
-    let chatSocket = null;
-    let chatSocketChannel = null;
-
-    const renderedMessageIds = new Set();
 
     /* =========================================================
        DOM
     ========================================================= */
 
-    const pages = {
-      home: document.getElementById("page-home"),
-      chat: document.getElementById("page-chat"),
-      voice: document.getElementById("page-voice")
-    };
+    const navHome =
+      document.getElementById("navHome");
 
-    const homeNav = document.getElementById("homeNav");
-    const chatNav = document.getElementById("chatNav");
-    const voiceNav = document.getElementById("voiceNav");
-    const loginNav = document.getElementById("loginNav");
+    const navChat =
+      document.getElementById("navChat");
 
-    const userBox = document.getElementById("userBox");
-    const headerAvatar = document.getElementById("headerAvatar");
-    const headerUserName = document.getElementById("headerUserName");
-    const logoutBtn = document.getElementById("logoutBtn");
+    const navVoice =
+      document.getElementById("navVoice");
+
+    const loginNav =
+      document.getElementById("loginNav");
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+    const userBox =
+      document.getElementById("userBox");
+
+    const userAvatar =
+      document.getElementById("userAvatar");
+
+    const userName =
+      document.getElementById("userName");
+
+    const logoutBtn =
+      document.getElementById("logoutBtn");
 
     const chatLoginRequired =
       document.getElementById("chatLoginRequired");
 
-    const chatApp =
-      document.getElementById("chatApp");
+    const chatShell =
+      document.getElementById("chatShell");
+
+    const voiceLoginRequired =
+      document.getElementById("voiceLoginRequired");
+
+    const voiceShell =
+      document.getElementById("voiceShell");
 
     const chatLoginBtn =
       document.getElementById("chatLoginBtn");
+
+    const voiceLoginBtn =
+      document.getElementById("voiceLoginBtn");
 
     const messagesEl =
       document.getElementById("messages");
@@ -1520,34 +1844,437 @@
     const sendBtn =
       document.getElementById("sendBtn");
 
+    const fileBtn =
+      document.getElementById("fileBtn");
+
     const fileInput =
       document.getElementById("fileInput");
 
-    const uploadStatus =
-      document.getElementById("uploadStatus");
+    const chatChannelTitle =
+      document.getElementById("chatChannelTitle");
 
-    const channelTitle =
-      document.getElementById("channelTitle");
+    const chatConnectionStatus =
+      document.getElementById(
+        "chatConnectionStatus"
+      );
+
+    const minecraftIp =
+      document.getElementById("minecraftIp");
 
     const noticeEl =
       document.getElementById("notice");
 
 
     /* =========================================================
-       小工具
+       STATE
     ========================================================= */
 
-    function showNotice(text) {
+    let currentUser = null;
+
+    let currentPage = "home";
+
+    let currentChannel = "server";
+
+    let chatSocket = null;
+
+    let chatSocketChannel = null;
+
+    let chatSocketGeneration = 0;
+
+    let messagesLoaded = false;
+
+    let renderedMessageIds =
+      new Set();
+
+    let localPendingMessages =
+      new Map();
+
+
+    /* =========================================================
+       NOTICE
+    ========================================================= */
+
+    let noticeTimer = null;
+
+    function showNotice(
+      text,
+      duration = 3000
+    ) {
       noticeEl.textContent = text;
+
       noticeEl.classList.add("show");
 
-      clearTimeout(showNotice.timer);
+      clearTimeout(noticeTimer);
 
-      showNotice.timer = setTimeout(() => {
-        noticeEl.classList.remove("show");
-      }, 2600);
+      noticeTimer =
+        setTimeout(() => {
+          noticeEl.classList.remove(
+            "show"
+          );
+        }, duration);
     }
 
+
+    /* =========================================================
+       LOGIN
+    ========================================================= */
+
+    function goLogin() {
+      window.location.href =
+        WORKER_URL + "/login";
+    }
+
+
+    loginBtn.addEventListener(
+      "click",
+      goLogin
+    );
+
+    chatLoginBtn.addEventListener(
+      "click",
+      goLogin
+    );
+
+    voiceLoginBtn.addEventListener(
+      "click",
+      goLogin
+    );
+
+
+    /* =========================================================
+       USER
+    ========================================================= */
+
+    function makeDefaultAvatar(
+      name = "?"
+    ) {
+      const letter =
+        String(name || "?")
+          .trim()
+          .charAt(0)
+          .toUpperCase() || "?";
+
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="80"
+             height="80"
+             viewBox="0 0 80 80">
+          <rect
+            width="80"
+            height="80"
+            rx="40"
+            fill="#414741"
+          />
+          <text
+            x="40"
+            y="51"
+            text-anchor="middle"
+            font-size="36"
+            font-family="Arial"
+            fill="white"
+          >${escapeHtml(letter)}</text>
+        </svg>
+      `;
+
+      return (
+        "data:image/svg+xml;charset=UTF-8," +
+        encodeURIComponent(svg)
+      );
+    }
+
+
+    function getUserPicture(user) {
+      if (!user) {
+        return makeDefaultAvatar("?");
+      }
+
+      return (
+        user.picture ||
+        user.avatar ||
+        makeDefaultAvatar(
+          user.name ||
+          user.email ||
+          "?"
+        )
+      );
+    }
+
+
+    function setLoggedIn(user) {
+      currentUser = user;
+
+      loginNav.style.display =
+        "none";
+
+      userBox.style.display =
+        "flex";
+
+      userAvatar.src =
+        getUserPicture(user);
+
+      userAvatar.onerror = () => {
+        userAvatar.onerror = null;
+
+        userAvatar.src =
+          makeDefaultAvatar(
+            user?.name || "?"
+          );
+      };
+
+      userName.textContent =
+        user.name ||
+        user.email ||
+        "Minecraft 玩家";
+
+      chatLoginRequired.style.display =
+        "none";
+
+      chatShell.style.display =
+        "grid";
+
+      voiceLoginRequired.style.display =
+        "none";
+
+      voiceShell.style.display =
+        "block";
+    }
+
+
+    function setLoggedOut() {
+      currentUser = null;
+
+      loginNav.style.display =
+        "block";
+
+      userBox.style.display =
+        "none";
+
+      chatLoginRequired.style.display =
+        "flex";
+
+      chatShell.style.display =
+        "none";
+
+      voiceLoginRequired.style.display =
+        "flex";
+
+      voiceShell.style.display =
+        "none";
+
+      disconnectChat();
+
+      leaveVoice();
+
+      renderedMessageIds.clear();
+
+      localPendingMessages.clear();
+    }
+
+
+    async function checkLogin() {
+      try {
+        const response =
+          await fetch(
+            WORKER_URL + "/me",
+            {
+              method: "GET",
+              credentials: "include",
+              cache: "no-store"
+            }
+          );
+
+        if (!response.ok) {
+          setLoggedOut();
+          return false;
+        }
+
+        const data =
+          await response.json();
+
+        /*
+          支援：
+          {user: {...}}
+          {loggedIn:true,user:{...}}
+          直接回傳 user
+        */
+
+        const user =
+          data?.user ||
+          (
+            data &&
+            (
+              data.sub ||
+              data.email ||
+              data.name
+            )
+              ? data
+              : null
+          );
+
+        if (user) {
+          setLoggedIn(user);
+          return true;
+        }
+
+        setLoggedOut();
+        return false;
+
+      } catch (error) {
+        console.error(
+          "checkLogin:",
+          error
+        );
+
+        setLoggedOut();
+        return false;
+      }
+    }
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    logoutBtn.addEventListener(
+      "click",
+      async () => {
+
+        /*
+          先關掉語音與聊天。
+        */
+
+        disconnectChat();
+
+        leaveVoice();
+
+        try {
+          await fetch(
+            WORKER_URL + "/logout",
+            {
+              method: "GET",
+              credentials: "include",
+              cache: "no-store"
+            }
+          );
+        } catch (error) {
+          console.error(
+            "logout:",
+            error
+          );
+        }
+
+        setLoggedOut();
+
+        showNotice("已登出");
+
+        /*
+          不強制重新整理。
+          避免按鈕因頁面 reload 看起來像壞掉。
+        */
+
+        await checkLogin();
+      }
+    );
+
+
+    /* =========================================================
+       PAGE SWITCH
+    ========================================================= */
+
+    function switchPage(page) {
+
+      currentPage = page;
+
+      document
+        .querySelectorAll(".page")
+        .forEach(el => {
+          el.classList.remove("active");
+        });
+
+      const target =
+        document.getElementById(
+          "page-" + page
+        );
+
+      if (target) {
+        target.classList.add("active");
+      }
+
+      navHome.classList.remove(
+        "active"
+      );
+
+      navChat.classList.remove(
+        "active"
+      );
+
+      navVoice.classList.remove(
+        "active"
+      );
+
+      if (page === "home") {
+        navHome.classList.add(
+          "active"
+        );
+      }
+
+      if (page === "chat") {
+        navChat.classList.add(
+          "active"
+        );
+
+        if (currentUser) {
+          loadChat();
+        }
+      }
+
+      if (page === "voice") {
+        navVoice.classList.add(
+          "active"
+        );
+
+        if (currentUser) {
+          updateVoiceUI();
+        }
+      }
+    }
+
+
+    navHome.addEventListener(
+      "click",
+      () => switchPage("home")
+    );
+
+    navChat.addEventListener(
+      "click",
+      async () => {
+        switchPage("chat");
+
+        if (!currentUser) {
+          showNotice(
+            "請先登入 Google 帳號"
+          );
+        }
+      }
+    );
+
+    navVoice.addEventListener(
+      "click",
+      () => {
+        switchPage("voice");
+
+        if (!currentUser) {
+          showNotice(
+            "請先登入 Google 帳號"
+          );
+        }
+      }
+    );
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -1559,624 +2286,139 @@
     }
 
 
-    function getUserName(user) {
-      if (!user) return "未知玩家";
+    /* =========================================================
+       TIME
+    ========================================================= */
 
-      return (
-        user.name ||
-        user.displayName ||
-        user.username ||
-        user.email ||
-        "未知玩家"
-      );
-    }
+    function formatTime(value) {
 
+      let date;
 
-    function getUserAvatar(user) {
-      if (!user) return "";
-
-      return (
-        user.picture ||
-        user.avatar ||
-        user.avatarUrl ||
-        user.photo ||
-        ""
-      );
-    }
-
-
-    function getInitial(name) {
-      const text = String(name || "?").trim();
-
-      if (!text) {
-        return "?";
-      }
-
-      return Array.from(text)[0];
-    }
-
-
-    function makeAvatarHtml(user, className = "message-avatar") {
-      const name = getUserName(user);
-      const avatar = getUserAvatar(user);
-
-      if (avatar) {
-        return `
-          <div class="${className}">
-            <img
-              src="${escapeHtml(avatar)}"
-              alt=""
-              referrerpolicy="no-referrer"
-              onerror="this.style.display='none';this.parentElement.textContent='${escapeHtml(getInitial(name))}'"
-            >
-          </div>
-        `;
-      }
-
-      return `
-        <div class="${className}">
-          ${escapeHtml(getInitial(name))}
-        </div>
-      `;
-    }
-
-
-    function getMessageUser(data) {
-      if (!data) {
-        return {};
-      }
-
-      return (
-        data.user ||
-        data.author ||
-        data.sender ||
-        data.profile ||
-        {}
-      );
-    }
-
-
-    function getMessageText(data) {
-      if (!data) return "";
-
-      if (typeof data.text === "string") {
-        return data.text;
+      if (
+        typeof value === "number"
+      ) {
+        date =
+          new Date(value);
+      } else {
+        date =
+          new Date(value);
       }
 
       if (
-        typeof data.content === "string"
+        Number.isNaN(
+          date.getTime()
+        )
       ) {
-        return data.content;
+        return "";
       }
 
-      if (
-        typeof data.message === "string"
-      ) {
-        return data.message;
-      }
-
-      if (
-        data.message &&
-        typeof data.message.text === "string"
-      ) {
-        return data.message.text;
-      }
-
-      return "";
-    }
-
-
-    function getMessageObject(data) {
-      if (!data) return null;
-
-      if (
-        data.message &&
-        typeof data.message === "object"
-      ) {
-        return data.message;
-      }
-
-      return data;
-    }
-
-
-    function getAttachment(data) {
-      if (!data) return null;
-
-      const obj = getMessageObject(data);
-
-      return (
-        obj.attachment ||
-        obj.file ||
-        data.attachment ||
-        data.file ||
-        null
-      );
-    }
-
-
-    function getTime(data) {
-      const obj = getMessageObject(data);
-
-      const raw =
-        obj.createdAt ||
-        obj.created_at ||
-        obj.timestamp ||
-        data.createdAt ||
-        data.created_at ||
-        data.timestamp;
-
-      if (!raw) {
-        return new Date();
-      }
-
-      const date = new Date(raw);
-
-      if (Number.isNaN(date.getTime())) {
-        return new Date();
-      }
-
-      return date;
-    }
-
-
-    function formatTime(date) {
-      try {
-        return date.toLocaleString("zh-TW", {
+      return date.toLocaleString(
+        "zh-TW",
+        {
           month: "numeric",
           day: "numeric",
           hour: "2-digit",
           minute: "2-digit"
-        });
-      } catch {
-        return "";
-      }
-    }
-
-
-    function getMessageId(data) {
-      const obj = getMessageObject(data);
-
-      return (
-        obj.id ||
-        obj.messageId ||
-        obj.uuid ||
-        data.id ||
-        null
+        }
       );
     }
 
 
-    function scrollMessages(force = false) {
-      if (!messagesEl) return;
-
-      const distance =
-        messagesEl.scrollHeight -
-        messagesEl.scrollTop -
-        messagesEl.clientHeight;
-
-      if (
-        force ||
-        distance < 180
-      ) {
-        requestAnimationFrame(() => {
-          messagesEl.scrollTop =
-            messagesEl.scrollHeight;
-        });
-      }
-    }
-
-
     /* =========================================================
-       頁面切換
+       CHAT CHANNEL
     ========================================================= */
 
-    function setPage(pageName) {
-      Object.entries(pages).forEach(([name, el]) => {
-        el.classList.toggle(
-          "active",
-          name === pageName
-        );
-      });
+    const CHANNEL_NAMES = {
+      server: "伺服器聊天",
+      litematica: "Litematica",
+      announcement: "公告"
+    };
 
-      [homeNav, chatNav, voiceNav].forEach(el => {
-        el.classList.remove("active");
-      });
-
-      if (pageName === "home") {
-        homeNav.classList.add("active");
-      }
-
-      if (pageName === "chat") {
-        chatNav.classList.add("active");
-
-        if (currentUser) {
-          loadChatHistory();
-          connectChatSocket();
-        }
-      }
-
-      if (pageName === "voice") {
-        voiceNav.classList.add("active");
-      }
-    }
-
-
-    homeNav.addEventListener("click", event => {
-      event.preventDefault();
-      setPage("home");
-    });
-
-
-    chatNav.addEventListener("click", event => {
-      event.preventDefault();
-      setPage("chat");
-    });
-
-
-    voiceNav.addEventListener("click", event => {
-      event.preventDefault();
-      setPage("voice");
-    });
-
-
-    /* =========================================================
-       登入
-    ========================================================= */
-
-    function setLoggedOut() {
-      currentUser = null;
-
-      loginNav.style.display = "flex";
-      userBox.classList.remove("show");
-
-      headerAvatar.innerHTML = "?";
-      headerUserName.textContent = "使用者";
-
-      chatLoginRequired.style.display = "flex";
-      chatApp.style.display = "none";
-
-      disconnectChatSocket();
-
-      messagesEl.innerHTML = `
-        <div class="empty-chat">
-          請登入後使用聊天室
-        </div>
-      `;
-    }
-
-
-    function setLoggedIn(user) {
-      currentUser = user;
-
-      loginNav.style.display = "none";
-      userBox.classList.add("show");
-
-      const name = getUserName(user);
-      const avatar = getUserAvatar(user);
-
-      headerUserName.textContent = name;
-
-      if (avatar) {
-        headerAvatar.innerHTML = `
-          <img
-            src="${escapeHtml(avatar)}"
-            alt=""
-            referrerpolicy="no-referrer"
-            onerror="this.style.display='none';this.parentElement.textContent='${escapeHtml(getInitial(name))}'"
-          >
-        `;
-      } else {
-        headerAvatar.textContent =
-          getInitial(name);
-      }
-
-      chatLoginRequired.style.display = "none";
-      chatApp.style.display = "flex";
-    }
-
-
-    async function checkLogin() {
-      try {
-        const response = await fetch(
-          `${WORKER_URL}/me`,
-          {
-            method: "GET",
-            credentials: "include",
-            cache: "no-store"
-          }
-        );
-
-        if (!response.ok) {
-          setLoggedOut();
-          return false;
-        }
-
-        const data = await response.json();
-
-        if (
-          data &&
-          (
-            data.loggedIn === true ||
-            data.user ||
-            data.email
-          )
-        ) {
-          currentUser =
-            data.user ||
-            data;
-
-          setLoggedIn(currentUser);
-
-          return true;
-        }
-
-        setLoggedOut();
-        return false;
-
-      } catch (error) {
-        console.error("Login check error:", error);
-
-        setLoggedOut();
-        return false;
-      }
-    }
-
-
-    loginNav.addEventListener("click", event => {
-      event.preventDefault();
-
-      window.location.href =
-        `${WORKER_URL}/login`;
-    });
-
-
-    chatLoginBtn.addEventListener("click", () => {
-      window.location.href =
-        `${WORKER_URL}/login`;
-    });
-
-
-    /*
-      登出直接跳 Worker，
-      避免按鈕被其他元素或事件攔截。
-    */
-    logoutBtn.addEventListener("click", () => {
-      window.location.href =
-        `${WORKER_URL}/logout`;
-    });
-
-
-    /* =========================================================
-       聊天頻道
-    ========================================================= */
 
     document
-      .querySelectorAll(".channel-btn")
+      .querySelectorAll(
+        ".channel-btn"
+      )
       .forEach(button => {
 
-        button.addEventListener("click", () => {
+        button.addEventListener(
+          "click",
+          async () => {
 
-          const channel =
-            button.dataset.channel;
+            const channel =
+              button.dataset.channel;
 
-          if (!channel) return;
+            if (
+              !channel ||
+              channel ===
+                currentChannel
+            ) {
+              return;
+            }
 
-          currentChannel = channel;
+            document
+              .querySelectorAll(
+                ".channel-btn"
+              )
+              .forEach(btn => {
+                btn.classList.remove(
+                  "active"
+                );
+              });
 
-          document
-            .querySelectorAll(".channel-btn")
-            .forEach(btn => {
-              btn.classList.toggle(
-                "active",
-                btn === button
+            button.classList.add(
+              "active"
+            );
+
+            currentChannel =
+              channel;
+
+            chatChannelTitle.textContent =
+              "# " +
+              (
+                CHANNEL_NAMES[
+                  channel
+                ] ||
+                channel
               );
-            });
 
-          channelTitle.textContent =
-            CHANNEL_NAMES[channel] ||
-            channel;
+            renderedMessageIds.clear();
 
-          renderedMessageIds.clear();
+            messagesLoaded = false;
 
-          loadChatHistory();
-          connectChatSocket();
-        });
+            disconnectChat();
 
-      });
-
-
-    /* =========================================================
-       聊天訊息顯示
-    ========================================================= */
-
-    function renderMessage(data, options = {}) {
-      if (!data) return;
-
-      const obj =
-        getMessageObject(data);
-
-      if (!obj) return;
-
-      const messageId =
-        getMessageId(obj);
-
-      if (
-        messageId &&
-        renderedMessageIds.has(String(messageId))
-      ) {
-        return;
-      }
-
-      if (messageId) {
-        renderedMessageIds.add(
-          String(messageId)
-        );
-      }
-
-      const user =
-        getMessageUser(obj);
-
-      const name =
-        getUserName(user);
-
-      const text =
-        getMessageText(obj);
-
-      const attachment =
-        getAttachment(obj);
-
-      const time =
-        getTime(obj);
-
-      /*
-        避免真的什麼都沒有的資料
-        變成一堆「?」
-      */
-      if (
-        !text &&
-        !attachment
-      ) {
-        return;
-      }
-
-      const messageEl =
-        document.createElement("div");
-
-      messageEl.className = "message";
-
-      let attachmentHtml = "";
-
-      if (attachment) {
-        let fileName =
-          attachment.name ||
-          attachment.fileName ||
-          attachment.filename ||
-          "附件";
-
-        let fileUrl =
-          attachment.url ||
-          attachment.fileUrl ||
-          attachment.publicUrl ||
-          attachment.downloadUrl ||
-          "";
-
-        if (fileUrl) {
-          attachmentHtml = `
-            <div class="attachment">
-              <span>📎</span>
-              <a
-                href="${escapeHtml(fileUrl)}"
-                target="_blank"
-                rel="noopener"
-                download
-              >
-                ${escapeHtml(fileName)}
-              </a>
-            </div>
-          `;
-        } else {
-          attachmentHtml = `
-            <div class="attachment">
-              📎 ${escapeHtml(fileName)}
-            </div>
-          `;
-        }
-      }
-
-      const avatar =
-        makeAvatarHtml(
-          user,
-          "message-avatar"
-        );
-
-      messageEl.innerHTML = `
-        ${avatar}
-
-        <div class="message-content">
-
-          <div class="message-meta">
-            <span class="message-name">
-              ${escapeHtml(name)}
-            </span>
-
-            <span class="message-time">
-              ${escapeHtml(formatTime(time))}
-            </span>
-          </div>
-
-          ${
-            text
-              ? `
-                <div class="message-text">
-                  ${escapeHtml(text)}
-                </div>
-              `
-              : ""
+            await loadChat();
           }
-
-          ${attachmentHtml}
-
-        </div>
-      `;
-
-      messagesEl.appendChild(
-        messageEl
-      );
-
-      if (options.forceScroll) {
-        scrollMessages(true);
-      } else {
-        scrollMessages(false);
-      }
-    }
-
-
-    function renderMessages(list) {
-      messagesEl.innerHTML = "";
-
-      renderedMessageIds.clear();
-
-      if (!Array.isArray(list)) {
-        list = [];
-      }
-
-      if (list.length === 0) {
-        messagesEl.innerHTML = `
-          <div class="empty-chat">
-            目前沒有訊息
-          </div>
-        `;
-        return;
-      }
-
-      list.forEach(message => {
-        renderMessage(message);
+        );
       });
-
-      scrollMessages(true);
-    }
 
 
     /* =========================================================
-       取得聊天歷史
+       CHAT LOAD
     ========================================================= */
 
-    async function loadChatHistory() {
+    async function loadChat() {
+
       if (!currentUser) {
         return;
       }
 
       messagesEl.innerHTML = `
         <div class="empty-chat">
-          載入聊天紀錄中……
+          載入聊天紀錄中...
         </div>
       `;
 
       try {
+
         const response =
           await fetch(
-            `${WORKER_URL}/api/chat?channel=${encodeURIComponent(currentChannel)}`,
+            WORKER_URL +
+              "/api/chat?channel=" +
+              encodeURIComponent(
+                currentChannel
+              ),
             {
               method: "GET",
               credentials: "include",
@@ -2184,233 +2426,793 @@
             }
           );
 
-        if (response.status === 401) {
-          setLoggedOut();
-          return;
-        }
-
         if (!response.ok) {
+
+          if (
+            response.status ===
+            401
+          ) {
+            setLoggedOut();
+
+            showNotice(
+              "登入已失效，請重新登入"
+            );
+
+            return;
+          }
+
           throw new Error(
-            `聊天紀錄 HTTP ${response.status}`
+            "HTTP " +
+            response.status
           );
         }
 
         const data =
           await response.json();
 
-        let list = [];
+        let list =
+          data?.messages ||
+          data?.history ||
+          data?.data ||
+          [];
 
-        if (Array.isArray(data)) {
-          list = data;
-        } else if (
-          Array.isArray(data.messages)
+        if (
+          !Array.isArray(list)
         ) {
-          list = data.messages;
-        } else if (
-          Array.isArray(data.history)
-        ) {
-          list = data.history;
+          list = [];
         }
 
-        renderMessages(list);
+        messagesEl.innerHTML = "";
+
+        renderedMessageIds.clear();
+
+        if (list.length === 0) {
+
+          messagesEl.innerHTML = `
+            <div class="empty-chat">
+              目前還沒有訊息
+            </div>
+          `;
+
+        } else {
+
+          list.forEach(
+            message => {
+              renderMessage(
+                normalizeMessage(
+                  message
+                ),
+                false
+              );
+            }
+          );
+        }
+
+        messagesLoaded = true;
+
+        scrollMessages(
+          list.length === 0
+        );
+
+        connectChatSocket();
 
       } catch (error) {
+
         console.error(
-          "Load chat error:",
+          "loadChat:",
           error
         );
 
         messagesEl.innerHTML = `
           <div class="empty-chat">
             無法載入聊天紀錄
+            <br><br>
+            請重新整理頁面。
           </div>
         `;
+
+        chatConnectionStatus.textContent =
+          "聊天紀錄載入失敗";
       }
     }
 
 
     /* =========================================================
-       Chat WebSocket
+       MESSAGE NORMALIZE
     ========================================================= */
 
-    function disconnectChatSocket() {
-      if (chatSocket) {
-        try {
-          chatSocket.close();
-        } catch {}
+    function normalizeMessage(
+      raw
+    ) {
+
+      if (!raw) {
+        return null;
       }
 
-      chatSocket = null;
-      chatSocketChannel = null;
-    }
+      let message = raw;
 
+      if (
+        raw.message &&
+        typeof raw.message ===
+          "object"
+      ) {
+        message =
+          raw.message;
+      }
 
-    function connectChatSocket() {
-      if (!currentUser) {
-        return;
+      const user =
+        message.user ||
+        message.author ||
+        message.sender ||
+        {};
+
+      let text =
+        message.text;
+
+      if (
+        text === undefined ||
+        text === null
+      ) {
+        text =
+          message.content;
       }
 
       if (
-        chatSocket &&
-        chatSocket.readyState === WebSocket.OPEN &&
-        chatSocketChannel === currentChannel
+        text === undefined ||
+        text === null
+      ) {
+        text = "";
+      }
+
+      const attachment =
+        message.attachment ||
+        message.file ||
+        null;
+
+      return {
+        ...message,
+
+        id:
+          message.id ||
+          (
+            "local-" +
+            Date.now() +
+            "-" +
+            Math.random()
+          ),
+
+        text: String(text),
+
+        createdAt:
+          message.createdAt ||
+          message.timestamp ||
+          message.time ||
+          Date.now(),
+
+        user: {
+          sub:
+            user.sub ||
+            user.id ||
+            "",
+
+          name:
+            user.name ||
+            user.displayName ||
+            user.username ||
+            "Minecraft 玩家",
+
+          email:
+            user.email ||
+            "",
+
+          picture:
+            user.picture ||
+            user.avatar ||
+            ""
+        },
+
+        attachment
+      };
+    }
+
+
+    /* =========================================================
+       RENDER MESSAGE
+    ========================================================= */
+
+    function renderMessage(
+      rawMessage,
+      shouldScroll = true
+    ) {
+
+      const message =
+        normalizeMessage(
+          rawMessage
+        );
+
+      if (!message) {
+        return;
+      }
+
+      const id =
+        String(
+          message.id
+        );
+
+      /*
+        防止 POST 回應 + WebSocket
+        同一則訊息出現兩次。
+      */
+
+      if (
+        renderedMessageIds.has(id)
       ) {
         return;
       }
 
-      disconnectChatSocket();
+      renderedMessageIds.add(id);
 
-      const wsUrl =
-        `${WORKER_URL.replace(/^http/, "ws")}/api/chat/ws?channel=${encodeURIComponent(currentChannel)}`;
+      const empty =
+        messagesEl.querySelector(
+          ".empty-chat"
+        );
 
-      console.log(
-        "Connecting chat websocket:",
-        wsUrl
+      if (empty) {
+        empty.remove();
+      }
+
+      const wrapper =
+        document.createElement(
+          "div"
+        );
+
+      wrapper.className =
+        "message";
+
+      const avatar =
+        document.createElement(
+          "img"
+        );
+
+      avatar.className =
+        "message-avatar";
+
+      avatar.src =
+        getUserPicture(
+          message.user
+        );
+
+      avatar.alt =
+        message.user.name ||
+        "玩家";
+
+      avatar.onerror = () => {
+        avatar.onerror = null;
+
+        avatar.src =
+          makeDefaultAvatar(
+            message.user.name
+          );
+      };
+
+
+      const content =
+        document.createElement(
+          "div"
+        );
+
+      content.className =
+        "message-content";
+
+
+      const meta =
+        document.createElement(
+          "div"
+        );
+
+      meta.className =
+        "message-meta";
+
+
+      const name =
+        document.createElement(
+          "span"
+        );
+
+      name.className =
+        "message-name";
+
+      name.textContent =
+        message.user.name ||
+        "Minecraft 玩家";
+
+
+      const time =
+        document.createElement(
+          "span"
+        );
+
+      time.className =
+        "message-time";
+
+      time.textContent =
+        formatTime(
+          message.createdAt
+        );
+
+
+      meta.appendChild(name);
+      meta.appendChild(time);
+
+
+      content.appendChild(meta);
+
+
+      if (
+        message.text
+      ) {
+
+        const text =
+          document.createElement(
+            "div"
+          );
+
+        text.className =
+          "message-text";
+
+        text.textContent =
+          message.text;
+
+        content.appendChild(
+          text
+        );
+      }
+
+
+      if (
+        message.attachment
+      ) {
+
+        const attachment =
+          message.attachment;
+
+        const url =
+          attachment.url ||
+          attachment.fileUrl ||
+          attachment.downloadUrl;
+
+        if (url) {
+
+          const link =
+            document.createElement(
+              "a"
+            );
+
+          link.className =
+            "attachment";
+
+          link.href =
+            url;
+
+          link.target =
+            "_blank";
+
+          link.rel =
+            "noopener noreferrer";
+
+          link.textContent =
+            "📎 " +
+            (
+              attachment.name ||
+              attachment.filename ||
+              "附件"
+            );
+
+          content.appendChild(
+            link
+          );
+        }
+      }
+
+
+      wrapper.appendChild(
+        avatar
       );
 
-      try {
-        chatSocket =
-          new WebSocket(wsUrl);
+      wrapper.appendChild(
+        content
+      );
 
-        chatSocketChannel =
-          currentChannel;
+      messagesEl.appendChild(
+        wrapper
+      );
 
-        chatSocket.addEventListener(
-          "open",
-          () => {
-            console.log(
-              "Chat WebSocket connected"
-            );
-          }
-        );
-
-
-        chatSocket.addEventListener(
-          "message",
-          event => {
-
-            try {
-              const data =
-                JSON.parse(event.data);
-
-              console.log(
-                "CHAT WS:",
-                data
-              );
-
-              let message = null;
-
-              if (
-                data.type === "message"
-              ) {
-                message =
-                  data.message ||
-                  data;
-              }
-
-              else if (
-                data.type === "chat"
-              ) {
-                message =
-                  data.message ||
-                  data;
-              }
-
-              else if (
-                data.type === "new-message"
-              ) {
-                message =
-                  data.message ||
-                  data;
-              }
-
-              else if (
-                data.message &&
-                typeof data.message === "object"
-              ) {
-                message =
-                  data.message;
-              }
-
-              else if (
-                data.text !== undefined ||
-                data.content !== undefined ||
-                data.attachment ||
-                data.file
-              ) {
-                message = data;
-              }
-
-              if (message) {
-                renderMessage(
-                  message,
-                  {
-                    forceScroll: true
-                  }
-                );
-              }
-
-            } catch (error) {
-              console.error(
-                "Chat WS parse error:",
-                error
-              );
-            }
-
-          }
-        );
-
-
-        chatSocket.addEventListener(
-          "close",
-          event => {
-            console.log(
-              "Chat WebSocket closed:",
-              event.code,
-              event.reason
-            );
-
-            if (
-              currentUser &&
-              chatSocketChannel === currentChannel
-            ) {
-              setTimeout(() => {
-
-                if (
-                  currentUser &&
-                  chatSocketChannel === currentChannel
-                ) {
-                  connectChatSocket();
-                }
-
-              }, 2000);
-            }
-          }
-        );
-
-
-        chatSocket.addEventListener(
-          "error",
-          error => {
-            console.error(
-              "Chat WebSocket error:",
-              error
-            );
-          }
-        );
-
-      } catch (error) {
-        console.error(
-          "WebSocket create error:",
-          error
+      if (shouldScroll) {
+        scrollMessages(
+          true
         );
       }
     }
 
 
     /* =========================================================
-       傳送聊天訊息
+       SCROLL CHAT
     ========================================================= */
+
+    function scrollMessages(
+      force = false
+    ) {
+
+      const distance =
+        messagesEl.scrollHeight -
+        messagesEl.scrollTop -
+        messagesEl.clientHeight;
+
+      /*
+        如果使用者正在看舊訊息，
+        不要強制拉到底。
+      */
+
+      if (
+        force ||
+        distance < 180
+      ) {
+
+        requestAnimationFrame(
+          () => {
+            messagesEl.scrollTop =
+              messagesEl.scrollHeight;
+          }
+        );
+      }
+    }
+
+
+    /* =========================================================
+       CHAT WEBSOCKET
+    ========================================================= */
+
+    function disconnectChat() {
+
+      chatSocketGeneration++;
+
+      const socket =
+        chatSocket;
+
+      chatSocket =
+        null;
+
+      chatSocketChannel =
+        null;
+
+      if (socket) {
+
+        try {
+          socket.close();
+        } catch {}
+      }
+
+      chatConnectionStatus.textContent =
+        "未連線";
+    }
+
+
+    function connectChatSocket() {
+
+      if (!currentUser) {
+        return;
+      }
+
+      disconnectChat();
+
+      const generation =
+        chatSocketGeneration;
+
+      const wsProtocol =
+        WORKER_URL.startsWith(
+          "https://"
+        )
+          ? "wss://"
+          : "ws://";
+
+      const base =
+        WORKER_URL.replace(
+          /^https?:\/\//,
+          ""
+        );
+
+      const wsUrl =
+        wsProtocol +
+        base +
+        "/api/chat/ws?channel=" +
+        encodeURIComponent(
+          currentChannel
+        );
+
+      chatSocketChannel =
+        currentChannel;
+
+      let socket;
+
+      try {
+        socket =
+          new WebSocket(
+            wsUrl
+          );
+      } catch (error) {
+
+        console.error(
+          "WebSocket create:",
+          error
+        );
+
+        chatConnectionStatus.textContent =
+          "WebSocket 連線失敗";
+
+        return;
+      }
+
+      chatSocket =
+        socket;
+
+
+      socket.addEventListener(
+        "open",
+        () => {
+
+          if (
+            generation !==
+            chatSocketGeneration
+          ) {
+            return;
+          }
+
+          chatConnectionStatus.textContent =
+            "已連線";
+
+          chatConnectionStatus.style.color =
+            "#75e783";
+        }
+      );
+
+
+      socket.addEventListener(
+        "close",
+        () => {
+
+          if (
+            generation !==
+            chatSocketGeneration
+          ) {
+            return;
+          }
+
+          chatConnectionStatus.textContent =
+            "連線中斷";
+
+          chatConnectionStatus.style.color =
+            "#a87878";
+
+          /*
+            只有目前頻道的 socket
+            才自動重連。
+          */
+
+          setTimeout(
+            () => {
+
+              if (
+                generation !==
+                chatSocketGeneration
+              ) {
+                return;
+              }
+
+              if (
+                !currentUser ||
+                currentChannel !==
+                  chatSocketChannel
+              ) {
+                return;
+              }
+
+              connectChatSocket();
+
+            },
+            2500
+          );
+        }
+      );
+
+
+      socket.addEventListener(
+        "error",
+        error => {
+
+          console.error(
+            "Chat WebSocket error:",
+            error
+          );
+
+          chatConnectionStatus.textContent =
+            "聊天連線錯誤";
+        }
+      );
+
+
+      socket.addEventListener(
+        "message",
+        event => {
+
+          try {
+
+            const data =
+              JSON.parse(
+                event.data
+              );
+
+            console.log(
+              "CHAT WS:",
+              data
+            );
+
+            let message = null;
+
+            if (
+              data?.type ===
+              "message"
+            ) {
+
+              message =
+                data.message ||
+                data;
+
+            } else if (
+              data?.type ===
+              "chat"
+            ) {
+
+              message =
+                data.message ||
+                data;
+
+            } else if (
+              data?.message &&
+              typeof data.message ===
+                "object"
+            ) {
+
+              message =
+                data.message;
+
+            } else if (
+              data?.text !==
+              undefined
+            ) {
+
+              message =
+                data;
+            }
+
+
+            if (!message) {
+              return;
+            }
+
+
+            const normalized =
+              normalizeMessage(
+                message
+              );
+
+            if (
+              !normalized
+            ) {
+              return;
+            }
+
+
+            /*
+              有些 Worker 可能重新產生
+              message ID。
+
+              所以如果是自己剛送出的訊息，
+              嘗試用內容去重。
+            */
+
+            if (
+              currentUser &&
+              normalized.user &&
+              (
+                normalized.user.sub &&
+                currentUser.sub &&
+                normalized.user.sub ===
+                  currentUser.sub
+              )
+            ) {
+
+              const key =
+                getPendingMessageKey(
+                  normalized
+                );
+
+              const pending =
+                localPendingMessages.get(
+                  key
+                );
+
+              if (
+                pending &&
+                Date.now() -
+                  pending <
+                  8000
+              ) {
+
+                localPendingMessages.delete(
+                  key
+                );
+
+                /*
+                  已經由 POST 顯示，
+                  不需要再顯示 WS。
+                */
+
+                if (
+                  renderedMessageIds.has(
+                    String(
+                      normalized.id
+                    )
+                  )
+                ) {
+                  return;
+                }
+              }
+            }
+
+
+            renderMessage(
+              normalized,
+              true
+            );
+
+          } catch (error) {
+
+            console.error(
+              "Chat WS message:",
+              error
+            );
+          }
+        }
+      );
+    }
+
+
+    /* =========================================================
+       SEND MESSAGE
+    ========================================================= */
+
+    function getPendingMessageKey(
+      message
+    ) {
+
+      const sub =
+        message?.user?.sub ||
+        currentUser?.sub ||
+        "";
+
+      return (
+        String(sub) +
+        "|" +
+        String(
+          message?.text || ""
+        ) +
+        "|" +
+        String(
+          currentChannel
+        )
+      );
+    }
+
 
     chatForm.addEventListener(
       "submit",
@@ -2419,7 +3221,9 @@
         event.preventDefault();
 
         if (!currentUser) {
-          showNotice("請先登入");
+          showNotice(
+            "請先登入"
+          );
           return;
         }
 
@@ -2430,125 +3234,232 @@
           return;
         }
 
-        sendBtn.disabled = true;
+        if (text.length > 2000) {
+          showNotice(
+            "訊息最多 2000 字"
+          );
+          return;
+        }
+
+        sendBtn.disabled =
+          true;
+
+        const key =
+          String(
+            currentUser.sub || ""
+          ) +
+          "|" +
+          text +
+          "|" +
+          currentChannel;
+
+        localPendingMessages.set(
+          key,
+          Date.now()
+        );
+
 
         try {
 
           const response =
             await fetch(
-              `${WORKER_URL}/api/chat`,
+              WORKER_URL +
+                "/api/chat",
               {
                 method: "POST",
                 credentials: "include",
+
                 headers: {
                   "Content-Type":
                     "application/json"
                 },
-                body: JSON.stringify({
-                  channel:
-                    currentChannel,
-                  text
-                })
-              }
+
+                body:
+                  JSON.stringify({
+                    channel:
+                      currentChannel,
+
+                    text
+                  })
+                }
             );
 
-          if (response.status === 401) {
-            setLoggedOut();
-            return;
-          }
+
+          const data =
+            await response.json()
+              .catch(() => ({}));
+
 
           if (!response.ok) {
-            const errorText =
-              await response.text();
+
+            localPendingMessages.delete(
+              key
+            );
+
+            if (
+              response.status ===
+              401
+            ) {
+
+              setLoggedOut();
+
+              showNotice(
+                "登入已失效"
+              );
+
+              return;
+            }
 
             throw new Error(
-              `HTTP ${response.status}: ${errorText}`
+              data?.error ||
+              "訊息發送失敗"
             );
           }
 
-          const result =
-            await response.json();
-
-          console.log(
-            "CHAT POST:",
-            result
-          );
 
           /*
-            Worker 如果有直接回傳 message，
-            就立即顯示。
-            即使 WebSocket 稍後才收到，
-            也不會因此空白。
+            Worker 正常會回：
+            {
+              ok: true,
+              message: {...}
+            }
           */
-          const returnedMessage =
-            result.message ||
-            result.data ||
-            result;
 
-          if (
-            returnedMessage &&
-            (
-              getMessageText(
-                returnedMessage
-              ) ||
-              getAttachment(
-                returnedMessage
-              )
-            )
-          ) {
+          const returned =
+            data?.message ||
+            data?.data ||
+            null;
+
+
+          if (returned) {
+
+            const normalized =
+              normalizeMessage(
+                returned
+              );
+
+            if (
+              normalized
+            ) {
+
+              /*
+                即使 WebSocket 稍後
+                才收到，也先讓自己看到。
+              */
+
+              renderMessage(
+                normalized,
+                true
+              );
+            }
+          } else {
+
+            /*
+              如果 Worker 沒有回 message，
+              使用本地訊息立即顯示。
+            */
+
+            const localMessage =
+              normalizeMessage({
+                id:
+                  "local-" +
+                  Date.now() +
+                  "-" +
+                  Math.random(),
+
+                channel:
+                  currentChannel,
+
+                text,
+
+                createdAt:
+                  Date.now(),
+
+                user:
+                  currentUser
+              });
+
             renderMessage(
-              returnedMessage,
-              {
-                forceScroll: true
-              }
+              localMessage,
+              true
             );
           }
+
 
           messageInput.value = "";
 
-          scrollMessages(true);
+          messageInput.focus();
+
 
         } catch (error) {
 
+          localPendingMessages.delete(
+            key
+          );
+
           console.error(
-            "Send message error:",
+            "send message:",
             error
           );
 
           showNotice(
-            "訊息傳送失敗，請查看主控台"
+            error?.message ||
+            "訊息發送失敗"
           );
 
         } finally {
-          sendBtn.disabled = false;
-          messageInput.focus();
-        }
 
+          sendBtn.disabled =
+            false;
+        }
       }
     );
 
 
-    /* Enter 傳送 */
+    /*
+      Enter 傳送。
+      Shift + Enter 可以換行。
+    */
+
     messageInput.addEventListener(
       "keydown",
       event => {
 
         if (
-          event.key === "Enter" &&
+          event.key ===
+            "Enter" &&
           !event.shiftKey
         ) {
+
           event.preventDefault();
 
           chatForm.requestSubmit();
         }
-
       }
     );
 
 
     /* =========================================================
-       檔案上傳
+       FILE UPLOAD
     ========================================================= */
+
+    fileBtn.addEventListener(
+      "click",
+      () => {
+
+        if (!currentUser) {
+
+          showNotice(
+            "請先登入"
+          );
+
+          return;
+        }
+
+        fileInput.click();
+      }
+    );
+
 
     fileInput.addEventListener(
       "change",
@@ -2561,54 +3472,46 @@
           return;
         }
 
-        if (!currentUser) {
-          showNotice("請先登入");
-          fileInput.value = "";
-          return;
-        }
+        if (
+          file.size >
+          25 * 1024 * 1024
+        ) {
 
-        const maxSize =
-          25 * 1024 * 1024;
-
-        if (file.size > maxSize) {
           showNotice(
-            "檔案不能超過 25 MB"
+            "檔案太大，單檔上限 25 MB"
           );
 
           fileInput.value = "";
+
           return;
         }
 
-        uploadStatus.textContent =
-          `正在上傳：${file.name}`;
 
-        uploadStatus.classList.add(
-          "show"
-        );
+        fileBtn.disabled =
+          true;
+
+        fileBtn.textContent =
+          "⏳ 上傳中...";
+
 
         try {
 
           const formData =
             new FormData();
 
-          /*
-            Worker 的 upload endpoint
-            接收 file + channel
-          */
           formData.append(
             "file",
             file
           );
 
-          formData.append(
-            "channel",
-            currentChannel
-          );
-
 
           const response =
             await fetch(
-              `${WORKER_URL}/api/upload?channel=${encodeURIComponent(currentChannel)}`,
+              WORKER_URL +
+                "/api/upload?channel=" +
+                encodeURIComponent(
+                  currentChannel
+                ),
               {
                 method: "POST",
                 credentials: "include",
@@ -2617,49 +3520,75 @@
             );
 
 
-          if (response.status === 401) {
-            setLoggedOut();
-            return;
-          }
+          const data =
+            await response.json()
+              .catch(() => ({}));
 
 
           if (!response.ok) {
-            const errorText =
-              await response.text();
+
+            if (
+              response.status ===
+              401
+            ) {
+
+              setLoggedOut();
+
+              throw new Error(
+                "登入已失效"
+              );
+            }
 
             throw new Error(
-              `HTTP ${response.status}: ${errorText}`
+              data?.error ||
+              "檔案上傳失敗"
             );
           }
 
 
-          const result =
-            await response.json();
-
-          console.log(
-            "UPLOAD:",
-            result
-          );
-
-
-          const message =
-            result.message ||
-            result.data ||
-            result;
-
+          /*
+            Worker 正常會回：
+            {
+              ok:true,
+              message:{...},
+              file:{...}
+            }
+          */
 
           if (
-            message &&
-            (
-              getAttachment(message) ||
-              getMessageText(message)
-            )
+            data?.message
           ) {
+
             renderMessage(
-              message,
+              data.message,
+              true
+            );
+
+          } else if (
+            data?.file
+          ) {
+
+            renderMessage(
               {
-                forceScroll: true
-              }
+                id:
+                  "upload-" +
+                  Date.now(),
+
+                channel:
+                  currentChannel,
+
+                text: "",
+
+                createdAt:
+                  Date.now(),
+
+                user:
+                  currentUser,
+
+                attachment:
+                  data.file
+              },
+              true
             );
           }
 
@@ -2668,14 +3597,16 @@
             "檔案上傳完成"
           );
 
+
         } catch (error) {
 
           console.error(
-            "Upload error:",
+            "upload:",
             error
           );
 
           showNotice(
+            error?.message ||
             "檔案上傳失敗"
           );
 
@@ -2683,81 +3614,80 @@
 
           fileInput.value = "";
 
-          setTimeout(() => {
-            uploadStatus.classList.remove(
-              "show"
-            );
-          }, 500);
+          fileBtn.disabled =
+            false;
 
+          fileBtn.textContent =
+            "📎 檔案";
         }
-
       }
     );
 
 
     /* =========================================================
-       複製 IP
+       COPY IP
     ========================================================= */
 
-    document
-      .querySelectorAll(".copy-btn")
-      .forEach(button => {
+    minecraftIp.addEventListener(
+      "click",
+      async () => {
 
-        button.addEventListener(
-          "click",
-          async () => {
+        const text =
+          minecraftIp.textContent.trim();
 
-            const value =
-              button.dataset.copy;
+        try {
 
-            try {
+          await navigator.clipboard.writeText(
+            text
+          );
 
-              await navigator.clipboard.writeText(
-                value
-              );
+          showNotice(
+            "Minecraft IP 已複製"
+          );
 
-              showNotice(
-                "已複製：" + value
-              );
+        } catch {
 
-            } catch {
-
-              showNotice(
-                "複製失敗，請手動複製"
-              );
-
-            }
-
-          }
-        );
-
-      });
+          showNotice(
+            "複製失敗：" + text
+          );
+        }
+      }
+    );
 
 
     /* =========================================================
-       VOICE / WEBRTC
+       VOICE STATE
     ========================================================= */
 
     let voiceSocket = null;
+
     let voiceStream = null;
 
-    /*
-      peerId -> {
-        pc,
-        audio,
-        user
-      }
-    */
-    const voicePeers =
-      new Map();
-
     let voiceJoined = false;
+
     let voiceMuted = false;
 
-    const remoteAudios =
+    let localPeerId = null;
+
+    let voiceGeneration = 0;
+
+    /*
+      peerId ->
+      {
+        pc,
+        user,
+        audio
+      }
+    */
+
+    const peers =
+      new Map();
+
+    const remoteAudioContainer =
       document.getElementById(
-        "remoteAudios"
+        "remoteAudioContainer"
       );
+
 
     const voiceStatus =
       document.getElementById(
@@ -2769,19 +3699,19 @@
         "joinVoiceBtn"
       );
 
-    const enableSoundBtn =
-      document.getElementById(
-        "enableSoundBtn"
-      );
-
-    const muteVoiceBtn =
-      document.getElementById(
-        "muteVoiceBtn"
-      );
-
     const leaveVoiceBtn =
       document.getElementById(
         "leaveVoiceBtn"
+      );
+
+    const muteBtn =
+      document.getElementById(
+        "muteBtn"
+      );
+
+    const soundBtn =
+      document.getElementById(
+        "soundBtn"
       );
 
     const participantsEl =
@@ -2792,328 +3722,979 @@
 
     /*
       Google 公開 STUN。
-      WebRTC 需要它來協助不同網路互相找到對方。
+      WebRTC 本身負責聲音。
     */
-    const rtcConfiguration = {
+
+    const RTC_CONFIG = {
       iceServers: [
         {
-          urls: [
-            "stun:stun.l.google.com:19302",
+          urls:
+            "stun:stun.l.google.com:19302"
+        },
+        {
+          urls:
             "stun:stun1.l.google.com:19302"
-          ]
         }
       ]
     };
 
 
-    function voiceWsUrl() {
-      return (
-        `${WORKER_URL.replace(/^http/, "ws")}/api/voice/ws`
-      );
-    }
-
-
-    function updateVoiceButtons() {
-
-      joinVoiceBtn.disabled =
-        voiceJoined;
-
-      leaveVoiceBtn.disabled =
-        !voiceJoined;
-
-      muteVoiceBtn.disabled =
-        !voiceJoined;
-
-      enableSoundBtn.disabled =
-        !voiceJoined;
-
-    }
-
-
-    function setVoiceStatus(text) {
-      voiceStatus.textContent = text;
-    }
-
-
-    function normalizePeerId(value) {
-      if (
-        value === undefined ||
-        value === null
-      ) {
-        return "";
-      }
-
-      return String(value);
-    }
-
-
-    function getPeerUser(data) {
-      return (
-        data.user ||
-        data.peerUser ||
-        data.participant ||
-        data.profile ||
-        {}
-      );
-    }
-
-
-    function getPeerId(data) {
-
-      return normalizePeerId(
-        data.peerId ||
-        data.peerID ||
-        data.peer_id ||
-        data.fromPeerId ||
-        data.from ||
-        data.id
-      );
-
-    }
-
-
-    function getTargetPeerId(data) {
-
-      return normalizePeerId(
-        data.targetPeerId ||
-        data.targetPeerID ||
-        data.target_peer_id ||
-        data.target ||
-        data.to
-      );
-
-    }
-
-
-    function getSignalPayload(data) {
-
-      return (
-        data.offer ||
-        data.answer ||
-        data.candidate ||
-        data.payload ||
-        data.data ||
-        null
-      );
-
-    }
-
-
     /* =========================================================
-       Voice participants
+       VOICE UI
     ========================================================= */
 
-    function renderParticipants(
-      participants = []
-    ) {
+    function updateVoiceUI() {
 
-      if (!Array.isArray(participants)) {
-        participants = [];
-      }
+      if (!currentUser) {
 
-      participantsEl.innerHTML = "";
+        voiceLoginRequired.style.display =
+          "flex";
 
-      if (
-        participants.length === 0
-      ) {
-        participantsEl.innerHTML = `
-          <div style="color:#666;">
-            目前沒有人
-          </div>
-        `;
+        voiceShell.style.display =
+          "none";
 
         return;
       }
 
-      participants.forEach(
-        participant => {
+      voiceLoginRequired.style.display =
+        "none";
 
-          const peerId =
-            normalizePeerId(
-              participant.peerId ||
-              participant.id
-            );
+      voiceShell.style.display =
+        "block";
 
-          const user =
-            participant.user ||
-            participant;
+      if (voiceJoined) {
 
-          const name =
-            getUserName(user);
+        voiceStatus.textContent =
+          "已連線";
 
-          const row =
-            document.createElement(
-              "div"
-            );
+        voiceStatus.classList.add(
+          "connected"
+        );
 
-          row.className =
-            "participant";
+        joinVoiceBtn.disabled =
+          true;
 
-          row.innerHTML = `
-            ${makeAvatarHtml(
-              user,
-              "avatar"
-            )}
+        leaveVoiceBtn.disabled =
+          false;
 
-            <div class="participant-name">
-              ${escapeHtml(name)}
-            </div>
+        muteBtn.disabled =
+          false;
 
-            <div class="mic-indicator">
-              🎙️
-            </div>
-          `;
+        soundBtn.disabled =
+          false;
 
-          if (
-            peerId ===
-            normalizePeerId(
-              voiceMyPeerId
-            )
-          ) {
-            const self =
-              document.createElement(
-                "span"
-              );
+      } else {
 
-            self.textContent =
-              "（你）";
+        voiceStatus.textContent =
+          "尚未加入";
 
-            self.style.color =
-              "#777";
+        voiceStatus.classList.remove(
+          "connected"
+        );
 
-            self.style.marginLeft =
-              "5px";
+        joinVoiceBtn.disabled =
+          false;
 
-            row
-              .querySelector(
-                ".participant-name"
-              )
-              ?.appendChild(self);
-          }
+        leaveVoiceBtn.disabled =
+          true;
 
-          participantsEl.appendChild(
-            row
-          );
+        muteBtn.disabled =
+          true;
 
-        }
+        soundBtn.disabled =
+          true;
+      }
+    }
+
+
+    /* =========================================================
+       VOICE WS URL
+    ========================================================= */
+
+    function getVoiceWebSocketUrl() {
+
+      const wsProtocol =
+        WORKER_URL.startsWith(
+          "https://"
+        )
+          ? "wss://"
+          : "ws://";
+
+      const base =
+        WORKER_URL.replace(
+          /^https?:\/\//,
+          ""
+        );
+
+      return (
+        wsProtocol +
+        base +
+        "/api/voice/ws"
       );
     }
 
 
-    let voiceMyPeerId = "";
-
-
     /* =========================================================
-       Voice WebSocket 傳送
+       JOIN VOICE
     ========================================================= */
 
-    function sendVoice(data) {
+    async function joinVoice() {
 
-      if (
-        !voiceSocket ||
-        voiceSocket.readyState !==
-          WebSocket.OPEN
-      ) {
-        console.warn(
-          "Voice socket not open"
+      if (!currentUser) {
+
+        showNotice(
+          "請先登入"
         );
 
-        return false;
+        return;
       }
+
+      if (voiceJoined) {
+        return;
+      }
+
+      joinVoiceBtn.disabled =
+        true;
+
+      voiceStatus.textContent =
+        "正在取得麥克風...";
+
 
       try {
 
-        voiceSocket.send(
-          JSON.stringify(data)
+        /*
+          必須在使用者點擊後呼叫，
+          這樣瀏覽器比較不會阻擋音訊。
+        */
+
+        voiceStream =
+          await navigator.mediaDevices.getUserMedia(
+            {
+              audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true
+              },
+              video: false
+            }
+          );
+
+
+        voiceMuted = false;
+
+
+        /*
+          建立 Voice WebSocket
+        */
+
+        const wsUrl =
+          getVoiceWebSocketUrl();
+
+        voiceGeneration++;
+
+        const generation =
+          voiceGeneration;
+
+        voiceSocket =
+          new WebSocket(
+            wsUrl
+          );
+
+
+        voiceSocket.addEventListener(
+          "open",
+          () => {
+
+            if (
+              generation !==
+              voiceGeneration
+            ) {
+              return;
+            }
+
+            voiceJoined = true;
+
+            voiceStatus.textContent =
+              "已連線，等待其他玩家...";
+
+            voiceStatus.classList.add(
+              "connected"
+            );
+
+            updateVoiceUI();
+
+            showNotice(
+              "已加入語音大廳"
+            );
+          }
         );
 
-        return true;
+
+        voiceSocket.addEventListener(
+          "message",
+          event => {
+
+            handleVoiceMessage(
+              event.data
+            );
+          }
+        );
+
+
+        voiceSocket.addEventListener(
+          "error",
+          error => {
+
+            console.error(
+              "Voice WebSocket error:",
+              error
+            );
+
+            voiceStatus.textContent =
+              "語音連線錯誤";
+
+            showNotice(
+              "語音 WebSocket 連線錯誤"
+            );
+          }
+        );
+
+
+        voiceSocket.addEventListener(
+          "close",
+          () => {
+
+            /*
+              如果不是自己主動離開，
+              代表連線斷掉。
+            */
+
+            if (
+              voiceJoined
+            ) {
+
+              voiceStatus.textContent =
+                "語音連線中斷";
+
+              showNotice(
+                "語音連線中斷"
+              );
+            }
+
+            cleanupVoicePeers();
+
+            if (
+              voiceStream
+            ) {
+
+              voiceStream
+                .getTracks()
+                .forEach(
+                  track => {
+                    track.stop();
+                  }
+                );
+
+              voiceStream =
+                null;
+            }
+
+            voiceJoined =
+              false;
+
+            updateVoiceUI();
+          }
+        );
+
 
       } catch (error) {
 
         console.error(
-          "Voice send error:",
+          "joinVoice:",
           error
         );
 
-        return false;
+        if (
+          error?.name ===
+          "NotAllowedError"
+        ) {
+
+          showNotice(
+            "你拒絕了麥克風權限，請允許網站使用麥克風"
+          );
+
+        } else if (
+          error?.name ===
+          "NotFoundError"
+        ) {
+
+          showNotice(
+            "找不到麥克風裝置"
+          );
+
+        } else {
+
+          showNotice(
+            error?.message ||
+            "無法加入語音"
+          );
+        }
+
+        if (
+          voiceStream
+        ) {
+
+          voiceStream
+            .getTracks()
+            .forEach(
+              track => track.stop()
+            );
+
+          voiceStream =
+            null;
+        }
+
+        voiceJoined =
+          false;
+
+        updateVoiceUI();
+      }
+    }
+
+
+    joinVoiceBtn.addEventListener(
+      "click",
+      joinVoice
+    );
+
+
+    /* =========================================================
+       LEAVE VOICE
+    ========================================================= */
+
+    function leaveVoice() {
+
+      voiceGeneration++;
+
+      const socket =
+        voiceSocket;
+
+      voiceSocket =
+        null;
+
+      voiceJoined =
+        false;
+
+      localPeerId =
+        null;
+
+      if (socket) {
+
+        try {
+          socket.close();
+        } catch {}
+      }
+
+
+      cleanupVoicePeers();
+
+
+      if (voiceStream) {
+
+        voiceStream
+          .getTracks()
+          .forEach(
+            track => {
+              try {
+                track.stop();
+              } catch {}
+            }
+          );
+
+        voiceStream =
+          null;
+      }
+
+
+      voiceMuted =
+        false;
+
+      renderParticipants([]);
+
+      updateVoiceUI();
+    }
+
+
+    leaveVoiceBtn.addEventListener(
+      "click",
+      () => {
+
+        leaveVoice();
+
+        showNotice(
+          "已離開語音"
+        );
+      }
+    );
+
+
+    /* =========================================================
+       VOICE MUTE
+    ========================================================= */
+
+    muteBtn.addEventListener(
+      "click",
+      () => {
+
+        if (!voiceStream) {
+          return;
+        }
+
+        voiceMuted =
+          !voiceMuted;
+
+        voiceStream
+          .getAudioTracks()
+          .forEach(
+            track => {
+              track.enabled =
+                !voiceMuted;
+            }
+          );
+
+        if (voiceMuted) {
+
+          muteBtn.textContent =
+            "🔇 解除靜音";
+
+        } else {
+
+          muteBtn.textContent =
+            "🎤 靜音";
+        }
+      }
+    );
+
+
+    /* =========================================================
+       ENABLE SOUND
+    ========================================================= */
+
+    soundBtn.addEventListener(
+      "click",
+      async () => {
+
+        let success =
+          0;
+
+        for (
+          const peer of peers.values()
+        ) {
+
+          if (
+            peer.audio
+          ) {
+
+            try {
+
+              peer.audio.muted =
+                false;
+
+              peer.audio.volume =
+                1;
+
+              await peer.audio.play();
+
+              success++;
+
+            } catch (error) {
+
+              console.warn(
+                "audio.play:",
+                error
+              );
+            }
+          }
+        }
+
+
+        /*
+          建立一個非常短的本地 AudioContext
+          幫助部分瀏覽器解除 audio policy。
+        */
+
+        try {
+
+          const AudioContextClass =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+          if (
+            AudioContextClass
+          ) {
+
+            const context =
+              new AudioContextClass();
+
+            if (
+              context.state ===
+              "suspended"
+            ) {
+              await context.resume();
+            }
+
+            await context.close();
+          }
+
+        } catch {}
+
+
+        if (success > 0) {
+
+          showNotice(
+            "遠端聲音已啟用"
+          );
+
+        } else {
+
+          showNotice(
+            "目前沒有其他語音成員，或遠端音訊尚未建立"
+          );
+        }
+      }
+    );
+
+
+    /* =========================================================
+       VOICE MESSAGE PARSER
+    ========================================================= */
+
+    function handleVoiceMessage(
+      raw
+    ) {
+
+      let data;
+
+      try {
+
+        data =
+          typeof raw ===
+            "string"
+            ? JSON.parse(raw)
+            : raw;
+
+      } catch (error) {
+
+        console.error(
+          "Voice JSON:",
+          error
+        );
+
+        return;
+      }
+
+
+      console.log(
+        "VOICE:",
+        data
+      );
+
+
+      const type =
+        data?.type ||
+        data?.event;
+
+
+      /*
+        Worker 可能把 participant
+        放在不同欄位。
+      */
+
+      if (
+        type ===
+        "voice-state"
+      ) {
+
+        localPeerId =
+          data.peerId ||
+          data.localPeerId ||
+          data.id ||
+          localPeerId;
+
+
+        const list =
+          data.participants ||
+          data.users ||
+          data.members ||
+          [];
+
+
+        renderParticipants(
+          list
+        );
+
+
+        /*
+          與現有成員建立 WebRTC。
+        */
+
+        list.forEach(
+          participant => {
+
+            const peerId =
+              getParticipantPeerId(
+                participant
+              );
+
+            if (
+              !peerId ||
+              peerId ===
+                localPeerId
+            ) {
+              return;
+            }
+
+            /*
+              使用 peerId 排序，
+              只有一方主動發 offer，
+              避免雙方同時 offer。
+            */
+
+            if (
+              shouldCreateOffer(
+                peerId
+              )
+            ) {
+
+              createPeerConnection(
+                peerId,
+                getParticipantUser(
+                  participant
+                ),
+                true
+              );
+            }
+          }
+        );
+
+        return;
+      }
+
+
+      if (
+        type ===
+        "voice-join"
+      ) {
+
+        const participant =
+          data.participant ||
+          data.user ||
+          data.member ||
+          data;
+
+        const peerId =
+          data.peerId ||
+          data.fromPeerId ||
+          getParticipantPeerId(
+            participant
+          );
+
+        if (
+          peerId &&
+          peerId !==
+            localPeerId
+        ) {
+
+          addParticipantToUI(
+            peerId,
+            getParticipantUser(
+              participant
+            )
+          );
+
+
+          /*
+            新加入者通常讓既有成員
+            建立 offer。
+          */
+
+          if (
+            shouldCreateOffer(
+              peerId
+            )
+          ) {
+
+            createPeerConnection(
+              peerId,
+              getParticipantUser(
+                participant
+              ),
+              true
+            );
+          }
+        }
+
+        return;
+      }
+
+
+      if (
+        type ===
+        "voice-leave"
+      ) {
+
+        const peerId =
+          data.peerId ||
+          data.fromPeerId ||
+          data.id;
+
+        if (peerId) {
+
+          removePeer(
+            peerId
+          );
+
+          removeParticipantFromUI(
+            peerId
+          );
+        }
+
+        return;
+      }
+
+
+      if (
+        type ===
+        "voice-offer"
+      ) {
+
+        handleVoiceOffer(
+          data
+        );
+
+        return;
+      }
+
+
+      if (
+        type ===
+        "voice-answer"
+      ) {
+
+        handleVoiceAnswer(
+          data
+        );
+
+        return;
+      }
+
+
+      if (
+        type ===
+        "voice-ice"
+      ) {
+
+        handleVoiceIce(
+          data
+        );
+
+        return;
       }
     }
 
 
     /* =========================================================
-       建立 PeerConnection
+       PARTICIPANT HELPERS
     ========================================================= */
 
-    async function createVoicePeer(
-      peerId,
-      user = {},
-      shouldCreateOffer = false
+    function getParticipantPeerId(
+      participant
     ) {
 
-      peerId =
-        normalizePeerId(peerId);
-
-      if (!peerId) {
-        return null;
-      }
-
-      /*
-        已經有這個 peer 就直接回傳
-      */
       if (
-        voicePeers.has(peerId)
+        typeof participant ===
+        "string"
       ) {
-        return voicePeers.get(peerId);
+        return participant;
+      }
+
+      return (
+        participant?.peerId ||
+        participant?.id ||
+        participant?.peerID ||
+        ""
+      );
+    }
+
+
+    function getParticipantUser(
+      participant
+    ) {
+
+      if (
+        participant?.user
+      ) {
+        return participant.user;
+      }
+
+      if (
+        participant?.profile
+      ) {
+        return participant.profile;
+      }
+
+      if (
+        participant &&
+        (
+          participant.name ||
+          participant.email ||
+          participant.picture
+        )
+      ) {
+        return participant;
+      }
+
+      return {
+        name:
+          "Minecraft 玩家",
+
+        email:
+          "",
+
+        picture:
+          ""
+      };
+    }
+
+
+    /*
+      透過 peerId 排序，
+      保證只有一邊 createOffer。
+    */
+
+    function shouldCreateOffer(
+      remotePeerId
+    ) {
+
+      if (
+        !localPeerId ||
+        !remotePeerId
+      ) {
+        /*
+          如果 Worker 沒有提供 localPeerId，
+          仍然允許主動建立。
+        */
+
+        return true;
+      }
+
+      return (
+        String(localPeerId) >
+        String(remotePeerId)
+      );
+    }
+
+
+    /* =========================================================
+       CREATE PEER CONNECTION
+    ========================================================= */
+
+    async function createPeerConnection(
+      peerId,
+      user,
+      createOffer
+    ) {
+
+      if (
+        !peerId ||
+        peerId ===
+          localPeerId
+      ) {
+        return;
       }
 
 
-      if (!voiceStream) {
-        console.warn(
-          "No local voice stream"
+      let peer =
+        peers.get(
+          peerId
         );
 
-        return null;
+
+      if (peer) {
+
+        if (user) {
+          peer.user =
+            user;
+        }
+
+        return peer.pc;
       }
 
 
       const pc =
         new RTCPeerConnection(
-          rtcConfiguration
+          RTC_CONFIG
         );
 
 
-      /*
-        把自己的麥克風音訊加進 WebRTC。
-      */
-      voiceStream
-        .getTracks()
-        .forEach(track => {
-
-          pc.addTrack(
-            track,
-            voiceStream
-          );
-
-        });
-
-
-      const peer = {
+      peer = {
         pc,
-        user,
-        audio: null
+        user:
+          user ||
+          {
+            name:
+              "Minecraft 玩家",
+            picture:
+              ""
+          },
+        audio:
+          null
       };
 
 
-      voicePeers.set(
+      peers.set(
         peerId,
         peer
       );
 
 
       /*
+        把自己的麥克風音軌
+        加到 PeerConnection。
+      */
+
+      if (
+        voiceStream
+      ) {
+
+        voiceStream
+          .getTracks()
+          .forEach(
+            track => {
+
+              try {
+
+                pc.addTrack(
+                  track,
+                  voiceStream
+                );
+
+              } catch (error) {
+
+                console.error(
+                  "addTrack:",
+                  error
+                );
+              }
+            }
+          );
+      }
+
+
+      /*
         ICE candidate
       */
+
       pc.onicecandidate =
         event => {
 
@@ -3123,51 +4704,39 @@
             return;
           }
 
-          sendVoice({
-            type: "voice-ice",
-            targetPeerId: peerId,
+          sendVoiceSignal({
+            type:
+              "voice-ice",
+
+            targetPeerId:
+              peerId,
+
+            toPeerId:
+              peerId,
+
             candidate:
               event.candidate
           });
-
         };
 
 
       /*
-        收到對方音訊
+        收到遠端聲音
       */
+
       pc.ontrack =
         event => {
 
           console.log(
-            "VOICE REMOTE TRACK:",
+            "REMOTE TRACK:",
             peerId,
-            event.streams
+            event
           );
-
-          let stream =
-            event.streams?.[0];
-
-          /*
-            某些瀏覽器不會提供 streams[0]，
-            所以自己建立 MediaStream。
-          */
-          if (!stream) {
-
-            stream =
-              new MediaStream();
-
-            if (event.track) {
-              stream.addTrack(
-                event.track
-              );
-            }
-
-          }
 
 
           let audio =
             peer.audio;
+
 
           if (!audio) {
 
@@ -3176,226 +4745,343 @@
                 "audio"
               );
 
-            audio.autoplay = true;
-            audio.playsInline = true;
-            audio.controls = false;
+            audio.autoplay =
+              true;
 
-            audio.style.display =
-              "none";
+            audio.playsInline =
+              true;
 
-            audio.setAttribute(
-              "data-peer-id",
-              peerId
-            );
+            audio.controls =
+              false;
 
-            remoteAudios.appendChild(
+            audio.muted =
+              false;
+
+            audio.volume =
+              1;
+
+            /*
+              不 display:none，
+              避免某些瀏覽器阻止播放。
+            */
+
+            audio.style.width =
+              "1px";
+
+            audio.style.height =
+              "1px";
+
+            audio.style.opacity =
+              "0.01";
+
+            peer.audio =
+              audio;
+
+            remoteAudioContainer.appendChild(
               audio
             );
-
-            peer.audio = audio;
           }
 
 
-          audio.srcObject =
-            stream;
+          const stream =
+            event.streams &&
+            event.streams[0];
 
-          /*
-            嘗試立即播放。
-          */
-          audio
-            .play()
-            .then(() => {
-              console.log(
-                "Remote audio playing:",
-                peerId
+
+          if (stream) {
+
+            audio.srcObject =
+              stream;
+
+            audio.muted =
+              false;
+
+            audio.volume =
+              1;
+
+
+            /*
+              立刻嘗試播放。
+            */
+
+            audio.play()
+              .then(
+                () => {
+                  console.log(
+                    "Remote audio playing:",
+                    peerId
+                  );
+                }
+              )
+              .catch(
+                error => {
+
+                  console.warn(
+                    "Remote audio autoplay blocked:",
+                    error
+                  );
+
+                  showNotice(
+                    "遠端聲音被瀏覽器阻擋，請按「🔊 啟用聲音」"
+                  );
+                }
               );
-            })
-            .catch(error => {
-
-              console.warn(
-                "Autoplay blocked:",
-                error
-              );
-
-              /*
-                讓使用者按「啟用聲音」
-                時再播放。
-              */
-            });
-
+          }
         };
 
+
+      /*
+        連線狀態
+      */
 
       pc.onconnectionstatechange =
         () => {
 
           console.log(
-            "Voice peer state:",
+            "VOICE PC STATE:",
             peerId,
             pc.connectionState
           );
 
+
           if (
             pc.connectionState ===
-              "failed"
+            "connected"
           ) {
 
-            try {
-              pc.restartIce();
-            } catch {}
-
+            addParticipantToUI(
+              peerId,
+              peer.user,
+              "已連線"
+            );
           }
 
+
+          if (
+            pc.connectionState ===
+              "failed" ||
+            pc.connectionState ===
+              "closed"
+          ) {
+
+            /*
+              failed 時先重建一次。
+            */
+
+            if (
+              pc.connectionState ===
+              "failed"
+            ) {
+
+              try {
+                pc.restartIce();
+              } catch {}
+            }
+          }
         };
 
 
       /*
-        如果自己是較早加入的人，
-        就對新進來的人建立 offer。
+        ICE connection state
       */
-      if (
-        shouldCreateOffer
-      ) {
+
+      pc.oniceconnectionstatechange =
+        () => {
+
+          console.log(
+            "VOICE ICE:",
+            peerId,
+            pc.iceConnectionState
+          );
+        };
+
+
+      /*
+        data channel 不需要。
+      */
+
+
+      /*
+        如果是 offer initiator
+      */
+
+      if (createOffer) {
 
         try {
 
           const offer =
-            await pc.createOffer();
+            await pc.createOffer({
+              offerToReceiveAudio: true
+            });
 
           await pc.setLocalDescription(
             offer
           );
 
-          sendVoice({
-            type: "voice-offer",
-            targetPeerId: peerId,
-            offer:
+
+          sendVoiceSignal({
+            type:
+              "voice-offer",
+
+            targetPeerId:
+              peerId,
+
+            toPeerId:
+              peerId,
+
+            sdp:
               pc.localDescription
           });
+
 
         } catch (error) {
 
           console.error(
-            "Create offer error:",
+            "create offer:",
             error
           );
-
         }
-
       }
 
 
-      return peer;
+      return pc;
     }
 
 
     /* =========================================================
-       收到 Voice Offer
+       VOICE OFFER
     ========================================================= */
 
     async function handleVoiceOffer(
       data
     ) {
 
-      const fromPeerId =
-        getPeerId(data);
+      const peerId =
+        data.fromPeerId ||
+        data.peerId ||
+        data.from ||
+        data.senderPeerId;
 
-      const offer =
-        data.offer ||
-        getSignalPayload(data);
 
       if (
-        !fromPeerId ||
-        !offer
+        !peerId ||
+        peerId ===
+          localPeerId
       ) {
         return;
       }
 
 
-      console.log(
-        "VOICE OFFER FROM:",
-        fromPeerId
-      );
+      const user =
+        data.user ||
+        data.fromUser ||
+        data.participant ||
+        {};
 
 
-      const peer =
-        await createVoicePeer(
-          fromPeerId,
-          getPeerUser(data),
+      const pc =
+        await createPeerConnection(
+          peerId,
+          getParticipantUser(user),
           false
         );
-
-      if (!peer) {
-        return;
-      }
 
 
       try {
 
-        await peer.pc.setRemoteDescription(
+        let description =
+          data.sdp ||
+          data.offer;
+
+
+        if (
+          typeof description ===
+          "string"
+        ) {
+
+          description = {
+            type:
+              "offer",
+
+            sdp:
+              description
+          };
+        }
+
+
+        if (
+          !description
+        ) {
+          return;
+        }
+
+
+        await pc.setRemoteDescription(
           new RTCSessionDescription(
-            offer
+            description
           )
         );
 
 
         const answer =
-          await peer.pc.createAnswer();
+          await pc.createAnswer();
 
 
-        await peer.pc.setLocalDescription(
+        await pc.setLocalDescription(
           answer
         );
 
 
-        sendVoice({
-          type: "voice-answer",
+        sendVoiceSignal({
+          type:
+            "voice-answer",
+
           targetPeerId:
-            fromPeerId,
-          answer:
-            peer.pc.localDescription
+            peerId,
+
+          toPeerId:
+            peerId,
+
+          sdp:
+            pc.localDescription
         });
 
 
       } catch (error) {
 
         console.error(
-          "Handle voice offer error:",
+          "handle offer:",
           error
         );
-
       }
-
     }
 
 
     /* =========================================================
-       收到 Voice Answer
+       VOICE ANSWER
     ========================================================= */
 
     async function handleVoiceAnswer(
       data
     ) {
 
-      const fromPeerId =
-        getPeerId(data);
+      const peerId =
+        data.fromPeerId ||
+        data.peerId ||
+        data.from ||
+        data.senderPeerId;
 
-      const answer =
-        data.answer ||
-        getSignalPayload(data);
 
-      if (
-        !fromPeerId ||
-        !answer
-      ) {
+      if (!peerId) {
         return;
       }
 
 
       const peer =
-        voicePeers.get(
-          fromPeerId
+        peers.get(
+          peerId
         );
+
 
       if (!peer) {
         return;
@@ -3404,53 +5090,88 @@
 
       try {
 
+        let description =
+          data.sdp ||
+          data.answer;
+
+
+        if (
+          typeof description ===
+          "string"
+        ) {
+
+          description = {
+            type:
+              "answer",
+
+            sdp:
+              description
+          };
+        }
+
+
+        if (
+          !description
+        ) {
+          return;
+        }
+
+
         await peer.pc.setRemoteDescription(
           new RTCSessionDescription(
-            answer
+            description
           )
         );
+
 
       } catch (error) {
 
         console.error(
-          "Handle voice answer error:",
+          "handle answer:",
           error
         );
-
       }
-
     }
 
 
     /* =========================================================
-       收到 ICE
+       VOICE ICE
     ========================================================= */
 
     async function handleVoiceIce(
       data
     ) {
 
-      const fromPeerId =
-        getPeerId(data);
+      const peerId =
+        data.fromPeerId ||
+        data.peerId ||
+        data.from ||
+        data.senderPeerId;
 
-      const candidate =
-        data.candidate ||
-        getSignalPayload(data);
 
-      if (
-        !fromPeerId ||
-        !candidate
-      ) {
+      if (!peerId) {
         return;
       }
 
 
       const peer =
-        voicePeers.get(
-          fromPeerId
+        peers.get(
+          peerId
         );
 
+
       if (!peer) {
+        return;
+      }
+
+
+      const candidate =
+        data.candidate ||
+        data.ice ||
+        null;
+
+
+      if (!candidate) {
         return;
       }
 
@@ -3458,181 +5179,78 @@
       try {
 
         await peer.pc.addIceCandidate(
-          candidate
+          new RTCIceCandidate(
+            candidate
+          )
         );
 
       } catch (error) {
 
         console.warn(
-          "ICE candidate error:",
+          "addIceCandidate:",
+          error
+        );
+      }
+    }
+
+
+    /* =========================================================
+       SEND VOICE SIGNAL
+    ========================================================= */
+
+    function sendVoiceSignal(
+      data
+    ) {
+
+      if (
+        !voiceSocket ||
+        voiceSocket.readyState !==
+          WebSocket.OPEN
+      ) {
+
+        console.warn(
+          "Voice socket not open",
+          data
+        );
+
+        return false;
+      }
+
+
+      try {
+
+        voiceSocket.send(
+          JSON.stringify(
+            data
+          )
+        );
+
+        return true;
+
+      } catch (error) {
+
+        console.error(
+          "Voice send:",
           error
         );
 
+        return false;
       }
-
     }
 
 
     /* =========================================================
-       Voice Join / State
+       REMOVE PEER
     ========================================================= */
 
-    async function handleVoiceState(
-      data
-    ) {
-
-      /*
-        支援：
-        {
-          type:"voice-state",
-          peerId:"...",
-          participants:[...]
-        }
-      */
-
-      voiceMyPeerId =
-        normalizePeerId(
-          data.peerId ||
-          data.myPeerId ||
-          data.selfPeerId ||
-          voiceMyPeerId
-        );
-
-
-      const participants =
-        data.participants ||
-        data.users ||
-        [];
-
-
-      renderParticipants(
-        participants
-      );
-
-
-      /*
-        state 裡面的其他人，
-        我們主動建立 offer。
-      */
-      for (
-        const participant
-        of participants
-      ) {
-
-        const peerId =
-          normalizePeerId(
-            participant.peerId ||
-            participant.id
-          );
-
-        if (
-          !peerId ||
-          peerId === voiceMyPeerId
-        ) {
-          continue;
-        }
-
-
-        await createVoicePeer(
-          peerId,
-          participant.user ||
-            participant,
-          true
-        );
-
-      }
-
-    }
-
-
-    async function handleVoiceJoin(
-      data
-    ) {
-
-      const peerId =
-        getPeerId(data);
-
-      if (!peerId) {
-        return;
-      }
-
-      if (
-        peerId === voiceMyPeerId
-      ) {
-        return;
-      }
-
-
-      /*
-        我是已經在房間裡的人，
-        所以新玩家加入時我建立 offer。
-      */
-      await createVoicePeer(
-        peerId,
-        getPeerUser(data),
-        true
-      );
-
-
-      /*
-        更新玩家列表。
-      */
-      if (
-        Array.isArray(
-          data.participants
-        )
-      ) {
-        renderParticipants(
-          data.participants
-        );
-      }
-
-    }
-
-
-    function handleVoiceLeave(
-      data
-    ) {
-
-      const peerId =
-        getPeerId(data);
-
-      if (!peerId) {
-        return;
-      }
-
-
-      closeVoicePeer(
-        peerId
-      );
-
-
-      if (
-        Array.isArray(
-          data.participants
-        )
-      ) {
-        renderParticipants(
-          data.participants
-        );
-      }
-
-    }
-
-
-    /* =========================================================
-       關閉 Peer
-    ========================================================= */
-
-    function closeVoicePeer(
+    function removePeer(
       peerId
     ) {
 
-      peerId =
-        normalizePeerId(peerId);
-
       const peer =
-        voicePeers.get(peerId);
+        peers.get(
+          peerId
+        );
 
       if (!peer) {
         return;
@@ -3644,640 +5262,403 @@
       } catch {}
 
 
-      if (peer.audio) {
+      if (
+        peer.audio
+      ) {
 
         try {
+
           peer.audio.pause();
+
+          peer.audio.srcObject =
+            null;
+
+          peer.audio.remove();
+
         } catch {}
-
-        peer.audio.srcObject =
-          null;
-
-        peer.audio.remove();
       }
 
 
-      voicePeers.delete(
+      peers.delete(
         peerId
       );
-
     }
 
 
-    function closeAllVoicePeers() {
+    function cleanupVoicePeers() {
 
       for (
-        const peerId
-        of voicePeers.keys()
+        const peerId of peers.keys()
       ) {
-        closeVoicePeer(
+
+        removePeer(
           peerId
         );
       }
 
-      remoteAudios.innerHTML = "";
+      peers.clear();
+
+      remoteAudioContainer.innerHTML =
+        "";
     }
 
 
     /* =========================================================
-       Voice WebSocket
+       PARTICIPANTS UI
     ========================================================= */
 
-    function connectVoiceSocket() {
+    function renderParticipants(
+      list
+    ) {
 
-      return new Promise(
-        (resolve, reject) => {
+      participantsEl.innerHTML =
+        "";
 
-          try {
+      if (
+        !Array.isArray(list) ||
+        list.length === 0
+      ) {
 
-            voiceSocket =
-              new WebSocket(
-                voiceWsUrl()
-              );
+        participantsEl.innerHTML = `
+          <div
+            style="
+              color:#68756b;
+              font-size:13px;
+              padding:10px 0;
+            "
+          >
+            目前沒有其他成員
+          </div>
+        `;
+
+        return;
+      }
 
 
-            voiceSocket.addEventListener(
-              "open",
-              () => {
+      list.forEach(
+        participant => {
 
-                console.log(
-                  "VOICE WS CONNECTED"
-                );
-
-                resolve();
-
-              },
-              {
-                once: true
-              }
+          const peerId =
+            getParticipantPeerId(
+              participant
             );
 
-
-            voiceSocket.addEventListener(
-              "error",
-              error => {
-
-                console.error(
-                  "VOICE WS ERROR:",
-                  error
-                );
-
-                reject(error);
-
-              },
-              {
-                once: true
-              }
-            );
-
-
-            voiceSocket.addEventListener(
-              "message",
-              async event => {
-
-                try {
-
-                  const data =
-                    JSON.parse(
-                      event.data
-                    );
-
-                  console.log(
-                    "VOICE WS:",
-                    data
-                  );
-
-
-                  switch (
-                    data.type
-                  ) {
-
-                    case "voice-state":
-                      await handleVoiceState(
-                        data
-                      );
-                      break;
-
-
-                    case "voice-join":
-                      await handleVoiceJoin(
-                        data
-                      );
-                      break;
-
-
-                    case "voice-leave":
-                      handleVoiceLeave(
-                        data
-                      );
-                      break;
-
-
-                    case "voice-offer":
-                      await handleVoiceOffer(
-                        data
-                      );
-                      break;
-
-
-                    case "voice-answer":
-                      await handleVoiceAnswer(
-                        data
-                      );
-                      break;
-
-
-                    case "voice-ice":
-                      await handleVoiceIce(
-                        data
-                      );
-                      break;
-
-
-                    default:
-                      console.log(
-                        "Unknown voice message:",
-                        data
-                      );
-
-                  }
-
-                } catch (error) {
-
-                  console.error(
-                    "Voice WS message error:",
-                    error
-                  );
-
-                }
-
-              }
-            );
-
-
-            voiceSocket.addEventListener(
-              "close",
-              event => {
-
-                console.log(
-                  "VOICE WS CLOSED:",
-                  event.code,
-                  event.reason
-                );
-
-                if (
-                  voiceJoined
-                ) {
-
-                  setVoiceStatus(
-                    "語音連線已中斷"
-                  );
-
-                }
-
-              }
-            );
-
-          } catch (error) {
-            reject(error);
+          if (
+            peerId &&
+            peerId ===
+              localPeerId
+          ) {
+            return;
           }
 
+          addParticipantToUI(
+            peerId,
+            getParticipantUser(
+              participant
+            )
+          );
         }
       );
 
-    }
 
-
-    /* =========================================================
-       加入語音
-    ========================================================= */
-
-    joinVoiceBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (!currentUser) {
-
-          showNotice(
-            "請先登入 Google"
-          );
-
-          setPage("chat");
-
-          return;
-        }
-
-
-        if (voiceJoined) {
-          return;
-        }
-
-
-        joinVoiceBtn.disabled =
-          true;
-
-
-        try {
-
-          setVoiceStatus(
-            "正在取得麥克風權限……"
-          );
-
-
-          /*
-            一定要從按鈕 click 裡取得麥克風，
-            這樣瀏覽器比較容易允許音訊。
-          */
-          voiceStream =
-            await navigator.mediaDevices.getUserMedia(
-              {
-                audio: {
-                  echoCancellation: true,
-                  noiseSuppression: true,
-                  autoGainControl: true
-                },
-                video: false
-              }
-            );
-
-
-          voiceStream
-            .getAudioTracks()
-            .forEach(track => {
-              track.enabled = true;
-            });
-
-
-          setVoiceStatus(
-            "正在連線到大廳……"
-          );
-
-
-          await connectVoiceSocket();
-
-
-          voiceJoined = true;
-          voiceMuted = false;
-
-
-          updateVoiceButtons();
-
-
-          setVoiceStatus(
-            "🟢 已加入大廳"
-          );
-
-
-          showNotice(
-            "已加入語音大廳"
-          );
-
-
-          /*
-            加入語音後立刻嘗試讓所有遠端音訊播放。
-          */
-          await playAllRemoteAudio();
-
-
-        } catch (error) {
-
-          console.error(
-            "Join voice error:",
-            error
-          );
-
-
-          if (
-            voiceStream
-          ) {
-
-            voiceStream
-              .getTracks()
-              .forEach(
-                track =>
-                  track.stop()
-              );
-
-            voiceStream = null;
-          }
-
-
-          if (
-            voiceSocket
-          ) {
-
-            try {
-              voiceSocket.close();
-            } catch {}
-
-            voiceSocket = null;
-          }
-
-
-          voiceJoined = false;
-
-          updateVoiceButtons();
-
-
-          if (
-            error &&
-            error.name ===
-              "NotAllowedError"
-          ) {
-
-            setVoiceStatus(
-              "麥克風權限被拒絕"
-            );
-
-            showNotice(
-              "請允許瀏覽器使用麥克風"
-            );
-
-          } else {
-
-            setVoiceStatus(
-              "無法加入語音"
-            );
-
-            showNotice(
-              "語音連線失敗"
-            );
-
-          }
-
-        } finally {
-
-          if (
-            !voiceJoined
-          ) {
-            joinVoiceBtn.disabled =
-              false;
-          }
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       啟用聲音
-    ========================================================= */
-
-    async function playAllRemoteAudio() {
-
-      const audios =
-        remoteAudios.querySelectorAll(
-          "audio"
-        );
-
-
-      for (
-        const audio
-        of audios
+      /*
+        如果自己也在 list 裡，
+        顯示自己。
+      */
+
+      if (
+        localPeerId &&
+        !Array.from(
+          participantsEl.children
+        ).some(
+          el =>
+            el.dataset.peerId ===
+            String(localPeerId)
+        )
       ) {
 
-        try {
-
-          audio.muted = false;
-          audio.volume = 1;
-
-          await audio.play();
-
-          console.log(
-            "Remote audio enabled"
-          );
-
-        } catch (error) {
-
-          console.warn(
-            "Audio play blocked:",
-            error
-          );
-
-        }
-
+        addParticipantToUI(
+          localPeerId,
+          currentUser,
+          "你"
+        );
       }
-
     }
 
 
-    enableSoundBtn.addEventListener(
-      "click",
-      async () => {
+    function addParticipantToUI(
+      peerId,
+      user,
+      state = "語音中"
+    ) {
 
-        await playAllRemoteAudio();
+      if (!peerId) {
+        return;
+      }
 
-        showNotice(
-          "已嘗試啟用遠端聲音"
+
+      const existing =
+        participantsEl.querySelector(
+          `[data-peer-id="${CSS.escape(
+            String(peerId)
+          )}"]`
         );
 
+
+      if (existing) {
+
+        const nameEl =
+          existing.querySelector(
+            ".participant-name"
+          );
+
+        const stateEl =
+          existing.querySelector(
+            ".participant-state"
+          );
+
+        if (nameEl) {
+
+          nameEl.textContent =
+            user?.name ||
+            "Minecraft 玩家";
+        }
+
+        if (stateEl) {
+
+          stateEl.textContent =
+            state;
+        }
+
+        return;
       }
-    );
 
 
-    /*
-      點頁面也嘗試恢復音訊。
-      如果瀏覽器之前把 autoplay 擋掉，
-      使用者下一次點擊時就有機會恢復。
-    */
+      /*
+        清除「沒有成員」
+      */
+
+      const empty =
+        participantsEl.querySelector(
+          "div:not(.participant)"
+        );
+
+      if (empty) {
+        empty.remove();
+      }
+
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+      row.className =
+        "participant";
+
+      row.dataset.peerId =
+        String(peerId);
+
+
+      const avatar =
+        document.createElement(
+          "img"
+        );
+
+      avatar.className =
+        "participant-avatar";
+
+      avatar.src =
+        getUserPicture(
+          user
+        );
+
+      avatar.alt =
+        user?.name ||
+        "玩家";
+
+      avatar.onerror = () => {
+
+        avatar.onerror =
+          null;
+
+        avatar.src =
+          makeDefaultAvatar(
+            user?.name ||
+            "?"
+          );
+      };
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+      name.className =
+        "participant-name";
+
+      name.textContent =
+        user?.name ||
+        "Minecraft 玩家";
+
+
+      const stateEl =
+        document.createElement(
+          "div"
+        );
+
+      stateEl.className =
+        "participant-state";
+
+      stateEl.textContent =
+        state;
+
+
+      row.appendChild(
+        avatar
+      );
+
+      row.appendChild(
+        name
+      );
+
+      row.appendChild(
+        stateEl
+      );
+
+
+      participantsEl.appendChild(
+        row
+      );
+    }
+
+
+    function removeParticipantFromUI(
+      peerId
+    ) {
+
+      const row =
+        participantsEl.querySelector(
+          `[data-peer-id="${CSS.escape(
+            String(peerId)
+          )}"]`
+        );
+
+      if (row) {
+        row.remove();
+      }
+
+
+      if (
+        participantsEl.children.length ===
+        0
+      ) {
+
+        participantsEl.innerHTML = `
+          <div
+            style="
+              color:#68756b;
+              font-size:13px;
+              padding:10px 0;
+            "
+          >
+            目前沒有其他成員
+          </div>
+        `;
+      }
+    }
+
+
+    /* =========================================================
+       PAGE VISIBILITY
+    ========================================================= */
+
     document.addEventListener(
-      "click",
+      "visibilitychange",
       () => {
 
+        /*
+          如果切回頁面，
+          嘗試恢復遠端聲音。
+        */
+
         if (
+          document.visibilityState ===
+          "visible" &&
           voiceJoined
         ) {
-          playAllRemoteAudio();
-        }
 
-      }
-    );
+          peers.forEach(
+            peer => {
 
+              if (
+                peer.audio
+              ) {
 
-    /* =========================================================
-       靜音
-    ========================================================= */
-
-    muteVoiceBtn.addEventListener(
-      "click",
-      () => {
-
-        if (
-          !voiceStream
-        ) {
-          return;
-        }
-
-
-        voiceMuted =
-          !voiceMuted;
-
-
-        voiceStream
-          .getAudioTracks()
-          .forEach(track => {
-
-            track.enabled =
-              !voiceMuted;
-
-          });
-
-
-        muteVoiceBtn.textContent =
-          voiceMuted
-            ? "🔇 取消靜音"
-            : "🎤 靜音";
-
-
-        setVoiceStatus(
-          voiceMuted
-            ? "🔇 你目前已靜音"
-            : "🟢 你目前正在說話"
-        );
-
-      }
-    );
-
-
-    /* =========================================================
-       離開語音
-    ========================================================= */
-
-    leaveVoiceBtn.addEventListener(
-      "click",
-      () => {
-
-        leaveVoice();
-
-      }
-    );
-
-
-    function leaveVoice() {
-
-      closeAllVoicePeers();
-
-
-      if (
-        voiceStream
-      ) {
-
-        voiceStream
-          .getTracks()
-          .forEach(
-            track =>
-              track.stop()
+                peer.audio
+                  .play()
+                  .catch(
+                    () => {}
+                  );
+              }
+            }
           );
-
-        voiceStream = null;
-      }
-
-
-      if (
-        voiceSocket
-      ) {
-
-        try {
-          voiceSocket.close();
-        } catch {}
-
-        voiceSocket = null;
-      }
-
-
-      voiceJoined = false;
-      voiceMuted = false;
-      voiceMyPeerId = "";
-
-
-      participantsEl.innerHTML = `
-        <div style="color:#666;">
-          目前沒有人
-        </div>
-      `;
-
-
-      muteVoiceBtn.textContent =
-        "🎤 靜音";
-
-
-      setVoiceStatus(
-        "尚未加入語音"
-      );
-
-
-      updateVoiceButtons();
-
-
-      showNotice(
-        "已離開語音"
-      );
-
-    }
-
-
-    /* =========================================================
-       初始化
-    ========================================================= */
-
-    updateVoiceButtons();
-
-    checkLogin()
-      .then(loggedIn => {
-
-        if (
-          loggedIn &&
-          pages.chat.classList.contains(
-            "active"
-          )
-        ) {
-
-          loadChatHistory();
-          connectChatSocket();
-
         }
-
-      });
-
-
-    /*
-      防止瀏覽器返回頁面時狀態怪掉
-    */
-    window.addEventListener(
-      "pageshow",
-      () => {
-        checkLogin();
       }
     );
 
 
-    /*
-      頁面關閉前關閉 WebRTC
-    */
+    /* =========================================================
+       BEFORE UNLOAD
+    ========================================================= */
+
     window.addEventListener(
       "beforeunload",
       () => {
 
         try {
-          if (voiceSocket) {
-            voiceSocket.close();
-          }
+          disconnectChat();
         } catch {}
 
-        if (voiceStream) {
-
-          voiceStream
-            .getTracks()
-            .forEach(
-              track =>
-                track.stop()
-            );
-
-        }
-
+        try {
+          leaveVoice();
+        } catch {}
       }
     );
+
+
+    /* =========================================================
+       INIT
+    ========================================================= */
+
+    async function init() {
+
+      switchPage(
+        "home"
+      );
+
+      await checkLogin();
+
+      /*
+        登入後如果目前在聊天頁，
+        自動載入。
+      */
+
+      if (
+        currentPage ===
+          "chat" &&
+        currentUser
+      ) {
+
+        await loadChat();
+      }
+
+      updateVoiceUI();
+    }
+
+
+    init();
 
   </script>
 
