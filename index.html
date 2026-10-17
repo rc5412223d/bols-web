@@ -773,16 +773,25 @@
 </style>
 
 <script>
-  // 當聊天室載入完成時，自動把 .chat-messages 捲軸拉到最下面
+  // 網頁解析完 HTML 結構的「第一瞬間」立刻強制定格在最底部
   document.addEventListener("DOMContentLoaded", () => {
     const chatBox = document.querySelector('.chat-messages');
     if (chatBox) {
+      // 強制關閉任何平滑滾動動畫，確保是「瞬間閃現」到最底
+      chatBox.style.scrollBehavior = 'auto';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  });
+
+  // 以防萬一（如果圖片或頭像太晚載入導致長度改變），當所有元件完全載入時再強制定格一次
+  window.addEventListener("load", () => {
+    const chatBox = document.querySelector('.chat-messages');
+    if (chatBox) {
+      chatBox.style.scrollBehavior = 'auto';
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   });
 </script>
-
-<style>
 /* ─── 貼上結束，後面如果有其他樣式就讓他繼續接下去 ─── */
 
     /* =========================================================
