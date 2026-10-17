@@ -769,6 +769,21 @@
 
       font-weight: 700;
     }
+    /* ─── 請直接在 .google-btn 後面貼上這段 ─── */
+</style>
+
+<script>
+  // 當聊天室載入完成時，自動把 .chat-messages 捲軸拉到最下面
+  document.addEventListener("DOMContentLoaded", () => {
+    const chatBox = document.querySelector('.chat-messages');
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  });
+</script>
+
+<style>
+/* ─── 貼上結束，後面如果有其他樣式就讓他繼續接下去 ─── */
 
     /* =========================================================
        Voice
