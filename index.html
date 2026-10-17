@@ -956,20 +956,19 @@
 
     #voiceAudioContainer {
       position: fixed;
-      left: 8px;
-      bottom: 8px;
-      width: 2px;
-      height: 2px;
+
+      width: 1px;
+      height: 1px;
+
+      left: -10000px;
+      top: -10000px;
+
       overflow: hidden;
-      opacity: 0.01;
-      pointer-events: none;
-      z-index: 2;
     }
 
     audio.remote-audio {
-      width: 2px;
-      height: 2px;
-      display: block;
+      width: 1px;
+      height: 1px;
     }
 
     /* =========================================================
@@ -1017,199 +1016,6 @@
     /* =========================================================
        Mobile
     ========================================================= */
-
-    /* =========================================================
-       Music
-    ========================================================= */
-
-    #page-music {
-      overflow:auto;
-    }
-
-    .music-container {
-      max-width:980px;
-      margin:0 auto;
-      padding:26px;
-    }
-
-    .music-card {
-      background:rgba(10,18,13,.82);
-      border:1px solid rgba(113,139,120,.28);
-      border-radius:18px;
-      box-shadow:0 18px 48px rgba(0,0,0,.24);
-      padding:24px;
-    }
-
-    .music-top {
-      display:flex;
-      align-items:center;
-      gap:14px;
-      margin-bottom:18px;
-    }
-
-    .music-icon {
-      width:48px;
-      height:48px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:14px;
-      background:rgba(89,153,105,.16);
-      font-size:26px;
-    }
-
-    .music-top h2 {
-      margin:0;
-      color:#eef6ef;
-    }
-
-    .music-status {
-      margin-top:4px;
-      color:#9eaaa1;
-      font-size:13px;
-    }
-
-    .music-now {
-      padding:18px;
-      border-radius:14px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.07);
-    }
-
-    .music-now-label {
-      font-size:12px;
-      color:#879389;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-    }
-
-    .music-now-title {
-      margin-top:6px;
-      font-size:21px;
-      font-weight:700;
-      color:#f2f7f2;
-      word-break:break-word;
-    }
-
-    .music-progress {
-      width:100%;
-      margin-top:16px;
-    }
-
-    .music-time-row {
-      display:flex;
-      justify-content:space-between;
-      margin-top:5px;
-      color:#829087;
-      font-size:12px;
-    }
-
-    .music-controls {
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:16px;
-    }
-
-    .music-control {
-      border:1px solid rgba(255,255,255,.1);
-      border-radius:11px;
-      background:#151d18;
-      color:#eef5ef;
-      padding:10px 14px;
-      cursor:pointer;
-      font-weight:600;
-    }
-
-    .music-control:hover {
-      background:#1d2920;
-    }
-
-    .music-control.primary {
-      background:#355b3d;
-      border-color:#466f4e;
-    }
-
-    .music-upload {
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:20px;
-      padding-top:18px;
-      border-top:1px solid rgba(255,255,255,.07);
-    }
-
-    .music-help {
-      color:#819087;
-      font-size:12px;
-      line-height:1.6;
-    }
-
-    .music-queue {
-      margin-top:22px;
-    }
-
-    .music-queue h3 {
-      margin:0 0 10px;
-      color:#e5ede7;
-    }
-
-    #musicQueue {
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .music-queue-item {
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:11px 12px;
-      border-radius:11px;
-      background:rgba(255,255,255,.035);
-      border:1px solid transparent;
-    }
-
-    .music-queue-item.active {
-      border-color:rgba(101,157,110,.5);
-      background:rgba(83,125,90,.12);
-    }
-
-    .music-queue-index {
-      width:26px;
-      color:#819087;
-      font-variant-numeric:tabular-nums;
-      text-align:center;
-    }
-
-    .music-queue-name {
-      flex:1;
-      color:#e8efe9;
-      min-width:0;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-
-    .music-queue-user {
-      color:#79867c;
-      font-size:12px;
-      max-width:180px;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-
-    .music-login-required {
-      min-height:420px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-    }
-
-
 
     @media (max-width: 850px) {
       header {
@@ -1326,14 +1132,6 @@
         🎙️ 語音
       </button>
 
-      <button
-        type="button"
-        class="nav-btn"
-        data-page="music"
-      >
-        🎵 音樂
-      </button>
-
       <div
         id="loginNav"
         style="margin-left:8px;"
@@ -1441,7 +1239,7 @@
             <h3>🎮 Minecraft IP</h3>
 
             <p>
-              fried-survivor.tun.ply.gg
+              mc.bols.dpdns.org
             </p>
 
             <p>
@@ -1463,11 +1261,8 @@
               </a>
             </p>
           </div>
-          
-<div class="info-card">
-  <h3>Gmail</h3>
-  <a>chris@bols.dpdns.org</a>
-  
+
+
           <div class="info-card">
             <h3>💬 網站聊天</h3>
 
@@ -1767,98 +1562,7 @@
 
     </section>
 
-  
-
-    <!-- ==================== MUSIC ==================== -->
-
-    <section
-      id="page-music"
-      class="page"
-    >
-
-      <div
-        id="musicLoginRequired"
-        class="music-login-required"
-      >
-        <div class="login-box">
-          <h2>🎵 音樂機器人</h2>
-          <p>請先使用 Google 登入，才能控制音樂。</p>
-          <button
-            type="button"
-            class="google-btn"
-            id="musicLoginBtn"
-          >
-            使用 Google 登入
-          </button>
-        </div>
-      </div>
-
-      <div
-        id="musicLayout"
-        class="music-container"
-        style="display:none;"
-      >
-        <div class="music-card">
-          <div class="music-top">
-            <div class="music-icon">🎵</div>
-            <div>
-              <h2>音樂機器人</h2>
-              <div id="musicStatus" class="music-status">尚未連線</div>
-            </div>
-          </div>
-
-          <div class="music-now">
-            <div class="music-now-label">現在播放</div>
-            <div id="musicNowTitle" class="music-now-title">尚未播放</div>
-            <input
-              id="musicProgress"
-              class="music-progress"
-              type="range"
-              min="0"
-              max="100"
-              step="0.1"
-              value="0"
-              disabled
-            >
-            <div class="music-time-row">
-              <span id="musicCurrentTime">0:00</span>
-              <span id="musicDuration">0:00</span>
-            </div>
-
-            <div class="music-controls">
-              <button type="button" class="music-control primary" id="musicEnableBtn">🔊 啟用音樂</button>
-              <button type="button" class="music-control" id="musicPrevBtn">⏮ 上一首</button>
-              <button type="button" class="music-control" id="musicPlayBtn">▶ 播放</button>
-              <button type="button" class="music-control" id="musicPauseBtn">⏸ 暫停</button>
-              <button type="button" class="music-control" id="musicNextBtn">⏭ 下一首</button>
-            </div>
-          </div>
-
-          <div class="music-upload">
-            <input
-              type="file"
-              id="musicFileInput"
-              accept="audio/mpeg,audio/ogg,audio/wav,audio/x-wav,audio/mp4,audio/aac,.mp3,.ogg,.wav,.m4a,.aac"
-              hidden
-            >
-            <button type="button" class="music-control" id="musicAddBtn">➕ 加入歌曲</button>
-            <span class="music-help">
-              免費版先使用你有權使用的 MP3 / OGG / WAV / M4A / AAC。單檔沿用網站 25 MB 上限。
-            </span>
-          </div>
-
-          <div class="music-queue">
-            <h3>播放佇列</h3>
-            <div id="musicQueue">
-              <div style="color:#727c75;font-size:13px;">目前沒有歌曲</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <audio id="musicAudio" preload="metadata" playsinline></audio>
-    </section>
-</main>
+  </main>
 
 
   <!-- 遠端音訊 -->
@@ -1912,26 +1616,9 @@
 
     const voicePeers = new Map();
 
-    // ICE candidate 可能比 offer/answer 早到，先暫存避免遺失。
-    const voiceIceQueues = new Map();
-
-    // 防止同一個玩家同時重複建立 Offer
-    const voiceOfferLocks = new Set();
-
     const voiceUsers = new Map();
 
     const remoteAudios = new Map();
-
-
-    /* =========================================================
-       音樂狀態
-    ========================================================= */
-
-    let musicSocket = null;
-    let musicState = null;
-    let musicAudioEnabled = false;
-    let musicSocketGeneration = 0;
-    let musicSyncTimer = null;
 
 
     /* =========================================================
@@ -2013,58 +1700,6 @@
       );
 
 
-    const musicLoginBtn =
-      document.getElementById("musicLoginBtn");
-
-    const musicLoginRequired =
-      document.getElementById("musicLoginRequired");
-
-    const musicLayout =
-      document.getElementById("musicLayout");
-
-    const musicStatus =
-      document.getElementById("musicStatus");
-
-    const musicNowTitle =
-      document.getElementById("musicNowTitle");
-
-    const musicProgress =
-      document.getElementById("musicProgress");
-
-    const musicCurrentTime =
-      document.getElementById("musicCurrentTime");
-
-    const musicDuration =
-      document.getElementById("musicDuration");
-
-    const musicQueue =
-      document.getElementById("musicQueue");
-
-    const musicAudio =
-      document.getElementById("musicAudio");
-
-    const musicEnableBtn =
-      document.getElementById("musicEnableBtn");
-
-    const musicPrevBtn =
-      document.getElementById("musicPrevBtn");
-
-    const musicPlayBtn =
-      document.getElementById("musicPlayBtn");
-
-    const musicPauseBtn =
-      document.getElementById("musicPauseBtn");
-
-    const musicNextBtn =
-      document.getElementById("musicNextBtn");
-
-    const musicAddBtn =
-      document.getElementById("musicAddBtn");
-
-    const musicFileInput =
-      document.getElementById("musicFileInput");
-
-
     /* =========================================================
        通知
     ========================================================= */
@@ -2108,14 +1743,6 @@
     );
 
 
-    musicLoginBtn.addEventListener(
-      "click",
-      () => {
-        window.location.href = `${WORKER_URL}/login`;
-      }
-    );
-
-
     /*
       登出直接導向 Worker。
       不用 JS fetch，避免跨網域 Cookie /
@@ -2150,23 +1777,13 @@
           "no-referrer";
 
         img.onerror = () => {
-          const fallback =
-            (currentUser?.name || currentUser?.email || "玩家")
-              .trim()
-              .charAt(0)
-              .toUpperCase() || "🎮";
-          element.textContent = fallback;
+          element.textContent = "?";
         };
 
         element.appendChild(img);
 
       } else {
-        const fallback =
-          (currentUser?.name || currentUser?.email || "玩家")
-            .trim()
-            .charAt(0)
-            .toUpperCase() || "🎮";
-        element.textContent = fallback;
+        element.textContent = "?";
       }
     }
 
@@ -2254,13 +1871,6 @@
 
       chatLayout.style.display =
         "grid";
-
-
-      musicLoginRequired.style.display =
-        "none";
-
-      musicLayout.style.display =
-        "block";
     }
 
 
@@ -2278,15 +1888,6 @@
 
       chatLayout.style.display =
         "none";
-
-
-      musicLoginRequired.style.display =
-        "flex";
-
-      musicLayout.style.display =
-        "none";
-
-      disconnectMusicSocket();
 
       disconnectChatSocket();
 
@@ -2370,17 +1971,6 @@
               page === "voice"
             ) {
               updateVoiceUI();
-            }
-
-
-            if (
-              page === "music"
-            ) {
-              if (!currentUser) {
-                return;
-              }
-              connectMusicSocket();
-              updateMusicUI();
             }
 
           }
@@ -2817,6 +2407,18 @@
         return;
       }
 
+      // Prevent messages tagged for another channel from leaking into this view.
+      if (
+        message.channel &&
+        String(message.channel) !== String(currentChannel)
+      ) {
+        console.warn("Skipped message for another channel:", {
+          messageChannel: message.channel,
+          currentChannel
+        });
+        return;
+      }
+
 
       /*
         相容不同 Worker 欄位
@@ -3152,7 +2754,7 @@
 
           const response =
             await fetch(
-              `${WORKER_URL}/api/chat`,
+              `${WORKER_URL}/api/chat?channel=${encodeURIComponent(currentChannel)}`,
               {
                 method: "POST",
 
@@ -3644,13 +3246,6 @@
           voiceJoined =
             true;
 
-          soundVoiceBtn.disabled = false;
-
-          console.log("VOICE: websocket opened", {
-            wsUrl,
-            readyState: voiceSocket.readyState
-          });
-
           voiceStatus.textContent =
             "已連線，等待其他玩家...";
 
@@ -3843,20 +3438,15 @@
               continue;
             }
 
-            const selfId = String(voicePeerId || "");
-            const remoteId = String(peerId);
-
-            console.log("VOICE: state participant", {
-              selfId,
-              remoteId,
-              shouldOffer: selfId < remoteId
-            });
-
             if (
-              selfId &&
-              selfId < remoteId
+              String(voicePeerId) <
+              String(peerId)
             ) {
-              await createVoiceOffer(remoteId);
+
+              await createVoiceOffer(
+                String(peerId)
+              );
+
             }
 
           }
@@ -3898,20 +3488,15 @@
         renderVoiceParticipants();
 
 
-        const selfId = String(voicePeerId || "");
-        const remoteId = String(peerId);
-
-        console.log("VOICE: join received", {
-          selfId,
-          remoteId,
-          shouldOffer: !!selfId && selfId < remoteId
-        });
-
         if (
-          selfId &&
-          selfId < remoteId
+          String(voicePeerId) <
+          String(peerId)
         ) {
-          await createVoiceOffer(remoteId);
+
+          await createVoiceOffer(
+            String(peerId)
+          );
+
         }
 
         return;
@@ -3930,21 +3515,14 @@
 
         const offer =
           data.offer ||
-          data.sdp ||
-          data.payload;
+          data.sdp;
 
         if (
           !fromPeerId ||
           !offer
         ) {
-          console.warn("VOICE: invalid offer received", data);
           return;
         }
-
-        console.log("VOICE: offer received", {
-          fromPeerId: String(fromPeerId),
-          sdpLength: offer?.sdp?.length || 0
-        });
 
 
         voiceUsers.set(
@@ -3964,18 +3542,10 @@
 
 
         await pc.setRemoteDescription(
-          new RTCSessionDescription({
-            type: offer.type,
-            sdp: offer.sdp
-          })
+          new RTCSessionDescription(
+            offer
+          )
         );
-
-        console.log("VOICE: remote offer installed", {
-          fromPeerId: String(fromPeerId),
-          signalingState: pc.signalingState
-        });
-
-        await flushVoiceIceCandidates(String(fromPeerId), pc);
 
 
         /*
@@ -3996,26 +3566,18 @@
         );
 
 
-        const localAnswer = pc.localDescription;
+        sendVoiceSignal({
+          type:
+            "voice-answer",
 
-        if (!localAnswer || !localAnswer.sdp) {
-          throw new Error("answer 的 localDescription 沒有 SDP");
-        }
+          targetPeerId:
+            String(fromPeerId),
 
-        const answerSent = sendVoiceSignal({
-          type: "voice-answer",
-          targetPeerId: String(fromPeerId),
-          toPeerId: String(fromPeerId),
-          sdp: {
-            type: localAnswer.type,
-            sdp: localAnswer.sdp
-          }
-        });
+          toPeerId:
+            String(fromPeerId),
 
-        console.log("VOICE: answer sent", {
-          targetPeerId: String(fromPeerId),
-          sent: answerSent,
-          sdpLength: localAnswer.sdp.length
+          answer:
+            pc.localDescription
         });
 
 
@@ -4035,21 +3597,14 @@
 
         const answer =
           data.answer ||
-          data.sdp ||
-          data.payload;
+          data.sdp;
 
         if (
           !fromPeerId ||
           !answer
         ) {
-          console.warn("VOICE: invalid answer received", data);
           return;
         }
-
-        console.log("VOICE: answer received", {
-          fromPeerId: String(fromPeerId),
-          sdpLength: answer?.sdp?.length || 0
-        });
 
 
         const pc =
@@ -4074,16 +3629,10 @@
         ) {
 
           await pc.setRemoteDescription(
-            new RTCSessionDescription({
-              type: answer.type,
-              sdp: answer.sdp
-            })
+            new RTCSessionDescription(
+              answer
+            )
           );
-
-          console.log("VOICE: remote answer installed", {
-            fromPeerId: String(fromPeerId),
-            signalingState: pc.signalingState
-          });
 
         }
 
@@ -4103,8 +3652,7 @@
 
         const candidate =
           data.candidate ||
-          data.ice ||
-          data.payload;
+          data.ice;
 
         if (
           !fromPeerId ||
@@ -4126,16 +3674,10 @@
 
         try {
 
-          if (!pc.remoteDescription) {
-            if (!voiceIceQueues.has(String(fromPeerId))) {
-              voiceIceQueues.set(String(fromPeerId), []);
-            }
-            voiceIceQueues.get(String(fromPeerId)).push(candidate);
-            return;
-          }
-
           await pc.addIceCandidate(
-            new RTCIceCandidate(candidate)
+            new RTCIceCandidate(
+              candidate
+            )
           );
 
         } catch (error) {
@@ -4179,23 +3721,6 @@
         return;
       }
 
-    }
-
-
-    async function flushVoiceIceCandidates(peerId, pc) {
-      const id = String(peerId);
-      const queue = voiceIceQueues.get(id) || [];
-      if (!queue.length || !pc.remoteDescription) return;
-
-      voiceIceQueues.delete(id);
-
-      for (const candidate of queue) {
-        try {
-          await pc.addIceCandidate(new RTCIceCandidate(candidate));
-        } catch (error) {
-          console.warn("Queued ICE candidate error:", error);
-        }
-      }
     }
 
 
@@ -4414,88 +3939,78 @@
       peerId
     ) {
 
-      const id = String(peerId);
+      const id =
+        String(peerId);
 
-      if (!id || id === String(voicePeerId)) {
-        return false;
-      }
 
       if (
-        voiceOfferLocks.has(id)
+        id ===
+        String(voicePeerId)
       ) {
-        console.log("VOICE: offer already in progress", id);
-        return false;
+        return;
       }
 
-      voiceOfferLocks.add(id);
 
-      console.log("VOICE: creating offer", {
-        selfPeerId: voicePeerId,
-        targetPeerId: id
-      });
+      const pc =
+        getOrCreatePeerConnection(
+          id
+        );
+
 
       try {
 
-        const pc =
-          getOrCreatePeerConnection(id);
+        /*
+          避免已經在建立 Offer
+        */
 
-        if (pc.signalingState !== "stable") {
-          console.log(
-            "VOICE: cannot create offer, signaling state =",
-            pc.signalingState
-          );
-          return false;
+        if (
+          pc.signalingState !==
+          "stable"
+        ) {
+          return;
         }
 
-        addLocalTracks(pc);
+
+        addLocalTracks(
+          pc
+        );
+
 
         const offer =
           await pc.createOffer({
-            offerToReceiveAudio: true
+            offerToReceiveAudio:
+              true
           });
 
-        console.log("VOICE: offer created", {
-          targetPeerId: id,
-          sdpLength: offer?.sdp?.length || 0
+
+        await pc.setLocalDescription(
+          offer
+        );
+
+
+        sendVoiceSignal({
+
+          type:
+            "voice-offer",
+
+          targetPeerId:
+            id,
+
+          toPeerId:
+            id,
+
+          offer:
+            pc.localDescription
+
         });
-
-        await pc.setLocalDescription(offer);
-
-        const local = pc.localDescription;
-
-        if (!local || !local.sdp) {
-          throw new Error("localDescription 沒有 SDP");
-        }
-
-        const sent = sendVoiceSignal({
-          type: "voice-offer",
-          targetPeerId: id,
-          toPeerId: id,
-          sdp: {
-            type: local.type,
-            sdp: local.sdp
-          }
-        });
-
-        console.log("VOICE: offer sent", {
-          targetPeerId: id,
-          sent,
-          sdpLength: local.sdp.length
-        });
-
-        return sent;
 
       } catch (error) {
 
         console.error(
-          "VOICE: create/send offer failed:",
+          "Create voice offer error:",
           error
         );
 
-        return false;
-
-      } finally {
-        voiceOfferLocks.delete(id);
       }
 
     }
@@ -4525,14 +4040,6 @@
 
 
       try {
-
-        console.log("VOICE SIGNAL SEND:", {
-          type: data?.type,
-          targetPeerId: data?.targetPeerId,
-          hasSdp: !!data?.sdp,
-          sdpLength: data?.sdp?.sdp?.length || 0,
-          hasCandidate: !!data?.candidate
-        });
 
         voiceSocket.send(
           JSON.stringify(
@@ -4619,14 +4126,9 @@
       audio.srcObject =
         stream;
 
-      audio.autoplay = true;
-      audio.playsInline = true;
-      audio.muted = false;
-      audio.volume = 1;
-
 
       /*
-        先直接播放；若瀏覽器阻擋 autoplay，按「🔊 啟用聲音」即可。
+        先直接播放。
       */
 
       const playPromise =
@@ -4975,10 +4477,6 @@
         id
       );
 
-      voiceIceQueues.delete(
-        id
-      );
-
 
       renderVoiceParticipants();
 
@@ -5127,333 +4625,7 @@
 
     checkLogin();
 
-  
-
-    /* =========================================================
-       Music Bot
-    ========================================================= */
-
-    function formatMusicTime(seconds) {
-      const value = Math.max(0, Number(seconds) || 0);
-      const mins = Math.floor(value / 60);
-      const secs = Math.floor(value % 60).toString().padStart(2, "0");
-      return `${mins}:${secs}`;
-    }
-
-    function musicSocketUrl() {
-      const base = WORKER_URL
-        .replace(/^https:/, "wss:")
-        .replace(/^http:/, "ws:");
-      return `${base}/api/music/ws`;
-    }
-
-    async function musicApi(action, payload = {}) {
-      const response = await fetch(`${WORKER_URL}/api/music`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action, ...payload })
-      });
-
-      let data = null;
-      try { data = await response.json(); } catch {}
-      if (!response.ok) {
-        throw new Error(data?.error || `音樂 API 失敗：${response.status}`);
-      }
-      return data;
-    }
-
-    function updateMusicUI() {
-      if (!musicState) {
-        musicStatus.textContent = "等待音樂伺服器...";
-        musicNowTitle.textContent = "尚未播放";
-        renderMusicQueue();
-        return;
-      }
-
-      const current = musicState.queue?.[musicState.index] || null;
-      musicStatus.textContent = musicSocket?.readyState === WebSocket.OPEN
-        ? "🟢 已連線 · 全站同步"
-        : "🟡 連線中...";
-      musicNowTitle.textContent = current?.name || "尚未播放";
-      musicPlayBtn.disabled = !current;
-      musicPauseBtn.disabled = !current;
-      musicPrevBtn.disabled = !current;
-      musicNextBtn.disabled = !current;
-      musicProgress.disabled = !current;
-      renderMusicQueue();
-    }
-
-    function renderMusicQueue() {
-      const queue = Array.isArray(musicState?.queue) ? musicState.queue : [];
-      if (!queue.length) {
-        musicQueue.innerHTML = '<div style="color:#727c75;font-size:13px;">目前沒有歌曲</div>';
-        return;
-      }
-
-      musicQueue.innerHTML = "";
-      queue.forEach((track, index) => {
-        const row = document.createElement("div");
-        row.className = "music-queue-item" +
-          (index === Number(musicState.index) ? " active" : "");
-
-        const number = document.createElement("div");
-        number.className = "music-queue-index";
-        number.textContent = String(index + 1);
-
-        const name = document.createElement("div");
-        name.className = "music-queue-name";
-        name.textContent = track.name || "未命名歌曲";
-
-        const user = document.createElement("div");
-        user.className = "music-queue-user";
-        user.textContent = track.addedByName || "玩家";
-
-        row.append(number, name, user);
-        musicQueue.appendChild(row);
-      });
-    }
-
-    function getMusicServerPosition() {
-      if (!musicState) return 0;
-      const base = Math.max(0, Number(musicState.position) || 0);
-      if (musicState.status !== "playing") return base;
-      return base + Math.max(0, Date.now() - Number(musicState.updatedAt || Date.now())) / 1000;
-    }
-
-    async function syncMusicAudio(forceSeek = false) {
-      const current = musicState?.queue?.[musicState.index] || null;
-
-      if (!current) {
-        musicAudio.pause();
-        musicAudio.removeAttribute("src");
-        musicAudio.load();
-        musicProgress.value = 0;
-        musicCurrentTime.textContent = "0:00";
-        musicDuration.textContent = "0:00";
-        updateMusicUI();
-        return;
-      }
-
-      if (musicAudio.dataset.trackId !== String(current.id)) {
-        musicAudio.dataset.trackId = String(current.id);
-        musicAudio.src = current.url;
-        musicAudio.load();
-        forceSeek = true;
-      }
-
-      const target = getMusicServerPosition();
-      if (forceSeek || Math.abs((musicAudio.currentTime || 0) - target) > 0.8) {
-        try { musicAudio.currentTime = target; } catch {}
-      }
-
-      if (musicAudioEnabled && musicState.status === "playing") {
-        try {
-          await musicAudio.play();
-        } catch (error) {
-          console.warn("Music autoplay blocked:", error);
-          musicStatus.textContent = "⚠️ 請按「🔊 啟用音樂」允許播放";
-        }
-      } else if (musicState.status !== "playing") {
-        musicAudio.pause();
-      }
-
-      updateMusicUI();
-    }
-
-    function connectMusicSocket() {
-      if (!currentUser) return;
-      if (musicSocket && (musicSocket.readyState === WebSocket.OPEN || musicSocket.readyState === WebSocket.CONNECTING)) return;
-
-      disconnectMusicSocket(false);
-      const generation = ++musicSocketGeneration;
-      musicStatus.textContent = "🟡 連線音樂伺服器...";
-
-      const socket = new WebSocket(musicSocketUrl());
-      musicSocket = socket;
-
-      socket.addEventListener("open", async () => {
-        if (generation !== musicSocketGeneration) return;
-        musicStatus.textContent = "🟢 已連線 · 全站同步";
-        try {
-          const response = await fetch(`${WORKER_URL}/api/music`, {
-            method: "GET",
-            credentials: "include",
-            cache: "no-store"
-          });
-          if (response.ok) {
-            const data = await response.json();
-            musicState = data.state || null;
-            await syncMusicAudio(true);
-          }
-        } catch (error) {
-          console.error("Music state error:", error);
-        }
-      });
-
-      socket.addEventListener("message", async event => {
-        try {
-          const data = JSON.parse(event.data);
-          if (data.type === "music-state") {
-            musicState = data.state || null;
-            await syncMusicAudio(false);
-          }
-        } catch (error) {
-          console.error("Music WS parse error:", error);
-        }
-      });
-
-      socket.addEventListener("close", () => {
-        if (generation !== musicSocketGeneration) return;
-        musicStatus.textContent = "🔴 音樂連線已中斷";
-        musicSocket = null;
-      });
-
-      socket.addEventListener("error", error => {
-        console.error("Music WS error:", error);
-      });
-    }
-
-    function disconnectMusicSocket(invalidate = true) {
-      if (invalidate) musicSocketGeneration++;
-      if (musicSocket) {
-        try { musicSocket.close(); } catch {}
-      }
-      musicSocket = null;
-    }
-
-    async function sendMusicControl(action, extra = {}) {
-      if (!currentUser) return;
-      try {
-        await musicApi(action, extra);
-      } catch (error) {
-        console.error("Music control error:", error);
-        showNotice(error.message || "音樂操作失敗");
-      }
-    }
-
-    musicLoginBtn?.addEventListener("click", () => {
-      window.location.href = `${WORKER_URL}/login`;
-    });
-
-    musicEnableBtn?.addEventListener("click", async () => {
-      musicAudioEnabled = true;
-      try {
-        if (musicState?.status === "playing") {
-          await musicAudio.play();
-        } else if (!musicState?.queue?.length) {
-          showNotice("播放佇列目前是空的。");
-        }
-        musicEnableBtn.textContent = "🔊 音樂已啟用";
-      } catch (error) {
-        console.error("Music enable error:", error);
-        showNotice("瀏覽器阻止了音樂播放，請再按一次啟用音樂。");
-      }
-    });
-
-    musicPlayBtn?.addEventListener("click", () => sendMusicControl("play"));
-    musicPauseBtn?.addEventListener("click", () => sendMusicControl("pause"));
-    musicPrevBtn?.addEventListener("click", () => sendMusicControl("prev"));
-    musicNextBtn?.addEventListener("click", () => sendMusicControl("next"));
-
-    musicProgress?.addEventListener("change", () => {
-      const seconds = Number(musicProgress.value) || 0;
-      sendMusicControl("seek", { position: seconds });
-    });
-
-    musicAudio?.addEventListener("loadedmetadata", () => {
-      const duration = Number(musicAudio.duration) || 0;
-      musicDuration.textContent = formatMusicTime(duration);
-      musicProgress.max = String(duration || 100);
-      if (musicState?.queue?.[musicState.index]) {
-        musicState.queue[musicState.index].duration = duration;
-      }
-    });
-
-    musicAudio?.addEventListener("timeupdate", () => {
-      const duration = Number(musicAudio.duration) || Number(musicState?.queue?.[musicState?.index]?.duration) || 0;
-      const current = Number(musicAudio.currentTime) || 0;
-      musicCurrentTime.textContent = formatMusicTime(current);
-      musicDuration.textContent = formatMusicTime(duration);
-      if (duration > 0) {
-        musicProgress.max = String(duration);
-        musicProgress.value = String(Math.min(duration, current));
-      }
-    });
-
-    musicAudio?.addEventListener("ended", () => {
-      sendMusicControl("ended");
-    });
-
-    musicAddBtn?.addEventListener("click", () => {
-      musicFileInput?.click();
-    });
-
-    musicFileInput?.addEventListener("change", async () => {
-      const file = musicFileInput.files?.[0];
-      musicFileInput.value = "";
-      if (!file) return;
-
-      const max = 25 * 1024 * 1024;
-      if (file.size <= 0 || file.size > max) {
-        showNotice("音樂檔必須大於 0，且不能超過 25 MB。");
-        return;
-      }
-
-      const extension = (file.name.split(".").pop() || "").toLowerCase();
-      const allowed = ["mp3", "ogg", "wav", "m4a", "aac"];
-      if (!allowed.includes(extension)) {
-        showNotice("目前只接受 MP3、OGG、WAV、M4A、AAC。");
-        return;
-      }
-
-      musicAddBtn.disabled = true;
-      musicAddBtn.textContent = "⏳ 上傳中...";
-
-      try {
-        const form = new FormData();
-        form.append("file", file);
-        const response = await fetch(`${WORKER_URL}/api/music/upload`, {
-          method: "POST",
-          credentials: "include",
-          body: form
-        });
-
-        let data = null;
-        try { data = await response.json(); } catch {}
-        if (!response.ok) {
-          throw new Error(data?.error || `上傳失敗：${response.status}`);
-        }
-        showNotice(`已加入：${data.track?.name || file.name}`);
-      } catch (error) {
-        console.error("Music upload error:", error);
-        showNotice(error.message || "音樂上傳失敗");
-      } finally {
-        musicAddBtn.disabled = false;
-        musicAddBtn.textContent = "➕ 加入歌曲";
-      }
-    });
-
-    musicSyncTimer = setInterval(() => {
-      if (musicState) {
-        const current = musicState.queue?.[musicState.index] || null;
-        if (current) {
-          const target = getMusicServerPosition();
-          if (musicAudioEnabled && musicState.status === "playing" && Math.abs((musicAudio.currentTime || 0) - target) > 1.25) {
-            try { musicAudio.currentTime = target; } catch {}
-          }
-          musicCurrentTime.textContent = formatMusicTime(musicAudio.currentTime || target);
-          const duration = Number(musicAudio.duration) || Number(current.duration) || 0;
-          musicDuration.textContent = formatMusicTime(duration);
-          if (duration > 0) {
-            musicProgress.max = String(duration);
-            musicProgress.value = String(Math.min(duration, musicAudio.currentTime || target));
-          }
-        }
-      }
-    }, 1000);
-
-</script>
+  </script>
 
 </body>
 </html>
