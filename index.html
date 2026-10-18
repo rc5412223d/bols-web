@@ -770,34 +770,10 @@
       font-weight: 700;
     }
     /* ─── 請直接在 .google-btn 後面貼上這段 ─── */
-</style>
-
-<script>
-  // 網頁解析完 HTML 結構的「第一瞬間」立刻強制定格在最底部
-  document.addEventListener("DOMContentLoaded", () => {
-    const chatBox = document.querySelector('.chat-messages');
-    if (chatBox) {
-      // 強制關閉任何平滑滾動動畫，確保是「瞬間閃現」到最底
-      chatBox.style.scrollBehavior = 'auto';
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-  });
-
-  // 以防萬一（如果圖片或頭像太晚載入導致長度改變），當所有元件完全載入時再強制定格一次
-  window.addEventListener("load", () => {
-    const chatBox = document.querySelector('.chat-messages');
-    if (chatBox) {
-      chatBox.style.scrollBehavior = 'auto';
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-  });
-</script>
-    
 
     /* =========================================================
        Voice
-    ========================================================= /*
-    <style>
+    ========================================================= */
     #page-voice {
       overflow-y: auto;
     }
@@ -1038,85 +1014,168 @@
     }
 
     /* =========================================================
-       Mobile
+       Responsive / Mobile
     ========================================================= */
 
     @media (max-width: 850px) {
       header {
-        padding: 0 15px;
+        height: 102px;
+        padding: 8px 12px 7px;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        gap: 7px;
       }
 
       .logo {
-        font-size: 17px;
+        min-width: 0;
+        font-size: 16px;
+        line-height: 1.2;
+        gap: 8px;
       }
 
       .logo-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 20px;
+        width: 30px;
+        height: 30px;
+        flex: 0 0 30px;
+        font-size: 18px;
+        border-radius: 8px;
       }
 
-      .username {
-        display: none;
+      nav {
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        gap: 5px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1px;
       }
+
+      nav::-webkit-scrollbar { display: none; }
 
       .nav-btn {
-        padding: 9px 10px;
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 9px 12px;
+        min-height: 36px;
+        font-size: 13px;
+        border-radius: 9px;
       }
 
-      .page {
-        padding-left: 15px;
-        padding-right: 15px;
+      #loginNav { margin-left: 0 !important; flex: 0 0 auto; }
+      .user-box { flex: 0 0 auto; gap: 7px; margin-left: 0; }
+      .username { display: none; }
+      .avatar { width: 30px; height: 30px; }
+      .logout-btn { padding: 8px 10px; white-space: nowrap; }
+
+      main { top: 102px; }
+      .page { padding: 14px 12px; }
+      #page-home { padding-bottom: 24px; }
+
+      .hero {
+        min-height: 0;
+        padding: 25px 20px;
+        border-radius: 16px;
       }
 
-      #page-chat {
-        padding: 10px;
+      .hero h1 {
+        font-size: clamp(27px, 7vw, 38px);
+        line-height: 1.2;
+        overflow-wrap: anywhere;
       }
 
+      .hero p { font-size: 15px; line-height: 1.65; }
+      .home-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
+      .info-card { padding: 18px; border-radius: 13px; }
+      .info-card h3 { font-size: 17px; }
+      .info-card p { line-height: 1.55; font-size: 14px; }
+
+      #page-chat { padding: 8px; }
       .chat-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         grid-template-rows: auto minmax(0, 1fr);
+        border-radius: 13px;
       }
 
       .channel-sidebar {
         display: flex;
-
+        align-items: center;
+        gap: 5px;
         overflow-x: auto;
         overflow-y: hidden;
-
+        padding: 7px 8px;
         border-right: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
-        padding: 8px;
+        border-bottom: 1px solid rgba(255,255,255,.09);
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
       }
-
-      .channel-title {
-        display: none;
-      }
-
+      .channel-sidebar::-webkit-scrollbar { display: none; }
+      .channel-title { display: none; }
       .channel-btn {
         width: auto;
-
         flex: 0 0 auto;
-
         white-space: nowrap;
-
-        margin: 0 3px;
+        margin: 0;
+        padding: 10px 12px;
+        font-size: 13px;
       }
 
-      .home-grid {
-        grid-template-columns: 1fr;
-      }
+      .chat-header { height: 48px; padding: 0 12px; }
+      .chat-header-title { font-size: 14px; }
+      .chat-connection { font-size: 11px; white-space: nowrap; margin-left: 8px; }
+      .chat-messages { padding: 13px 10px; }
+      .message { gap: 8px; margin-bottom: 14px; }
+      .message-avatar { width: 32px; height: 32px; flex-basis: 32px; }
+      .message-body { max-width: calc(100% - 40px); }
+      .message-text { font-size: 14px; }
+      .chat-input-area { gap: 6px; padding: 8px; }
+      .file-btn { height: 42px; padding: 0 10px; font-size: 12px; }
+      .chat-input { height: 42px; padding: 0 10px; font-size: 16px; }
+      .send-btn { height: 42px; padding: 0 12px; font-size: 13px; }
 
-      .hero {
-        padding: 30px 25px;
-      }
+      .login-required { padding: 16px; }
+      .login-box { padding: 25px 18px; border-radius: 15px; }
+      .voice-container { padding: 0; }
+      .voice-card { margin-top: 0; padding: 20px 15px; border-radius: 15px; }
+      .voice-top { gap: 11px; margin-bottom: 20px; }
+      .voice-icon { width: 45px; height: 45px; flex: 0 0 45px; }
+      .voice-top h2 { font-size: 20px; }
+      .voice-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .voice-control { min-height: 44px; padding: 10px 8px; }
+      .voice-users { margin-top: 22px; }
+    }
 
-      .voice-card {
-        padding: 25px 20px;
-      }
+    @media (max-width: 380px) {
+      .logo { font-size: 14px; }
+      .nav-btn { padding: 8px 10px; font-size: 12px; }
+      .chat-connection { max-width: 82px; overflow: hidden; text-overflow: ellipsis; }
+      .file-btn { font-size: 0; padding: 0 11px; }
+      .file-btn::first-letter { font-size: 17px; }
+      .send-btn { padding: 0 9px; }
+    }
+
+    @media (max-height: 520px) and (max-width: 850px) {
+      header { height: 86px; }
+      main { top: 86px; }
+      .hero { padding: 18px; }
     }
   </style>
+
+  <script>
+    // 頁面載入後將聊天室定位至最新訊息。
+    function scrollChatToLatest() {
+      const chatBox = document.querySelector('.chat-messages');
+      if (chatBox) {
+        chatBox.style.scrollBehavior = 'auto';
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }
+    document.addEventListener('DOMContentLoaded', scrollChatToLatest);
+    window.addEventListener('load', scrollChatToLatest);
+  </script>
 </head>
 
 <body>
